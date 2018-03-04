@@ -3,7 +3,7 @@
 //
 
 
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include "SDLFactory.h"
 #include "SDLGhost.h"
 
