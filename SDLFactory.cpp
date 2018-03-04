@@ -2,8 +2,6 @@
 // Created by dieter on 26/02/18.
 //
 
-
-#include <SDL2/SDL_image.h>
 #include "SDLFactory.h"
 #include "SDLGhost.h"
 
@@ -51,6 +49,7 @@ bool SDLFactory::initDisplay() {
                     printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
                     success = false;
                 }
+                IMG_Quit();
             }
         }
     }

@@ -11,4 +11,4 @@ include_directories(${SDL2_INCLUDE_DIRS} ${SDL2_IMAGE_INCLUDE_DIRS})
 
 add_executable(GameTest ${SOURCES})
 
-target_link_libraries(GameTest ${SDL2_LIBRARIES} ${SDL2_IMAGE_LIBRARIES})
+target_link_libraries(GameTest ${SDL2_IMAGE_LIBRARIES} ${SDL2_LIBRARIES})
