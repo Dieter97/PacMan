@@ -11,10 +11,12 @@ class Ghost {
 protected:
     int x=0;
     int y=0;
+    int windowX;
+    int windowY;
     int velocity;
     int acc;
 public:
-    Ghost();
+    Ghost(int x, int y);
     void move(int deltaX,int deltaY);
     virtual void visualize()= 0;
 };

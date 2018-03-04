@@ -12,7 +12,7 @@
 class SDLGhost : public Ghost {
 
 public:
-    SDLGhost(SDL_Renderer* renderer);
+    SDLGhost(int x, int y, SDL_Renderer *renderer);
 
     void visualize() override;
 

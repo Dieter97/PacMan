@@ -15,7 +15,7 @@ void SDLGhost::visualize() {
     SDL_RenderCopyEx(renderer, texture, nullptr, &position, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
-SDLGhost::SDLGhost(SDL_Renderer *renderer) {
+SDLGhost::SDLGhost(int x, int y,SDL_Renderer *renderer) : Ghost(x, y) {
     cout << "Creating SDLGhost" << endl;
     SDLGhost::renderer = renderer;
     string path = "../resources/main.png";

@@ -6,7 +6,7 @@
 #include "SDLGhost.h"
 
 Ghost *SDLFactory::createGhost() {
-    return new SDLGhost(gRenderer);
+    return new SDLGhost(height,width,gRenderer);
 }
 
 SDLFactory::~SDLFactory() {
