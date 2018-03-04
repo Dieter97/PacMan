@@ -12,7 +12,7 @@ Ghost::Ghost() {
 }
 
 void Ghost::move(int deltaX,int deltaY) {
+    //TODO CREATE VECTOR MOVEMENT SYSTEM with acceleration and direction
     x = x + deltaX;
     y = y + deltaY;
-
 }

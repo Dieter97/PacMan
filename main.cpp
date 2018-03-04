@@ -1,7 +1,6 @@
 #include <iostream>
 #include "Factory.h"
 #include "SDLFactory.h"
-#include "DirectXFactory.h"
 #include "Game.h"
 
 int main() {

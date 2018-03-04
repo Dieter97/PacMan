@@ -6,16 +6,14 @@
 #include "Game.h"
 
 void Game::start(Factory* f) {
-    //TODO STARTUP GAME
+
+    //Init game
     bool quit = false;
     f->initDisplay();
+    Ghost* player = f->createGhost();
+    Ghost* enemey1 = f->createGhost();
 
-
-    Ghost* g = f->createGhost();
-    g->visualize();
-    f->clear();
-    f->render();
-
+    //Game loop
     while(!quit){
         f->clear();
         switch (f->getEvent()){
@@ -23,32 +21,28 @@ void Game::start(Factory* f) {
                 quit = true;
                 break;
             case f->KEY_PRESS_SURFACE_RIGHT:
-                //TODO MOVE RIGHT
-                g->move(1,0);
+                player->move(1,0);
                 break;
             case f->KEY_PRESS_SURFACE_LEFT:
-                //TODO MOVE LEFT
-                g->move(-1,0);
+                player->move(-1,0);
                 break;
             case f->KEY_PRESS_SURFACE_UP:
-                //TODO MOVE UP
-                g->move(0,-1);
+                player->move(0,-1);
                 break;
             case f->KEY_PRESS_SURFACE_DOWN:
-                //TODO MOVE DOWN
-                g->move(0,1);
+                player->move(0,1);
                 break;
             default:
                 break;
         }
-        g->visualize();
+        player->visualize();
+        enemey1-> move(1,1);
+        enemey1->visualize();
         f->render();
-        usleep(1000);
+        usleep(10000);
     }
 
-
+    //Close game
     f->close();
-    //TODO Create main game loop
-
 }
 
