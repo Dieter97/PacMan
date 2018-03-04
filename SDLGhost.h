@@ -6,15 +6,20 @@
 #define GAMETEST_SDLGHOST_H
 
 
+#include <SDL_render.h>
 #include "Ghost.h"
 
 class SDLGhost : public Ghost {
 
 public:
-    SDLGhost();
+    SDLGhost(SDL_Renderer* renderer);
 
     void visualize() override;
 
+private:
+    //The final texture
+    SDL_Texture* texture;
+    SDL_Renderer* renderer;
 };
 
 

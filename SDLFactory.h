@@ -20,15 +20,21 @@ private:
     SDL_Renderer* gRenderer = nullptr;
     //Current displayed texture
     SDL_Texture* gTexture = nullptr;
+    //Event handler
+    SDL_Event e;
+
+    //Window parameters
+    int height=640;
+    int width=400;
 
 public:
     Ghost* createGhost() override;
     bool initDisplay() override ;
-    void close() override ;
-
-protected:
-    //Loads individual image as texture
-    SDL_Texture* loadTexture( std::string path );
+    void close() override;
+    void render() override ;
+    void clear() override ;
+    int getEvent() override ;
+    virtual ~SDLFactory();
 };
 
 

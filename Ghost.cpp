@@ -10,3 +10,9 @@ using namespace std;
 Ghost::Ghost() {
     cout << "Creating Ghost" << endl;
 }
+
+void Ghost::move(int deltaX,int deltaY) {
+    x = x + deltaX;
+    y = y + deltaY;
+
+}

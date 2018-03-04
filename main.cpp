@@ -8,5 +8,6 @@ int main() {
     Factory* factory = new SDLFactory;
     auto * game = new Game();
     game->start(factory);
+    delete(factory);
     return 0;
 }
