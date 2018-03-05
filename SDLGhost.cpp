@@ -9,15 +9,14 @@
 using namespace std;
 
 void SDLGhost::visualize() {
-    //cout << "I'm a SDL Ghost" << endl;
     // Create render position and render
-    SDL_Rect position = {x, y, 47, 47};
-    SDL_RenderCopyEx(renderer, texture, nullptr, &position, 0.0, nullptr, SDL_FLIP_NONE);
+    SDL_Rect position = {posX, posY, 47, 47};
+    SDL_RenderCopyEx(context->getRenderer(), texture, nullptr, &position, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
-SDLGhost::SDLGhost(int x, int y,SDL_Renderer *renderer) : Ghost(x, y) {
+SDLGhost::SDLGhost(int posX, int posY,SDLContext* context) : Ghost(posX,posY) {
     cout << "Creating SDLGhost" << endl;
-    SDLGhost::renderer = renderer;
+    this->context = context;
     string path = "../resources/main.png";
     //Load image at specified path
     SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
@@ -30,7 +29,7 @@ SDLGhost::SDLGhost(int x, int y,SDL_Renderer *renderer) : Ghost(x, y) {
         //Color key image
         SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
         //Create texture from surface pixels
-        texture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
+        texture = SDL_CreateTextureFromSurface( context->getRenderer(), loadedSurface );
         if( texture == nullptr )
         {
             cout <<  "Unable to create texture from! SDL Error: " << SDL_GetError() << endl;

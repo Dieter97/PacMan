@@ -4,9 +4,10 @@
 
 #include "SDLFactory.h"
 #include "SDLGhost.h"
+#include "SDLEvent.h"
 
-Ghost *SDLFactory::createGhost() {
-    return new SDLGhost(height,width,gRenderer);
+Ghost *SDLFactory::createGhost(int posX, int posY) {
+    return new SDLGhost(posX, posY,context);
 }
 
 SDLFactory::~SDLFactory() {
@@ -31,7 +32,7 @@ bool SDLFactory::initDisplay() {
             success = false;
         } else {
             //Create renderer for window
-            gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+            gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
             if (gRenderer == NULL) {
                 std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError() << std::endl;
                 success = false;
@@ -44,6 +45,8 @@ bool SDLFactory::initDisplay() {
                 if (!(IMG_Init(imgFlags) & imgFlags)) {
                     std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
                     success = false;
+                }else{
+                    context = new SDLContext(gRenderer,height,width);
                 }
             }
         }
@@ -80,34 +83,6 @@ void SDLFactory::clear() {
     SDL_RenderClear(gRenderer);
 }
 
-int SDLFactory::getEvent() {
-    SDL_PollEvent(&e);
-    if (e.type == SDL_QUIT) {
-        return KEY_PRESS_QUIT;
-    } else {
-        if (e.type == SDL_KEYDOWN) {
-            //Select surfaces based on key press
-            switch (e.key.keysym.sym) {
-                case SDLK_UP:
-                    return KEY_PRESS_SURFACE_UP;
-                case SDLK_DOWN:
-                    return KEY_PRESS_SURFACE_DOWN;
-
-                case SDLK_LEFT:
-                    return KEY_PRESS_SURFACE_LEFT;
-
-                case SDLK_RIGHT:
-                    return KEY_PRESS_SURFACE_RIGHT;
-
-                default:
-                    return KEY_PRESS_SURFACE_DEFAULT;
-            }
-
-        }
-    }
+Event *SDLFactory::createEventSystem() {
+    return new SDLEvent();
 }
-
-
-
-
-

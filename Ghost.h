@@ -6,18 +6,13 @@
 #define GAMETEST_GHOST_H
 
 
-class Ghost {
+#include "MovingEntity.h"
 
-protected:
-    int x=0;
-    int y=0;
-    int windowX;
-    int windowY;
-    int velocity;
-    int acc;
+class Ghost : public MovingEntity {
+
 public:
-    Ghost(int x, int y);
-    void move(int deltaX,int deltaY);
+    Ghost(int posX, int posY);
+    void move(int deltaX,int deltaY) override ;
     virtual void visualize()= 0;
 };
 

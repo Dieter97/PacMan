@@ -9,6 +9,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_image.h"
+#include "SDLContext.h"
 
 
 class SDLFactory : public Factory{
@@ -20,20 +21,20 @@ private:
     SDL_Renderer* gRenderer = nullptr;
     //Current displayed texture
     SDL_Texture* gTexture = nullptr;
-    //Event handler
-    SDL_Event e;
+
+    SDLContext* context;
 
     //Window parameters
     int height=640;
     int width=400;
 
 public:
-    Ghost* createGhost() override;
+    Ghost* createGhost(int posX,int posY) override;
+    Event* createEventSystem() override ;
     bool initDisplay() override ;
     void close() override;
     void render() override ;
     void clear() override ;
-    int getEvent() override ;
     virtual ~SDLFactory();
 };
 

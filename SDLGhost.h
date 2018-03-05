@@ -8,18 +8,19 @@
 
 #include <SDL_render.h>
 #include "Ghost.h"
+#include "SDLContext.h"
 
 class SDLGhost : public Ghost {
 
 public:
-    SDLGhost(int x, int y, SDL_Renderer *renderer);
+    SDLGhost(int posX, int posY, SDLContext *context);
 
     void visualize() override;
 
 private:
     //The final texture
     SDL_Texture* texture;
-    SDL_Renderer* renderer;
+    SDLContext* context;
 };
 
 
