@@ -2,10 +2,10 @@
 // Created by dieter on 26/02/18.
 //
 
-#include "SDLFactory.h"
-#include "../Entities/SDLGhost.h"
-#include "SDLEvent.h"
-#include "../Entities/SDLPacMan.h"
+#include "../include/SDLFactory.h"
+#include "../include/SDLGhost.h"
+#include "../include/SDLEvent.h"
+#include "../include/SDLPacMan.h"
 
 Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);

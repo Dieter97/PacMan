@@ -7,7 +7,7 @@
 
 
 #include "PacMan.h"
-#include "../SDL/SDLContext.h"
+#include "SDLContext.h"
 
 class SDLPacMan : public PacMan{
 public:

@@ -2,7 +2,7 @@
 // Created by dieter on 05/03/18.
 //
 
-#include "SDLContext.h"
+#include "../include/SDLContext.h"
 
 SDL_Renderer *SDLContext::getRenderer() const {
     return renderer;

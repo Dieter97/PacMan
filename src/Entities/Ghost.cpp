@@ -3,8 +3,8 @@
 //
 
 #include <iostream>
-#include "Ghost.h"
-#include "../Types.h"
+#include "../../include/Ghost.h"
+#include "../../include/Types.h"
 
 using namespace std;
 

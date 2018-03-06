@@ -5,7 +5,7 @@
 #ifndef GAMETEST_SDLFACTORY_H
 #define GAMETEST_SDLFACTORY_H
 
-#include "../Factory.h"
+#include "Factory.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_image.h"

@@ -6,9 +6,9 @@
 #define GAMETEST_FACTORY_H
 
 
-#include "Entities/Ghost.h"
+#include "Ghost.h"
 #include "Event.h"
-#include "Entities/PacMan.h"
+#include "PacMan.h"
 
 class Factory {
 public:

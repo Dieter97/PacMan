@@ -3,8 +3,8 @@
 //
 
 #include <zconf.h>
-#include "Game.h"
-#include "Types.h"
+#include "../include/Game.h"
+#include "../include/Types.h"
 
 void Game::start(Factory* f) {
 

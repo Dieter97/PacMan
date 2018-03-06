@@ -1,7 +1,7 @@
 #include <iostream>
-#include "Factory.h"
-#include "SDL/SDLFactory.h"
-#include "Game.h"
+#include "../include/Factory.h"
+#include "../include/SDLFactory.h"
+#include "../include/Game.h"
 
 int main() {
     Factory* factory = new SDLFactory;

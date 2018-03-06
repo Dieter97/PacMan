@@ -8,7 +8,7 @@
 
 #include <SDL_render.h>
 #include "Ghost.h"
-#include "../SDL/SDLContext.h"
+#include "SDLContext.h"
 
 class SDLGhost : public Ghost {
 
