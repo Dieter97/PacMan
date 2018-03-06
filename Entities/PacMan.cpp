@@ -1,14 +1,15 @@
 //
-// Created by dieter on 26/02/18.
+// Created by dieter on 6/03/18.
 //
 
-#include <iostream>
-#include "Ghost.h"
-#include "Types.h"
+#include "PacMan.h"
+#include "../Types.h"
 
-using namespace std;
+PacMan::PacMan(int posX, int posY, int speed) : MovingEntity(posX, posY, speed) {
+    direction = DIR_DOWN;
+}
 
-void Ghost::move(int direction) {
+void PacMan::move(int direction) {
     this->direction = direction;
     switch (direction){
         case DIR_UP:
@@ -26,8 +27,4 @@ void Ghost::move(int direction) {
         default:
             break;
     }
-}
-
-Ghost::Ghost(int posX, int posY,int speed) : MovingEntity(posX, posY,speed){
-    direction = DIR_DOWN;
 }

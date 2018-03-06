@@ -4,7 +4,7 @@
 
 #include <SDL_events.h>
 #include "SDLEvent.h"
-#include "Types.h"
+#include "../Types.h"
 
 
 int SDLEvent::getEvent() {

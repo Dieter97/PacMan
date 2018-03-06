@@ -7,10 +7,17 @@
 
 
 enum Directions{
-    DIR_UP,
-    DIR_DOWN,
+    DIR_RIGHT,
     DIR_LEFT,
-    DIR_RIGHT
+    DIR_DOWN,
+    DIR_UP
+};
+
+enum GhostColor{
+    RED_GHOST,
+    PINK_GHOST,
+    BLUE_GHOST,
+    ORANGE_GHOST
 };
 
 enum Events

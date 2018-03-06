@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 project(GameTest)
 
-set(SOURCES main.cpp Game.cpp SDLFactory.cpp SDLGhost.cpp Factory.cpp Ghost.cpp Event.cpp Event.h SDLEvent.cpp SDLEvent.h SDLContext.cpp SDLContext.h Entity.cpp Entity.h MovingEntity.cpp MovingEntity.h Types.h)
+set(SOURCES main.cpp Game.cpp SDL/SDLFactory.cpp Entities/SDLGhost.cpp Factory.cpp Entities/Ghost.cpp Event.cpp Event.h SDL/SDLEvent.cpp SDL/SDLEvent.h SDL/SDLContext.cpp SDL/SDLContext.h Entities/Entity.cpp Entities/Entity.h Entities/MovingEntity.cpp Entities/MovingEntity.h Types.h Entities/PacMan.cpp Entities/PacMan.h Entities/SDLPacMan.cpp Entities/SDLPacMan.h)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
 
 find_package(SDL2 REQUIRED)

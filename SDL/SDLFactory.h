@@ -5,7 +5,7 @@
 #ifndef GAMETEST_SDLFACTORY_H
 #define GAMETEST_SDLFACTORY_H
 
-#include "Factory.h"
+#include "../Factory.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_image.h"
@@ -29,7 +29,8 @@ private:
     int width=500;
 
 public:
-    Ghost* createGhost(int posX,int posY,int speed) override;
+    Ghost* createGhost(int posX,int posY,int speed,int color) override;
+    PacMan* createPacMan(int posX,int posY,int speed) override;
     Event* createEventSystem() override ;
     bool initDisplay() override ;
     bool loadMedia() override ;

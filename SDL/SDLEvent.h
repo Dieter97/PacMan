@@ -6,7 +6,7 @@
 #define GAMETEST_SDLEVENT_H
 
 
-#include "Event.h"
+#include "../Event.h"
 
 class SDLEvent: public Event {
 private:

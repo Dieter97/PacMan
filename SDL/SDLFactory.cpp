@@ -3,11 +3,16 @@
 //
 
 #include "SDLFactory.h"
-#include "SDLGhost.h"
+#include "../Entities/SDLGhost.h"
 #include "SDLEvent.h"
+#include "../Entities/SDLPacMan.h"
 
-Ghost *SDLFactory::createGhost(int posX, int posY,int speed) {
-    return new SDLGhost(posX, posY,speed, context);
+Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
+    return new SDLGhost(posX, posY,speed,color, context);
+}
+
+PacMan *SDLFactory::createPacMan(int posX, int posY, int speed) {
+    return new SDLPacMan(posX, posY,speed, context);
 }
 
 SDLFactory::~SDLFactory() {

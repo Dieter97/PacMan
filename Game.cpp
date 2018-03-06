@@ -13,9 +13,10 @@ void Game::start(Factory* f) {
     f->initDisplay();
     f->loadMedia();
     Event* events = f->createEventSystem();
-    Ghost* player = f->createGhost(0,0,2);
-    Ghost* enemy1 = f->createGhost(20,20,1);
-    Ghost* enemy2 = f->createGhost(180,250,1);
+    PacMan* player = f->createPacMan(10,0,2);
+    Ghost* enemy1 = f->createGhost(20,20,1,RED_GHOST);
+    Ghost* enemy2 = f->createGhost(180,250,1,BLUE_GHOST);
+    Ghost* enemy3 = f->createGhost(170,140,1,PINK_GHOST);
 
     //Game loop
     while(!quit){
@@ -44,6 +45,8 @@ void Game::start(Factory* f) {
         enemy1->visualize();
         enemy2-> move(DIR_LEFT);
         enemy2->visualize();
+        enemy3-> move(DIR_RIGHT);
+        enemy3->visualize();
         f->render();
     }
 

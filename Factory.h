@@ -6,14 +6,16 @@
 #define GAMETEST_FACTORY_H
 
 
-#include "Ghost.h"
+#include "Entities/Ghost.h"
 #include "Event.h"
+#include "Entities/PacMan.h"
 
 class Factory {
 public:
 
 public:
-    virtual Ghost* createGhost(int posX,int posY,int speed) = 0;
+    virtual Ghost* createGhost(int posX,int posY,int speed,int color) = 0;
+    virtual PacMan* createPacMan(int posX,int posY,int speed) = 0;
     virtual Event* createEventSystem() = 0;
     virtual bool initDisplay() = 0;
     virtual bool loadMedia() = 0;
