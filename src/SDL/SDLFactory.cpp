@@ -2,10 +2,10 @@
 // Created by dieter on 26/02/18.
 //
 
-#include "../include/SDLFactory.h"
-#include "../include/SDLGhost.h"
-#include "../include/SDLEvent.h"
-#include "../include/SDLPacMan.h"
+#include "../../include/SDLFactory.h"
+#include "../../include/SDLGhost.h"
+#include "../../include/SDLEvent.h"
+#include "../../include/SDLPacMan.h"
 
 Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
@@ -30,7 +30,7 @@ bool SDLFactory::initDisplay() {
         success = false;
     } else {
         //Create window
-        gWindow = SDL_CreateWindow("GameTest", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, height, width,
+        gWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, height, width,
                                    SDL_WINDOW_SHOWN);
         if (gWindow == nullptr) {
             std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;

@@ -3,8 +3,8 @@
 //
 
 #include <SDL_events.h>
-#include "../include/SDLEvent.h"
-#include "../include/Types.h"
+#include "../../include/SDLEvent.h"
+#include "../../include/Types.h"
 
 
 int SDLEvent::getEvent() {
