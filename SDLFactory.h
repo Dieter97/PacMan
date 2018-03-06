@@ -25,8 +25,8 @@ private:
     SDLContext* context;
 
     //Window parameters
-    int height=640;
-    int width=400;
+    int height=1024;
+    int width=500;
 
 public:
     Ghost* createGhost(int posX,int posY,int speed) override;
