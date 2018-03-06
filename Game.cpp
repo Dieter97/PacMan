@@ -13,9 +13,9 @@ void Game::start(Factory* f) {
     f->initDisplay();
     f->loadMedia();
     Event* events = f->createEventSystem();
-    PacMan* player = f->createPacMan(10,0,2);
-    Ghost* enemy1 = f->createGhost(20,20,1,RED_GHOST);
-    Ghost* enemy2 = f->createGhost(180,250,1,BLUE_GHOST);
+    PacMan* player = f->createPacMan(10,0,3);
+    Ghost* enemy1 = f->createGhost(20,20,2,RED_GHOST);
+    Ghost* enemy2 = f->createGhost(180,250,2,BLUE_GHOST);
     Ghost* enemy3 = f->createGhost(170,140,1,PINK_GHOST);
 
     //Game loop
