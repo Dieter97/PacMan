@@ -29,9 +29,10 @@ private:
     int width=400;
 
 public:
-    Ghost* createGhost(int posX,int posY) override;
+    Ghost* createGhost(int posX,int posY,int speed) override;
     Event* createEventSystem() override ;
     bool initDisplay() override ;
+    bool loadMedia() override ;
     void close() override;
     void render() override ;
     void clear() override ;

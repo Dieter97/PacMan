@@ -13,14 +13,17 @@
 class SDLGhost : public Ghost {
 
 public:
-    SDLGhost(int posX, int posY, SDLContext *context);
+    SDLGhost(int posX, int posY, int speed, SDLContext *context);
 
     void visualize() override;
 
 private:
     //The final texture
     SDL_Texture* texture;
+    SDL_Rect* sprites[6];
     SDLContext* context;
+    int spriteWidth = 16*3;
+    int spriteHeigth = 16*3;
 };
 
 

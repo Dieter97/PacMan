@@ -11,8 +11,8 @@
 class Ghost : public MovingEntity {
 
 public:
-    Ghost(int posX, int posY);
-    void move(int deltaX,int deltaY) override ;
+    Ghost(int posX, int posY,int speed);
+    void move(int direction) override ;
     virtual void visualize()= 0;
 };
 

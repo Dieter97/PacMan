@@ -4,44 +4,45 @@
 
 #include <zconf.h>
 #include "Game.h"
+#include "Types.h"
 
 void Game::start(Factory* f) {
 
     //Init game
     bool quit = false;
     f->initDisplay();
+    f->loadMedia();
     Event* events = f->createEventSystem();
-    Ghost* player = f->createGhost(0,0);
-    Ghost* enemy1 = f->createGhost(20,20);
-    Ghost* enemy2 = f->createGhost(180,250);
-    enemy2->move(20,50);
+    Ghost* player = f->createGhost(0,0,2);
+    Ghost* enemy1 = f->createGhost(20,20,1);
+    Ghost* enemy2 = f->createGhost(180,250,1);
 
     //Game loop
     while(!quit){
         f->clear();
         switch (events->getEvent()){
-            case events->KEY_PRESS_QUIT:
+            case KEY_PRESS_QUIT:
                 quit = true;
                 break;
-            case events->KEY_PRESS_SURFACE_RIGHT:
-                player->move(2,0);
+            case KEY_PRESS_SURFACE_RIGHT:
+                player->move(DIR_RIGHT);
                 break;
-            case events->KEY_PRESS_SURFACE_LEFT:
-                player->move(-2,0);
+            case KEY_PRESS_SURFACE_LEFT:
+                player->move(DIR_LEFT);
                 break;
-            case events->KEY_PRESS_SURFACE_UP:
-                player->move(0,-2);
+            case KEY_PRESS_SURFACE_UP:
+                player->move(DIR_UP);
                 break;
-            case events->KEY_PRESS_SURFACE_DOWN:
-                player->move(0,2);
+            case KEY_PRESS_SURFACE_DOWN:
+                player->move(DIR_DOWN);
                 break;
             default:
                 break;
         }
         player->visualize();
-        enemy1-> move(0,1);
+        enemy1-> move(DIR_UP);
         enemy1->visualize();
-        enemy2-> move(1,1);
+        enemy2-> move(DIR_LEFT);
         enemy2->visualize();
         f->render();
     }

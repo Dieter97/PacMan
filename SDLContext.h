@@ -11,8 +11,16 @@
 class SDLContext {
 protected:
     SDL_Renderer* renderer;
+    SDL_Texture* spriteSheet;
+public:
+    SDL_Texture *getSpriteSheet() const;
+
+    void setSpriteSheet(SDL_Texture *spriteSheet);
+
+protected:
     int windowHeigth;
     int windowWidth;
+
 
 public:
     SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth);
@@ -29,6 +37,8 @@ public:
     int getWindowWidth() const;
 
     void setWindowWidth(int windowWidth);
+
+
 
 };
 

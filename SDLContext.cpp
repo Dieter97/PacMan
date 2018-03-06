@@ -31,3 +31,11 @@ void SDLContext::setWindowWidth(int windowWidth) {
 SDLContext::SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth) : renderer(renderer),
                                                                                     windowHeigth(windowHeigth),
                                                                                     windowWidth(windowWidth) {}
+
+SDL_Texture *SDLContext::getSpriteSheet() const {
+    return spriteSheet;
+}
+
+void SDLContext::setSpriteSheet(SDL_Texture *spriteSheet) {
+    SDLContext::spriteSheet = spriteSheet;
+}

@@ -6,8 +6,8 @@
 #include "SDLGhost.h"
 #include "SDLEvent.h"
 
-Ghost *SDLFactory::createGhost(int posX, int posY) {
-    return new SDLGhost(posX, posY,context);
+Ghost *SDLFactory::createGhost(int posX, int posY,int speed) {
+    return new SDLGhost(posX, posY,speed, context);
 }
 
 SDLFactory::~SDLFactory() {
@@ -45,13 +45,38 @@ bool SDLFactory::initDisplay() {
                 if (!(IMG_Init(imgFlags) & imgFlags)) {
                     std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
                     success = false;
-                }else{
-                    context = new SDLContext(gRenderer,height,width);
+                } else {
+                    context = new SDLContext(gRenderer, height, width);
                 }
             }
         }
     }
 
+    return success;
+}
+
+bool SDLFactory::loadMedia() {
+    //Loading success flag
+    bool success = true;
+    SDL_Texture *texture;
+    SDL_Surface *loadedSurface = IMG_Load("../resources/sprites.png");
+    if (loadedSurface == nullptr) {
+        std::cout << "Unable to load image! SDL_image Error: " << IMG_GetError() << std::endl;
+        success = false;
+    } else {
+        //Color key image
+        SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 128, 0, 128));
+        //Create texture from surface pixels
+        texture = SDL_CreateTextureFromSurface(gRenderer, loadedSurface);
+        if (texture == nullptr) {
+            std::cout << "Unable to create texture from! SDL Error: " << SDL_GetError() << std::endl;
+            success = false;
+        }else{
+            context->setSpriteSheet(texture);
+        }
+        //Get rid of old loaded surface
+        SDL_FreeSurface(loadedSurface);
+    }
     return success;
 }
 

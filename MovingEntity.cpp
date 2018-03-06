@@ -4,4 +4,6 @@
 
 #include "MovingEntity.h"
 
-MovingEntity::MovingEntity(int posX, int posY) : Entity(posX, posY) {}
+MovingEntity::MovingEntity(int posX, int posY,int speed) : Entity(posX, posY) {
+    this->speed = speed;
+}

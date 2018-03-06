@@ -9,11 +9,14 @@
 #include "Entity.h"
 
 class MovingEntity : public Entity {
+protected:
+    int direction;
+    int speed;
 public:
-    MovingEntity(int posX, int posY);
+    MovingEntity(int posX, int posY, int speed);
 
 public:
-    virtual void move(int deltaX,int deltaY) = 0;
+    virtual void move(int direction) = 0;
 };
 
 
