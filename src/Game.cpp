@@ -40,13 +40,14 @@ void Game::start(Factory* f) {
             default:
                 break;
         }
-        player->visualize();
+
         enemy1-> move(DIR_UP);
         enemy1->visualize();
         enemy2-> move(DIR_LEFT);
         enemy2->visualize();
         enemy3-> move(DIR_RIGHT);
         enemy3->visualize();
+        player->visualize();
         f->render();
     }
 

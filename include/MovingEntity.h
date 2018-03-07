@@ -10,13 +10,13 @@
 
 class MovingEntity : public Entity {
 protected:
-    int direction;
+    int STATE;
     int speed;
 public:
     MovingEntity(int posX, int posY, int speed);
 
 public:
-    virtual void move(int direction) = 0;
+    void move(int direction);
 };
 
 

@@ -23,7 +23,7 @@ void SDLPacMan::visualize() {
         posY = context->getWindowWidth();
     }
     SDL_Rect position = {posX, posY, spriteHeigth*SPRITE_SCALE, spriteWidth*SPRITE_SCALE};
-    SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprites[direction][frame / ANIMATION_SPEED], &position, 0.0, nullptr, SDL_FLIP_NONE);
+    SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprites[STATE][frame / ANIMATION_SPEED], &position, 0.0, nullptr, SDL_FLIP_NONE);
     //Go to next frame
     ++frame;
 

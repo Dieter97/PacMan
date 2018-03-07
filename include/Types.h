@@ -6,11 +6,13 @@
 #define GAMETEST_TYPES_H
 
 
-enum Directions{
+enum STATES{
     DIR_RIGHT,
     DIR_LEFT,
     DIR_DOWN,
-    DIR_UP
+    DIR_UP,
+    SPAWNING,
+    DEFAULT
 };
 
 enum GhostColor{

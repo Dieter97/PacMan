@@ -11,7 +11,6 @@
 class PacMan : public MovingEntity {
 public:
     PacMan(int posX, int posY, int speed);
-    void move(int direction) override ;
 };
 
 

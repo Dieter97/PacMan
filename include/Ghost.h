@@ -12,7 +12,6 @@ class Ghost : public MovingEntity {
 
 public:
     Ghost(int posX, int posY,int speed);
-    void move(int direction) override ;
 };
 
 
