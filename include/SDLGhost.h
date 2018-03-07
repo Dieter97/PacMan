@@ -21,7 +21,7 @@ private:
     //Animation
     int frame = 0;
     static const int ANIMATION_FRAMES = 2;
-    static const int ANIMATION_SPEED = 6;
+    static const int ANIMATION_SPEED = 8;
 
     //Sprite
     static const int spriteWidth = 16;

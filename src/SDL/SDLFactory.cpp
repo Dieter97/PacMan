@@ -6,6 +6,7 @@
 #include "../../include/SDLGhost.h"
 #include "../../include/SDLEvent.h"
 #include "../../include/SDLPacMan.h"
+#include "../Entities/SDLTile.h"
 
 Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
@@ -13,6 +14,10 @@ Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
 
 PacMan *SDLFactory::createPacMan(int posX, int posY, int speed) {
     return new SDLPacMan(posX, posY,speed, context);
+}
+
+Tile *SDLFactory::createTile(int posX, int posY, int tileType, int tileColor) {
+    return new SDLTile(posX, posY,tileType,tileColor, context);;
 }
 
 SDLFactory::~SDLFactory() {

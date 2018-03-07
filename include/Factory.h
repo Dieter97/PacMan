@@ -9,6 +9,7 @@
 #include "Ghost.h"
 #include "Event.h"
 #include "PacMan.h"
+#include "Tile.h"
 
 class Factory {
 public:
@@ -16,6 +17,7 @@ public:
 public:
     virtual Ghost* createGhost(int posX,int posY,int speed,int color) = 0;
     virtual PacMan* createPacMan(int posX,int posY,int speed) = 0;
+    virtual Tile* createTile(int posX,int posY,int tileType,int tileColor) = 0;
     virtual Event* createEventSystem() = 0;
     virtual bool initDisplay() = 0;
     virtual bool loadMedia() = 0;

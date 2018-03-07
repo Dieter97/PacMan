@@ -31,6 +31,7 @@ private:
 public:
     Ghost* createGhost(int posX,int posY,int speed,int color) override;
     PacMan* createPacMan(int posX,int posY,int speed) override;
+    Tile* createTile(int posX,int posY,int tileType,int tileColor) override ;
     Event* createEventSystem() override ;
     bool initDisplay() override ;
     bool loadMedia() override ;

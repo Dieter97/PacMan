@@ -12,6 +12,7 @@ void Game::start(Factory* f) {
     bool quit = false;
     f->initDisplay();
     f->loadMedia();
+    Tile* tile1 = f->createTile(40,60,POINT_BIG,PINK_TILE);
     Event* events = f->createEventSystem();
     PacMan* player = f->createPacMan(10,0,3);
     Ghost* enemy1 = f->createGhost(20,20,2,RED_GHOST);
@@ -40,7 +41,9 @@ void Game::start(Factory* f) {
             default:
                 break;
         }
-
+        tile1->visualize();
+        tile2->visualize();
+        tile3->visualize();
         enemy1-> move(DIR_UP);
         enemy1->visualize();
         enemy2-> move(DIR_LEFT);
