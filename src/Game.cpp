@@ -57,7 +57,7 @@ void Game::start(Factory* f) {
     f->loadMedia();
 
     Map* tiles = f->createMap(31,14);
-    tiles->loadMap(b, PINK_TILE);
+    tiles->loadMap(b, BLUE_TILE);
     Event* events = f->createEventSystem();
     PacMan* player = f->createPacMan(50,26,3);
     Ghost* enemy1 = f->createGhost(25,20,2,RED_GHOST);
