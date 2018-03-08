@@ -7,6 +7,7 @@
 #include "../../include/SDLEvent.h"
 #include "../../include/SDLPacMan.h"
 #include "../Entities/SDLTile.h"
+#include "../../SDLMap.h"
 
 Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
@@ -35,7 +36,7 @@ bool SDLFactory::initDisplay() {
         success = false;
     } else {
         //Create window
-        gWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, height, width,
+        gWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGTH,
                                    SDL_WINDOW_SHOWN);
         if (gWindow == nullptr) {
             std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
@@ -56,7 +57,7 @@ bool SDLFactory::initDisplay() {
                     std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
                     success = false;
                 } else {
-                    context = new SDLContext(gRenderer, height, width);
+                    context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH);
                 }
             }
         }
@@ -120,4 +121,8 @@ void SDLFactory::clear() {
 
 Event *SDLFactory::createEventSystem() {
     return new SDLEvent();
+}
+
+Map *SDLFactory::createMap(int width, int height) {
+    return new SDLMap(width,height,TILE_WIDTH*TILE_SCALE,TILE_HEIGTH*TILE_SCALE,context);
 }

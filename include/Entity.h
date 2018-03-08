@@ -11,8 +11,20 @@ protected:
 public:
     Entity(int posX, int posY);
 
+    Entity();
+
 protected:
     int posX;
+public:
+    int getPosX() const;
+
+    void setPosX(int posX);
+
+    int getPosY() const;
+
+    void setPosY(int posY);
+
+protected:
     int posY;
 public:
     virtual void visualize() = 0;
