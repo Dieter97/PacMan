@@ -6,7 +6,7 @@
 #include "../include/Game.h"
 #include "../include/Types.h"
 #include "../include/Map.h"
-#include "../SDLMap.h"
+#include "../include/SDLMap.h"
 
 void Game::start(Factory* f) {
     int map[31][14] = {

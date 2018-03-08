@@ -6,8 +6,8 @@
 #include "../../include/SDLGhost.h"
 #include "../../include/SDLEvent.h"
 #include "../../include/SDLPacMan.h"
-#include "../Entities/SDLTile.h"
-#include "../../SDLMap.h"
+#include "../../include/SDLTile.h"
+#include "../../include/SDLMap.h"
 
 Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
