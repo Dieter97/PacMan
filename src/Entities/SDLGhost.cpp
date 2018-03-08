@@ -37,7 +37,7 @@ void SDLGhost::visualize() {
 
 }
 
-SDLGhost::SDLGhost(int posX, int posY,int speed,int color,SDLContext* context) : Ghost(posX,posY,speed) {
+SDLGhost::SDLGhost(int posX, int posY,int speed,int color,SDLContext* context) : Ghost(posX,posY,spriteWidth,spriteHeigth,speed) {
     cout << "Creating SDLGhost" << endl;
     this->context = context;
     this->COLOR = color;
@@ -56,5 +56,9 @@ SDLGhost::SDLGhost(int posX, int posY,int speed,int color,SDLContext* context) :
         }
         spriteY += spriteHeigth;
     }
+}
+
+bool SDLGhost::collision(Entity *e) {
+
 }
 

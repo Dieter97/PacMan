@@ -5,7 +5,7 @@
 #include "../../include/Tile.h"
 
 
-Tile::Tile(int posX, int posY, int tileType) : Entity(posX, posY){
+Tile::Tile(int posX, int posY,int width,int heigth, int tileType) : Entity(posX, posY,width,heigth){
     this->TILETYPE = tileType;
 }
 

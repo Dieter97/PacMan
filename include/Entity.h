@@ -9,12 +9,15 @@
 class Entity {
 protected:
 public:
-    Entity(int posX, int posY);
+    Entity(int posX, int posY,int width,int height);
 
     Entity();
 
 protected:
     int posX;
+    int posY;
+    int width;
+    int heigth;
 public:
     int getPosX() const;
 
@@ -24,10 +27,9 @@ public:
 
     void setPosY(int posY);
 
-protected:
-    int posY;
-public:
     virtual void visualize() = 0;
+
+    virtual bool collision(Entity* e) = 0;
 };
 
 

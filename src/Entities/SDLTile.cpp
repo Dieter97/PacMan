@@ -5,7 +5,7 @@
 #include "../../include/SDLTile.h"
 
 SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
-        : Tile(posX, posY, type) {
+        : Tile(posX, posY, spriteWidth,spriteHeigth,type) {
     this->context = context;
     this->COLOR = color;
 
@@ -23,4 +23,8 @@ SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
 void SDLTile::visualize() {
     SDL_Rect position = {posX, posY, spriteHeigth * SPRITE_SCALE, spriteWidth * SPRITE_SCALE};
     SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprite , &position, 0.0, nullptr, SDL_FLIP_NONE);
+}
+
+bool SDLTile::collision(Entity *e) {
+    return false;
 }

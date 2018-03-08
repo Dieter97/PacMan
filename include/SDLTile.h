@@ -14,6 +14,8 @@ public:
     SDLTile(int posX, int posY, int type, int color, SDLContext *context);
 
     void visualize() override;
+
+    bool collision(Entity* e) override ;
 private:
     //Sprite
     static const int spriteWidth = 9;

@@ -17,6 +17,7 @@ public:
 
     void visualize() override;
 
+    bool collision(Entity* e) override;
 private:
     //Animation
     int frame = 0;
@@ -26,8 +27,11 @@ private:
     //Sprite
     static const int spriteWidth = 16;
     static const int spriteHeigth = 16;
-    static const int SPRITE_SCALE = 3;
+    int SPRITE_SCALE = 3;
     int COLOR;
+
+    //Hitbox
+    SDL_Rect* hit;
 
     SDL_Rect* sprites[6][ANIMATION_FRAMES];
     SDLContext* context;

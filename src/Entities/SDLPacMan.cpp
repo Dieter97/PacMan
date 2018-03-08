@@ -34,7 +34,7 @@ void SDLPacMan::visualize() {
     }
 }
 
-SDLPacMan::SDLPacMan(int posX, int posY,int speed,SDLContext* context) : PacMan(posX,posY,speed) {
+SDLPacMan::SDLPacMan(int posX, int posY,int speed,SDLContext* context) : PacMan(posX,posY,spriteWidth,spriteHeigth,speed) {
     cout << "Creating SDLPacMan" << endl;
     this->context = context;
 
@@ -52,4 +52,9 @@ SDLPacMan::SDLPacMan(int posX, int posY,int speed,SDLContext* context) : PacMan(
         }
         spriteY += spriteHeigth;
     }
+}
+
+bool SDLPacMan::collision(Entity *e) {
+
+    return false;
 }

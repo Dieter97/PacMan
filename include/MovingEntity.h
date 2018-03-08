@@ -13,7 +13,7 @@ protected:
     int STATE;
     int speed;
 public:
-    MovingEntity(int posX, int posY, int speed);
+    MovingEntity(int posX, int posY,int width,int heigth, int speed);
 
 public:
     void move(int direction);
