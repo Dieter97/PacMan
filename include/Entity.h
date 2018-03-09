@@ -29,7 +29,7 @@ public:
 
     virtual void visualize() = 0;
 
-    virtual bool collision(Entity* e) = 0;
+    bool collision(const Entity* e);
 };
 
 

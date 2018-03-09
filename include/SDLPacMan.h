@@ -15,8 +15,6 @@ public:
 
     void visualize() override;
 
-    bool collision(Entity* e) override ;
-
 private:
     //Animation
     int frame = 0;

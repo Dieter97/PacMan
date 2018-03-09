@@ -57,8 +57,3 @@ SDLGhost::SDLGhost(int posX, int posY,int speed,int color,SDLContext* context) :
         spriteY += spriteHeigth;
     }
 }
-
-bool SDLGhost::collision(Entity *e) {
-
-}
-

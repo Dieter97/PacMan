@@ -3,6 +3,7 @@
 //
 
 #include <zconf.h>
+#include <iostream>
 #include "../include/Game.h"
 #include "../include/Types.h"
 #include "../include/Map.h"
@@ -57,7 +58,7 @@ void Game::start(Factory* f) {
     f->loadMedia();
 
     Map* tiles = f->createMap(31,14);
-    tiles->loadMap(b,ORANGE_TILE);
+    tiles->loadMap(b,BLUE_TILE);
     Event* events = f->createEventSystem();
     PacMan* player = f->createPacMan(50,26,3);
     Ghost* enemy1 = f->createGhost(25,20,2,RED_GHOST);
@@ -85,6 +86,10 @@ void Game::start(Factory* f) {
                 break;
             default:
                 break;
+        }
+
+        if(player->collision(enemy1)){
+            std::cout << "Player colliding with ghost1!" << std::endl;
         }
 
         tiles->visualize();

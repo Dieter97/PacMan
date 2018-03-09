@@ -15,7 +15,6 @@ public:
 
     void visualize() override;
 
-    bool collision(Entity* e) override ;
 private:
     //Sprite
     static const int spriteWidth = 9;

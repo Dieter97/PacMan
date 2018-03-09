@@ -53,8 +53,3 @@ SDLPacMan::SDLPacMan(int posX, int posY,int speed,SDLContext* context) : PacMan(
         spriteY += spriteHeigth;
     }
 }
-
-bool SDLPacMan::collision(Entity *e) {
-
-    return false;
-}
