@@ -67,6 +67,12 @@ enum TilesTypes{
     BLANK,
 };
 
+enum EntityType{
+    PACMAN,
+    GHOST,
+    TILE
+};
+
 enum TileColor{
     BLUE_TILE,
     PINK_TILE,

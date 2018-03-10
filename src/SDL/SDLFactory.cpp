@@ -25,7 +25,6 @@ SDLFactory::~SDLFactory() {
     close();
 }
 
-
 bool SDLFactory::initDisplay() {
     //Initialization flag
     bool success = true;

@@ -3,10 +3,12 @@
 //
 
 #include "../../include/Tile.h"
+#include "../../include/Types.h"
 
 
 Tile::Tile(int posX, int posY,int width,int heigth, int tileType) : Entity(posX, posY,width,heigth){
     this->TILETYPE = tileType;
+    this->type = TILE;
 }
 
 Tile::Tile() {

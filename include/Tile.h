@@ -13,15 +13,14 @@ public:
 
     Tile();
 
-    Tile(int posX, int posY, int width,int heigth,int tileType);
+    Tile(int posX, int posY, int width, int heigth, int tileType);
 
+    int getTILETYPE() const;
+
+    virtual void setTILETYPE(int TILETYPE);
 
 protected:
     int TILETYPE;
-public:
-    int getTILETYPE() const;
-
-    void setTILETYPE(int TILETYPE);
 };
 
 

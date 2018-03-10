@@ -24,3 +24,15 @@ void SDLTile::visualize() {
     SDL_Rect position = {posX, posY, spriteHeigth * SPRITE_SCALE, spriteWidth * SPRITE_SCALE};
     SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprite , &position, 0.0, nullptr, SDL_FLIP_NONE);
 }
+
+void SDLTile::setTILETYPE(int type) {
+    Tile::setTILETYPE(type);
+    int spriteY = 296 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
+    int spriteX = 61 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
+
+    sprite = new SDL_Rect();
+    sprite->x = spriteX;
+    sprite->y = spriteY;
+    sprite->w = spriteWidth;
+    sprite->h = spriteHeigth;
+}

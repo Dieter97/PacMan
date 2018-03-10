@@ -74,3 +74,11 @@ bool Entity::collision(const Entity *e) {
     //If none of the sides from A are outside B
     return true;
 }
+
+int Entity::getType() const {
+    return type;
+}
+
+void Entity::setType(int type) {
+    Entity::type = type;
+}

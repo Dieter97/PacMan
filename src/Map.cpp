@@ -2,6 +2,7 @@
 // Created by dieter on 7/03/18.
 //
 
+#include <iostream>
 #include "../include/Map.h"
 #include "../include/Types.h"
 
@@ -23,12 +24,36 @@ bool Map::checkCollision(Entity *e) {
     for(int i = 0; i<MAP_WIDTH;i++){
         for(int j = 0; j<MAP_HEIGHT;j++){
             int type = tileMap[i][j]->getTILETYPE();
-            if(type!=POINT_SMALL && type!=POINT_BIG && type != BLANK){
-                result = tileMap[i][j]->collision(e);
+            switch (type){
+                case POINT_SMALL:
+                    //POINT
+                    result = tileMap[i][j]->collision(e);
+                    if(result && e->getType() == PACMAN){
+                        std::cout << "Point scorred!" << std::endl;
+                        tileMap[i][j]->setTILETYPE(BLANK);
+                        return false;
+                    }
+                    break;
+                case POINT_BIG:
+                    //BIG point
+                    result = tileMap[i][j]->collision(e);
+                    if(result && e->getType() == PACMAN){
+                        std::cout << "Bonus scorred!" << std::endl;
+                        tileMap[i][j]->setTILETYPE(BLANK);
+                        return false;
+                    }
+                    break;
+                case BLANK:
+                    //DO nothing
+                    break;
+                default:
+                    //Check regular collision with wall
+                    result = tileMap[i][j]->collision(e);
 
-                if(result){
-                    return result;
-                }
+                    if(result){
+                        return result;
+                    }
+                    break;
             }
         }
     }

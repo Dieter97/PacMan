@@ -6,6 +6,7 @@
 #include "../../include/Types.h"
 
 PacMan::PacMan(int posX, int posY,int width,int heigth, int speed) : MovingEntity(posX, posY,width,heigth, speed) {
-    STATE = DIR_LEFT;
+    this->type = PACMAN;
+    this->STATE = DIR_LEFT;
 }
 

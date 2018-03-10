@@ -18,6 +18,12 @@ protected:
     int posY;
     int width;
     int heigth;
+    int type;
+public:
+    int getType() const;
+
+    void setType(int type);
+
 public:
     int getPosX() const;
 
