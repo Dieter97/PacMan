@@ -34,7 +34,8 @@ void SDLPacMan::visualize() {
     }
 }
 
-SDLPacMan::SDLPacMan(int posX, int posY,int speed,SDLContext* context) : PacMan(posX,posY,spriteWidth,spriteHeigth,speed) {
+SDLPacMan::SDLPacMan(int posX, int posY,int speed,SDLContext* context) :
+        PacMan(posX,posY,(spriteWidth-HIT_BOX_OFFSET)*SPRITE_SCALE,(spriteHeigth-HIT_BOX_OFFSET)*SPRITE_SCALE,speed) {
     cout << "Creating SDLPacMan" << endl;
     this->context = context;
 

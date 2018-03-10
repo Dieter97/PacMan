@@ -25,7 +25,7 @@ private:
     SDLContext* context;
 
     //Window parameters
-    static const int WINDOW_WIDTH=992;
+    static const int WINDOW_WIDTH=1024;
     static const int WINDOW_HEIGTH=500;
 
     //Tilemap parameters

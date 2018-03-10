@@ -17,6 +17,8 @@ public:
 
 public:
     void move(int direction);
+
+    void pushBack();
 };
 
 

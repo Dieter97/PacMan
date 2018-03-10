@@ -5,7 +5,7 @@
 #include "../../include/SDLTile.h"
 
 SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
-        : Tile(posX, posY, spriteWidth,spriteHeigth,type) {
+        : Tile(posX, posY, (spriteWidth-HIT_BOX_OFFSET)*SPRITE_SCALE,(spriteHeigth-HIT_BOX_OFFSET)*SPRITE_SCALE,type) {
     this->context = context;
     this->COLOR = color;
 

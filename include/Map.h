@@ -27,6 +27,7 @@ public:
     Map(int width,int height,int tileWidth,int tileHeigth);
     virtual void visualize() = 0;
     virtual void loadMap(int** map,int COLOR) = 0;
+    bool checkCollision(Entity* e);
 };
 
 

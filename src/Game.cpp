@@ -60,11 +60,12 @@ void Game::start(Factory* f) {
     Map* tiles = f->createMap(31,14);
     tiles->loadMap(b,BLUE_TILE);
     Event* events = f->createEventSystem();
-    PacMan* player = f->createPacMan(50,26,3);
-    Ghost* enemy1 = f->createGhost(25,20,2,RED_GHOST);
+    PacMan* player = f->createPacMan(250,26,3);
+    Ghost* enemy1 = f->createGhost(25,250,3,RED_GHOST);
     Ghost* enemy2 = f->createGhost(180,250,2,BLUE_GHOST);
     Ghost* enemy3 = f->createGhost(170,140,1,PINK_GHOST);
 
+    int playerDirection = DIR_LEFT;
     //Game loop
     while(!quit){
         f->clear();
@@ -73,27 +74,39 @@ void Game::start(Factory* f) {
                 quit = true;
                 break;
             case KEY_PRESS_SURFACE_RIGHT:
-                player->move(DIR_RIGHT);
+                playerDirection = DIR_RIGHT;
                 break;
             case KEY_PRESS_SURFACE_LEFT:
-                player->move(DIR_LEFT);
+                playerDirection = DIR_LEFT;
                 break;
             case KEY_PRESS_SURFACE_UP:
-                player->move(DIR_UP);
+                playerDirection = DIR_UP;
                 break;
             case KEY_PRESS_SURFACE_DOWN:
-                player->move(DIR_DOWN);
+                playerDirection = DIR_DOWN;
                 break;
             default:
                 break;
         }
 
+        player->move(playerDirection);
+
         if(player->collision(enemy1)){
             std::cout << "Player colliding with ghost1!" << std::endl;
         }
 
+        if(tiles->checkCollision(player)){
+            //std::cout << "Player colliding with a Tile!" << std::endl;
+            player->pushBack();
+        }
+
+        if(tiles->checkCollision(enemy1)){
+            enemy1->pushBack();
+        }
+
         tiles->visualize();
-        enemy1-> move(DIR_UP);
+
+        enemy1-> move(playerDirection);
         enemy1->visualize();
         enemy2-> move(DIR_LEFT);
         enemy2->visualize();

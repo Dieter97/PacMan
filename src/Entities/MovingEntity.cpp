@@ -28,3 +28,23 @@ void MovingEntity::move(int direction) {
             break;
     }
 }
+
+
+void MovingEntity::pushBack(){
+    switch (this->STATE){
+        case DIR_UP:
+            posY = posY + speed;
+            break;
+        case DIR_DOWN:
+            posY = posY - speed;
+            break;
+        case DIR_LEFT:
+            posX = posX + speed;
+            break;
+        case DIR_RIGHT:
+            posX = posX - speed;
+            break;
+        default:
+            break;
+    }
+}
