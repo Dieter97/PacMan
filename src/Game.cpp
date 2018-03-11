@@ -136,24 +136,30 @@ void Game::start() {
         }
 
         player->move(playerDirection);
-/*
-        if(player->collision(enemies.at(1))){
-            std::cout << "Player colliding with ghost1!" << std::endl;
-        }
-*/
+
+        //Render map
+        tileMap->visualize();
+
+        //Map collision for player
         if(tileMap->checkCollision(player)){
             //std::cout << "Player colliding with a Tile!" << std::endl;
             player->pushBack();
         }
-/*
-        if(tileMap->checkCollision(enemies.at(1))){
-            enemies.at(1)->pushBack();
+
+        //Collision for enemies
+        for(auto const& enemy: enemies){
+            if(tileMap->checkCollision(enemy)){
+                enemy->pushBack();
+            }
+            if(player->collision(enemy)){
+                //Player collision with enemy
+                //TODO HANDLE ENEMY COLLISION
+                cout << "Player colliding with a ghost!" << endl;
+            }
+            enemy-> move(playerDirection);
+            enemy->visualize();
         }
 
-
-
-        enemies.at(1)-> move(playerDirection);
-        enemies.at(1)->visualize();*/ tileMap->visualize();
         player->visualize();
         factory->render();
     }
