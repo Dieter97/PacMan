@@ -21,7 +21,7 @@ bool Game::initGame(Factory* f) {
     int *b[99];
     int map[99][99];
     string line;
-    ifstream level ("../resources/level.map");
+    ifstream level ("../resources/level2.map");
     if (level.is_open())
     {
         //Read map parameters from level file
@@ -156,7 +156,7 @@ void Game::start() {
                 //TODO HANDLE ENEMY COLLISION
                 cout << "Player colliding with a ghost!" << endl;
             }
-            enemy-> move(playerDirection);
+            //enemy-> move(playerDirection);
             enemy->visualize();
         }
 
