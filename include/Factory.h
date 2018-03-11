@@ -15,6 +15,15 @@
 class Factory {
 public:
 
+    //Window parameters
+    int WINDOW_WIDTH=995;
+    int WINDOW_HEIGTH=500;
+
+    //Tilemap parameters
+    static const int TILE_HEIGTH = 8;
+    static const int TILE_WIDTH = 8;
+    static const int TILE_SCALE = 3;
+
 public:
     virtual Ghost* createGhost(int posX,int posY,int speed,int color) = 0;
     virtual PacMan* createPacMan(int posX,int posY,int speed) = 0;

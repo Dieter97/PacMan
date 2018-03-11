@@ -6,7 +6,12 @@
 int main() {
     Factory* factory = new SDLFactory;
     auto * game = new Game();
-    game->start(factory);
+
+    if(game->initGame(factory)){
+        game->start();
+    }
+
+
     delete(factory);
     return 0;
 }

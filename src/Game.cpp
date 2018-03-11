@@ -12,75 +12,109 @@
 
 using namespace std;
 
-void Game::start(Factory* f) {
 
-    //Init game
-    bool quit = false;
-    f->initDisplay(995,500);
-    f->loadMedia();
+bool Game::initGame(Factory* f) {
+    this->factory = f;
 
+    //First load the map
 
-    PacMan* player;
-    Ghost* enemy1;
     int *b[99];
     int map[99][99];
-    int heigth = 0,width = 0;
     string line;
     ifstream level ("../resources/level.map");
     if (level.is_open())
     {
+        //Read map parameters from level file
+        level >> mapWidth; level >> mapHeigth;
 
-        level >> width; level >> heigth;
+        //Init display with the parameters
+        windowWidth = mapWidth*factory->TILE_WIDTH*factory->TILE_SCALE;
+        windowHeigth = mapHeigth*factory->TILE_HEIGTH*factory->TILE_SCALE;
+        factory->initDisplay(windowWidth,windowHeigth);
+
+        //Read the entire map from the file
         int i = 0,j = 0,num = 0;
+        int tileWidth = factory->TILE_WIDTH;
+        int tileHeigth = factory->TILE_HEIGTH;
+        int scaling = factory->TILE_SCALE;
+        int spawnOffset = 4;
         while(level >> num || !level.eof()) {
-            if(level.fail()) { // Number input failed, skip the word
+            if(level.fail()) { // Number input failed, skip the string
                 level.clear();
                 string dummy;
                 level >> dummy;
                 continue;
             }
+            //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan((i*8*4)-4,(j*8*4)-4,3);
-                    num = BLANK;
+                    player = f->createPacMan((i*tileWidth*scaling)-spawnOffset,
+                                             (j*tileHeigth*scaling)-spawnOffset,3);
+                    map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
-                    enemy1 = f->createGhost((i*8*4)-4,(j*8*4)-4,3,RED_GHOST);
-                    num = BLANK;
+                    enemies.emplace_back(factory->createGhost((i*tileWidth*scaling)-spawnOffset,
+                                                              (j*tileHeigth*scaling)-spawnOffset,3,RED_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                case PINK_GHOST_SPAWN:
+                    enemies.emplace_back(factory->createGhost((i*tileWidth*scaling)-spawnOffset,
+                                                              (j*tileHeigth*scaling)-spawnOffset,3,PINK_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                case BLUE_GHOST_SPAWN:
+                    enemies.emplace_back(factory->createGhost((i*tileWidth*scaling)-spawnOffset,
+                                                              (j*tileHeigth*scaling)-spawnOffset,3,BLUE_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                case ORANGE_GHOST_SPAWN:
+                    enemies.emplace_back(factory->createGhost((i*tileWidth*scaling)-spawnOffset,
+                                                              (j*tileHeigth*scaling)-spawnOffset,3,ORANGE_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                default:
+                    map[i][j] = num;
                     break;
             }
-
-            map[i][j] = num;
             j++;
-            if(j>=heigth){
+            if(j>=mapHeigth){
                 i++;
                 j = 0;
             }
-            cout << num << endl;
         }
-        for(int k = 0;k<width;k++){
+        //convert 2D array to 1D array of pointers
+        for(int k = 0;k<mapWidth;k++){
             b[k] = map[k];
         }
         level.close();
     }
-
     else{
-        cout << "Unable to open file";
-        return;
+        cout << "Error reading level file!";
+        return false;
     }
 
+    //Load the sprite sheet once
+    factory->loadMedia();
 
+    //Create the level tile map
+    tileMap = factory->createMap(mapWidth,mapHeigth);
+    tileMap->loadMap(b,BLUE_TILE);
 
-    Map* tiles = f->createMap(32,15);
-    tiles->loadMap(b,BLUE_TILE);
-    Event* events = f->createEventSystem();
-    //PacMan* player = f->createPacMan(460,280,3);
+    //Create event handler
+    events = factory->createEventSystem();
+    return true;
+}
+
+void Game::start() {
+
+    //Init game
+    bool quit = false;
 
 
     int playerDirection = DIR_LEFT;
     //Game loop
     while(!quit){
-        f->clear();
+        factory->clear();
         switch (events->getEvent()){
             case KEY_PRESS_QUIT:
                 quit = true;
@@ -102,29 +136,29 @@ void Game::start(Factory* f) {
         }
 
         player->move(playerDirection);
-
-        if(player->collision(enemy1)){
+/*
+        if(player->collision(enemies.at(1))){
             std::cout << "Player colliding with ghost1!" << std::endl;
         }
-
-        if(tiles->checkCollision(player)){
+*/
+        if(tileMap->checkCollision(player)){
             //std::cout << "Player colliding with a Tile!" << std::endl;
             player->pushBack();
         }
-
-        if(tiles->checkCollision(enemy1)){
-            enemy1->pushBack();
+/*
+        if(tileMap->checkCollision(enemies.at(1))){
+            enemies.at(1)->pushBack();
         }
 
-        tiles->visualize();
 
-        enemy1-> move(playerDirection);
-        enemy1->visualize();
+
+        enemies.at(1)-> move(playerDirection);
+        enemies.at(1)->visualize();*/ tileMap->visualize();
         player->visualize();
-        f->render();
+        factory->render();
     }
 
     //Close game
-    f->close();
+    factory->close();
 }
 

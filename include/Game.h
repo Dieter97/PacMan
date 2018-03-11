@@ -10,8 +10,22 @@
 
 class Game {
 public:
+    void start();
+    bool initGame(Factory* f);
 
-    void start( Factory* f);
+private:
+    int windowHeigth;
+    int windowWidth;
+    int mapHeigth;
+    int mapWidth;
+
+    Factory* factory;
+
+    //Entities
+    PacMan* player;
+    std::vector<Ghost*> enemies;
+    Map* tileMap;
+    Event* events;
 };
 
 
