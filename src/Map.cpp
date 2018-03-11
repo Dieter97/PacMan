@@ -35,7 +35,7 @@ bool Map::checkCollision(Entity *e) {
                     }
                     break;
                 case POINT_BIG:
-                    //BIG point
+                    //BIG point (energize)
                     result = tileMap[i][j]->collision(e);
                     if(result && e->getType() == PACMAN){
                         std::cout << "Bonus scored!" << std::endl;
