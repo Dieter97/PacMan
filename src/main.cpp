@@ -11,7 +11,6 @@ int main() {
         game->start();
     }
 
-
     delete(factory);
     return 0;
 }
