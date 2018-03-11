@@ -65,6 +65,11 @@ enum TilesTypes{
     FULL_T_TOP,
     WALL_T_DOWN,
     BLANK,
+    PLAYER_SPAWN,
+    RED_GHOST_SPAWN,
+    PINK_GHOST_SPAWN,
+    BLUE_GHOST_SPAWN,
+    ORANGE_GHOST_SPAWN
 };
 
 enum EntityType{

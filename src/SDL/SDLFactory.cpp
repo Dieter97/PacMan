@@ -25,10 +25,11 @@ SDLFactory::~SDLFactory() {
     close();
 }
 
-bool SDLFactory::initDisplay() {
+bool SDLFactory::initDisplay(int width,int heigth) {
     //Initialization flag
     bool success = true;
-
+    this->WINDOW_WIDTH = width;
+    this->WINDOW_HEIGTH = heigth;
     //Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;

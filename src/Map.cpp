@@ -29,7 +29,7 @@ bool Map::checkCollision(Entity *e) {
                     //POINT
                     result = tileMap[i][j]->collision(e);
                     if(result && e->getType() == PACMAN){
-                        std::cout << "Point scorred!" << std::endl;
+                        std::cout << "Point scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
                         return false;
                     }
@@ -38,7 +38,7 @@ bool Map::checkCollision(Entity *e) {
                     //BIG point
                     result = tileMap[i][j]->collision(e);
                     if(result && e->getType() == PACMAN){
-                        std::cout << "Bonus scorred!" << std::endl;
+                        std::cout << "Bonus scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
                         return false;
                     }

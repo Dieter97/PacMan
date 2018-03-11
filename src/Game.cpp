@@ -13,13 +13,23 @@
 using namespace std;
 
 void Game::start(Factory* f) {
+
+    //Init game
+    bool quit = false;
+    f->initDisplay(995,500);
+    f->loadMedia();
+
+
+    PacMan* player;
+    Ghost* enemy1;
     int *b[99];
     int map[99][99];
+    int heigth = 0,width = 0;
     string line;
     ifstream level ("../resources/level.map");
     if (level.is_open())
     {
-        int heigth = 0,width = 0;
+
         level >> width; level >> heigth;
         int i = 0,j = 0,num = 0;
         while(level >> num || !level.eof()) {
@@ -29,6 +39,17 @@ void Game::start(Factory* f) {
                 level >> dummy;
                 continue;
             }
+            switch (num){
+                case PLAYER_SPAWN:
+                    player = f->createPacMan((i*8*4)-4,(j*8*4)-4,3);
+                    num = BLANK;
+                    break;
+                case RED_GHOST_SPAWN:
+                    enemy1 = f->createGhost((i*8*4)-4,(j*8*4)-4,3,RED_GHOST);
+                    num = BLANK;
+                    break;
+            }
+
             map[i][j] = num;
             j++;
             if(j>=heigth){
@@ -48,18 +69,13 @@ void Game::start(Factory* f) {
         return;
     }
 
-    //Init game
-    bool quit = false;
-    f->initDisplay();
-    f->loadMedia();
+
 
     Map* tiles = f->createMap(32,15);
     tiles->loadMap(b,BLUE_TILE);
     Event* events = f->createEventSystem();
-    PacMan* player = f->createPacMan(250,26,3);
-    Ghost* enemy1 = f->createGhost(25,250,3,RED_GHOST);
-    Ghost* enemy2 = f->createGhost(180,250,2,BLUE_GHOST);
-    Ghost* enemy3 = f->createGhost(170,140,1,PINK_GHOST);
+    //PacMan* player = f->createPacMan(460,280,3);
+
 
     int playerDirection = DIR_LEFT;
     //Game loop
@@ -102,12 +118,8 @@ void Game::start(Factory* f) {
 
         tiles->visualize();
 
-        enemy1-> move(DIR_RIGHT);
+        enemy1-> move(playerDirection);
         enemy1->visualize();
-        enemy2-> move(DIR_LEFT);
-        enemy2->visualize();
-        enemy3-> move(DIR_RIGHT);
-        enemy3->visualize();
         player->visualize();
         f->render();
     }
