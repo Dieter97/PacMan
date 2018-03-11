@@ -43,6 +43,11 @@ bool Map::checkCollision(Entity *e) {
                         return false;
                     }
                     break;
+                case DOOR_HORIZONTAL:
+                    result = tileMap[i][j]->collision(e);
+                    if(result && e->getType() == PACMAN){
+                        return true;
+                    }
                 case BLANK:
                     //DO nothing
                     break;

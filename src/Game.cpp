@@ -49,7 +49,7 @@ bool Game::initGame(Factory* f) {
             switch (num){
                 case PLAYER_SPAWN:
                     player = f->createPacMan((i*tileWidth*scaling)-spawnOffset,
-                                             (j*tileHeigth*scaling)-spawnOffset,3);
+                                             (j*tileHeigth*scaling)-spawnOffset,4);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:

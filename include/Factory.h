@@ -22,7 +22,7 @@ public:
     //Tilemap parameters
     static const int TILE_HEIGTH = 8;
     static const int TILE_WIDTH = 8;
-    static const int TILE_SCALE = 3;
+    static const int TILE_SCALE = 4;
 
 public:
     virtual Ghost* createGhost(int posX,int posY,int speed,int color) = 0;
