@@ -4,7 +4,7 @@
 
 #include "../../include/Entity.h"
 
-Entity::Entity(int posX, int posY,int width,int heigth) : posX(posX), posY(posY), width(width), heigth(heigth) {
+Entity::Entity(int posX, int posY) : posX(posX), posY(posY) {
 }
 
 int Entity::getPosX() const {

@@ -9,7 +9,7 @@
 class Entity {
 protected:
 public:
-    Entity(int posX, int posY,int width,int height);
+    Entity(int posX, int posY);
 
     Entity();
 

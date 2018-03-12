@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Ghost::Ghost(int posX, int posY,int width,int heigth,int speed) : MovingEntity(posX, posY,width,heigth,speed){
+Ghost::Ghost(int posX, int posY,int speed) : MovingEntity(posX, posY,speed){
     this->type = GHOST;
     this->STATE = DIR_DOWN;
 }
