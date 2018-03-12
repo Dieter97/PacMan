@@ -25,13 +25,14 @@ private:
     SDLContext* context;
 
     //Windwow parameters
-    static const int WINDOW_WIDTH = 1024;
-    static const int WINDOW_HEIGTH = 720;
+    static const int WINDOW_WIDTH = 693;
+    static const int WINDOW_HEIGTH = 890;
 
     //Tile parameters
     static const int tileHeight = 15;
     static const int tileWidth = 15;
 
+    //TODO CALCULATE SCALE FACTOR AND USE TO FIT SCREEN
     //Scaling
     int SCALE;
 
