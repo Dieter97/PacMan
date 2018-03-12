@@ -112,6 +112,7 @@ void Game::start() {
 
 
     int playerDirection = DIR_LEFT;
+    int nextDirection = DIR_LEFT;
     //Game loop
     while(!quit){
         factory->clear();
@@ -120,22 +121,23 @@ void Game::start() {
                 quit = true;
                 break;
             case KEY_PRESS_SURFACE_RIGHT:
-                playerDirection = DIR_RIGHT;
+                nextDirection = DIR_RIGHT;
                 break;
             case KEY_PRESS_SURFACE_LEFT:
-                playerDirection = DIR_LEFT;
+                nextDirection = DIR_LEFT;
                 break;
             case KEY_PRESS_SURFACE_UP:
-                playerDirection = DIR_UP;
+                nextDirection = DIR_UP;
                 break;
             case KEY_PRESS_SURFACE_DOWN:
-                playerDirection = DIR_DOWN;
+                nextDirection = DIR_DOWN;
                 break;
             default:
                 break;
         }
 
-        player->move(playerDirection);
+
+        player->move(nextDirection);
 
         //Render map
         tileMap->visualize();
@@ -144,6 +146,12 @@ void Game::start() {
         if(tileMap->checkCollision(player)){
             //std::cout << "Player colliding with a Tile!" << std::endl;
             player->pushBack();
+            player->move(playerDirection);
+            if(tileMap->checkCollision(player)){
+                player->pushBack();
+            }
+        }else{
+            playerDirection = nextDirection;
         }
 
         //Collision for enemies
@@ -156,7 +164,7 @@ void Game::start() {
                 //TODO HANDLE ENEMY COLLISION
                 cout << "Player colliding with a ghost!" << endl;
             }
-            //enemy-> move(playerDirection);
+            enemy-> move(playerDirection);
             enemy->visualize();
         }
 

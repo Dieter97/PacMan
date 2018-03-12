@@ -31,7 +31,7 @@ bool Map::checkCollision(Entity *e) {
                     if(result && e->getType() == PACMAN){
                         std::cout << "Point scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
-                        return false;
+                        return true;
                     }
                     break;
                 case POINT_BIG:
@@ -40,7 +40,7 @@ bool Map::checkCollision(Entity *e) {
                     if(result && e->getType() == PACMAN){
                         std::cout << "Bonus scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
-                        return false;
+                        return true;
                     }
                     break;
                 case DOOR_HORIZONTAL:

@@ -24,7 +24,6 @@ public:
 
     void setType(int type);
 
-public:
     int getPosX() const;
 
     void setPosX(int posX);
