@@ -30,7 +30,7 @@ void SDLContext::setWindowWidth(int windowWidth) {
 
 SDLContext::SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth,int tileHeight) :
         renderer(renderer), windowHeigth(windowHeigth), windowWidth(windowWidth), tilewidth(tileWidth),tileHeigth(tileHeight){
-    SCALE_FACTOR = 2;
+    SCALE_FACTOR = 2.2;
 }
 
 SDL_Texture *SDLContext::getSpriteSheet() const {

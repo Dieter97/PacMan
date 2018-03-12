@@ -15,9 +15,9 @@
 class Factory {
 
 public:
-    virtual Ghost* createGhost(int posX,int posY,int speed,int color) = 0;
-    virtual PacMan* createPacMan(int posX,int posY,int speed) = 0;
-    virtual Tile* createTile(int posX,int posY,int tileType,int tileColor) = 0;
+    virtual Ghost* createGhost(float posX,float posY,float speed,int color) = 0;
+    virtual PacMan* createPacMan(float posX,float posY,float speed) = 0;
+    virtual Tile* createTile(float posX,float posY,int tileType,int tileColor) = 0;
     virtual Event* createEventSystem() = 0;
     virtual Map* createMap(int width,int heigth) = 0;
     virtual bool initDisplay() = 0;

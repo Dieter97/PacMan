@@ -4,7 +4,7 @@
 
 #include "../../include/SDLTile.h"
 
-SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
+SDLTile::SDLTile( float posX, float posY, int type, int color, SDLContext *context)
         : Tile(posX, posY,type) {
     this->context = context;
     this->COLOR = color;

@@ -25,7 +25,7 @@ void SDLPacMan::visualize() {
     }
 }
 
-SDLPacMan::SDLPacMan(int posX, int posY,int speed,SDLContext* context) :
+SDLPacMan::SDLPacMan(float posX, float posY,float speed,SDLContext* context) :
         PacMan(posX,posY,speed) {
     cout << "Creating SDLPacMan" << endl;
     this->context = context;

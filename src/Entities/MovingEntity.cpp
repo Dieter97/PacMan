@@ -5,7 +5,7 @@
 #include "../../include/MovingEntity.h"
 #include "../../include/Types.h"
 
-MovingEntity::MovingEntity(int posX, int posY,int speed) : Entity(posX, posY) {
+MovingEntity::MovingEntity(float posX, float posY,float speed) : Entity(posX, posY) {
     this->speed = speed;
 }
 

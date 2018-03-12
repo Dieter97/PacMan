@@ -5,7 +5,7 @@
 #include "../../include/PacMan.h"
 #include "../../include/Types.h"
 
-PacMan::PacMan(int posX, int posY, int speed) : MovingEntity(posX, posY, speed) {
+PacMan::PacMan(float posX, float posY, float speed) : MovingEntity(posX, posY, speed) {
     this->type = PACMAN;
     this->STATE = DIR_LEFT;
 }

@@ -11,7 +11,7 @@
 class Ghost : public MovingEntity {
 
 public:
-    Ghost(int posX, int posY,int speed);
+    Ghost(float posX, float posY,float speed);
 };
 
 

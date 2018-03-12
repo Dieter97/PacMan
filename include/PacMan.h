@@ -10,7 +10,7 @@
 
 class PacMan : public MovingEntity {
 public:
-    PacMan(int posX, int posY, int speed);
+    PacMan(float posX, float posY, float speed);
 };
 
 

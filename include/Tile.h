@@ -13,7 +13,7 @@ public:
 
     Tile();
 
-    Tile(int posX, int posY, int tileType);
+    Tile(float posX, float posY, int tileType);
 
     int getTILETYPE() const;
 

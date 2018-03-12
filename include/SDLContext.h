@@ -20,7 +20,7 @@ protected:
     int tileHeigth;
 
     //Scaling
-    int SCALE_FACTOR = 2;
+    float SCALE_FACTOR;
 
     SDL_Renderer* renderer;
     SDL_Texture* spriteSheet;

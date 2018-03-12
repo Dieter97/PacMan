@@ -36,9 +36,9 @@ private:
     int SCALE;
 
 public:
-    Ghost* createGhost(int posX,int posY,int speed,int color) override;
-    PacMan* createPacMan(int posX,int posY,int speed) override;
-    Tile* createTile(int posX,int posY,int tileType,int tileColor) override ;
+    Ghost* createGhost(float posX,float posY,float speed,int color) override;
+    PacMan* createPacMan(float posX,float posY,float speed) override;
+    Tile* createTile(float posX,float posY,int tileType,int tileColor) override ;
     Event* createEventSystem() override ;
     Map* createMap(int width,int height) override ;
     bool initDisplay() override ;

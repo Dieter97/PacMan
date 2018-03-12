@@ -9,15 +9,15 @@
 #include "../../include/SDLTile.h"
 #include "../../include/SDLMap.h"
 
-Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
+Ghost *SDLFactory::createGhost(float posX, float posY,float speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
 }
 
-PacMan *SDLFactory::createPacMan(int posX, int posY, int speed) {
+PacMan *SDLFactory::createPacMan(float posX, float posY, float speed) {
     return new SDLPacMan(posX, posY,speed, context);
 }
 
-Tile *SDLFactory::createTile(int posX, int posY, int tileType, int tileColor) {
+Tile *SDLFactory::createTile(float posX, float posY, int tileType, int tileColor) {
     return new SDLTile(posX, posY,tileType,tileColor, context);;
 }
 

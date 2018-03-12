@@ -11,9 +11,9 @@
 class MovingEntity : public Entity {
 protected:
     int STATE;
-    int speed;
+    float speed;
 public:
-    MovingEntity(int posX, int posY, int speed);
+    MovingEntity(float posX, float posY, float speed);
 
 public:
     void move(int direction);

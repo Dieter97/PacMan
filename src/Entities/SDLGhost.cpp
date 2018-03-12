@@ -40,7 +40,7 @@ void SDLGhost::visualize() {
 
 }
 
-SDLGhost::SDLGhost(int posX, int posY,int speed,int color,SDLContext* context) :
+SDLGhost::SDLGhost(float posX, float posY,float speed,int color,SDLContext* context) :
         Ghost(posX,posY,speed) {
     cout << "Creating SDLGhost" << endl;
     this->context = context;

@@ -9,28 +9,28 @@
 class Entity {
 protected:
 public:
-    Entity(int posX, int posY);
+    Entity(float posX, float posY);
 
     Entity();
 
 protected:
-    int posX;
-    int posY;
-    static const int width=1;
-    static const int heigth=1;
+    float posX;
+    float posY;
+    static const int width = 1.0;
+    static const int heigth = 1.0;
     int type;
 public:
     int getType() const;
 
     void setType(int type);
 
-    int getPosX() const;
+    float getPosX() const;
 
-    void setPosX(int posX);
+    void setPosX(float posX);
 
-    int getPosY() const;
+    float getPosY() const;
 
-    void setPosY(int posY);
+    void setPosY(float posY);
 
     virtual void visualize() = 0;
 

@@ -11,7 +11,7 @@
 
 class SDLTile : public Tile {
 public:
-    SDLTile(int posX, int posY, int type, int color, SDLContext *context);
+    SDLTile(float posX, float posY, int type, int color, SDLContext *context);
 
     void visualize() override;
     void setTILETYPE(int type) override ;

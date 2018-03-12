@@ -11,7 +11,7 @@
 
 class SDLPacMan : public PacMan{
 public:
-    SDLPacMan(int posX, int posY, int speed, SDLContext *context);
+    SDLPacMan(float posX, float posY, float speed, SDLContext *context);
 
     void visualize() override;
 

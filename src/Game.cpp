@@ -41,23 +41,23 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,1);
+                    player = f->createPacMan(i, j,0.125);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,3,RED_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125,RED_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case PINK_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,3,PINK_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125,PINK_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case BLUE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,3,BLUE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125,BLUE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case ORANGE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,3,ORANGE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125,ORANGE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 default:
@@ -149,7 +149,7 @@ void Game::start() {
                 //TODO HANDLE ENEMY COLLISION
                 cout << "Player colliding with a ghost!" << endl;
             }
-            //enemy-> move(playerDirection);
+            enemy-> move(nextDirection);
             enemy->visualize();
         }
 
