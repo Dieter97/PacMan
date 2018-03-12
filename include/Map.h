@@ -12,11 +12,6 @@
 
 class Map {
 protected:
-    //Parameters of one tile
-    int TILE_WIDTH;
-    int TILE_HEIGHT;
-
-
     //Parameters of the entire map
     int MAP_WIDTH;
     int MAP_HEIGHT;
@@ -24,7 +19,7 @@ protected:
     Tile ***tileMap;
 
 public:
-    Map(int width,int height,int tileWidth,int tileHeigth);
+    Map(int width,int height);
     virtual void visualize() = 0;
     virtual void loadMap(int** map,int COLOR) = 0;
     bool checkCollision(Entity* e);

@@ -4,7 +4,7 @@
 
 #include "../../include/Entity.h"
 
-Entity::Entity(int posX, int posY) : posX(posX), posY(posY) {
+Entity::Entity(int posX, int posY) : posX(posX), posY(posY){
 }
 
 int Entity::getPosX() const {
@@ -26,53 +26,10 @@ void Entity::setPosY(int posY) {
 Entity::Entity() {
     posX = 0;
     posY = 0;
-    width = 0;
-    heigth = 0;
 }
 
 bool Entity::collision(const Entity *e) {
-    //The sides of the rectangles
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
-
-    //Calculate the sides of rect A
-    leftA = this->posX;
-    rightA = this->posX + this->width;
-    topA = this->posY;
-    bottomA = this->posY + this->heigth;
-
-    //Calculate the sides of rect B
-    leftB = e->posX;
-    rightB = e->posX + e->width;
-    topB = e->posY;
-    bottomB = e->posY + e->heigth;
-
-
-    //If any of the sides from A are outside of B
-    if( bottomA <= topB )
-    {
-        return false;
-    }
-
-    if( topA >= bottomB )
-    {
-        return false;
-    }
-
-    if( rightA <= leftB )
-    {
-        return false;
-    }
-
-    if( leftA >= rightB )
-    {
-        return false;
-    }
-
-    //If none of the sides from A are outside B
-    return true;
+    return (e->getPosY() == this->getPosY() && e->getPosX() == this->getPosX());
 }
 
 int Entity::getType() const {

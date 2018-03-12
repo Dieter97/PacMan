@@ -9,8 +9,8 @@ SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
     this->context = context;
     this->COLOR = color;
 
-    int spriteY = 296 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
-    int spriteX = 61 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
+    int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
+    int spriteX = 6 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
 
     sprite = new SDL_Rect();
     sprite->x = spriteX;
@@ -21,14 +21,17 @@ SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
 }
 
 void SDLTile::visualize() {
-    SDL_Rect position = {posX, posY, spriteHeigth * SPRITE_SCALE, spriteWidth * SPRITE_SCALE};
+    SDL_Rect position = {posX*context->getTilewidth()*(context->getSCALE_FACTOR()),
+                         posY*context->getTileHeigth()*(context->getSCALE_FACTOR()),
+                         spriteWidth * (context->getSCALE_FACTOR()),
+                         spriteHeigth*(context->getSCALE_FACTOR())};
     SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprite , &position, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
 void SDLTile::setTILETYPE(int type) {
     Tile::setTILETYPE(type);
-    int spriteY = 296 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
-    int spriteX = 61 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
+    int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
+    int spriteX = 6 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
 
     sprite = new SDL_Rect();
     sprite->x = spriteX;

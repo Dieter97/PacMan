@@ -25,11 +25,9 @@ SDLFactory::~SDLFactory() {
     close();
 }
 
-bool SDLFactory::initDisplay(int width,int heigth) {
+bool SDLFactory::initDisplay() {
     //Initialization flag
     bool success = true;
-    this->WINDOW_WIDTH = width;
-    this->WINDOW_HEIGTH = heigth;
     //Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
@@ -57,7 +55,8 @@ bool SDLFactory::initDisplay(int width,int heigth) {
                     std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
                     success = false;
                 } else {
-                    context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH);
+                    context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight);
+                    this->loadMedia();
                 }
             }
         }
@@ -70,7 +69,7 @@ bool SDLFactory::loadMedia() {
     //Loading success flag
     bool success = true;
     SDL_Texture *texture;
-    SDL_Surface *loadedSurface = IMG_Load("../resources/sprites.png");
+    SDL_Surface *loadedSurface = IMG_Load("../resources/sprites2.png");
     if (loadedSurface == nullptr) {
         std::cout << "Unable to load image! SDL_image Error: " << IMG_GetError() << std::endl;
         success = false;
@@ -124,5 +123,5 @@ Event *SDLFactory::createEventSystem() {
 }
 
 Map *SDLFactory::createMap(int width, int height) {
-    return new SDLMap(width,height,TILE_WIDTH*TILE_SCALE,TILE_HEIGTH*TILE_SCALE,context);
+    return new SDLMap(width,height,context);
 }

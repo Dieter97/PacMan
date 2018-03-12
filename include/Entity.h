@@ -16,8 +16,8 @@ public:
 protected:
     int posX;
     int posY;
-    int width;
-    int heigth;
+    static const int width=1;
+    static const int heigth=1;
     int type;
 public:
     int getType() const;

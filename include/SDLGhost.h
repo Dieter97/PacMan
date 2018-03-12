@@ -24,8 +24,8 @@ private:
     static const int ANIMATION_SPEED = 8;
 
     //Sprite
-    static const int spriteWidth = 16;
-    static const int spriteHeigth = 16;
+    static const int spriteWidth = 15;
+    static const int spriteHeigth = 15;
     static const int SPRITE_SCALE = 3;
     static const int HIT_BOX_OFFSET = 4;
     int COLOR;

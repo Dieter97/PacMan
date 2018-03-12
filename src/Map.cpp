@@ -6,11 +6,9 @@
 #include "../include/Map.h"
 #include "../include/Types.h"
 
-Map::Map(int width, int height, int tileWidth, int tileHeigth) {
+Map::Map(int width, int height) {
     MAP_HEIGHT = height;
     MAP_WIDTH = width;
-    TILE_WIDTH = tileWidth;
-    TILE_HEIGHT = tileHeigth;
 
     //Dynamically fill array with empty (abstract) tiles
     tileMap = new Tile **[MAP_WIDTH];

@@ -13,16 +13,6 @@
 #include "Map.h"
 
 class Factory {
-public:
-
-    //Window parameters
-    int WINDOW_WIDTH=995;
-    int WINDOW_HEIGTH=500;
-
-    //Tilemap parameters
-    static const int TILE_HEIGTH = 8;
-    static const int TILE_WIDTH = 8;
-    static const int TILE_SCALE = 4;
 
 public:
     virtual Ghost* createGhost(int posX,int posY,int speed,int color) = 0;
@@ -30,7 +20,7 @@ public:
     virtual Tile* createTile(int posX,int posY,int tileType,int tileColor) = 0;
     virtual Event* createEventSystem() = 0;
     virtual Map* createMap(int width,int heigth) = 0;
-    virtual bool initDisplay(int windowWidth,int windowHeight) = 0;
+    virtual bool initDisplay() = 0;
     virtual bool loadMedia() = 0;
     virtual void close() = 0;
     virtual void render() = 0;

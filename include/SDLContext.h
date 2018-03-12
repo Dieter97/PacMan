@@ -10,8 +10,18 @@
 
 class SDLContext {
 protected:
+
+    //Window parameters
     int windowHeigth;
     int windowWidth;
+
+    //Tile parameters
+    int tilewidth;
+    int tileHeigth;
+
+    //Scaling
+    int SCALE_FACTOR = 2;
+
     SDL_Renderer* renderer;
     SDL_Texture* spriteSheet;
 public:
@@ -19,7 +29,7 @@ public:
 
     void setSpriteSheet(SDL_Texture *spriteSheet);
 
-    SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth);
+    SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth, int tileHeigth);
 
     SDL_Renderer *getRenderer() const;
 
@@ -32,6 +42,12 @@ public:
     int getWindowWidth() const;
 
     void setWindowWidth(int windowWidth);
+
+    int getTilewidth() const;
+
+    int getTileHeigth() const;
+
+    double getSCALE_FACTOR() const;
 };
 
 
