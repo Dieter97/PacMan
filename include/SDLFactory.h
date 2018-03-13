@@ -25,8 +25,8 @@ private:
     SDLContext* context;
 
     //Windwow parameters
-    static const int WINDOW_WIDTH = 1280;
-    static const int WINDOW_HEIGTH = 1024;
+    static const int WINDOW_WIDTH = 1024;
+    static const int WINDOW_HEIGTH = 800;
 
     //Tile parameters
     static const int tileHeight = 15;

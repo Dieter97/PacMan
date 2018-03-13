@@ -29,7 +29,6 @@ void MovingEntity::move(int direction) {
     }
 }
 
-
 void MovingEntity::pushBack(){
     switch (this->STATE){
         case DIR_UP:

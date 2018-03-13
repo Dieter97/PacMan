@@ -15,7 +15,6 @@ protected:
 public:
     MovingEntity(float posX, float posY, float speed);
 
-public:
     void move(int direction);
 
     void pushBack();

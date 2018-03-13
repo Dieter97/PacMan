@@ -21,7 +21,7 @@ bool Game::initGame(Factory* f) {
     int *b[99];
     int map[99][99];
     string line;
-    ifstream level ("../resources/level2.map");
+    ifstream level ("../resources/level.map");
     if (level.is_open())
     {
         //Read map parameters from level file
@@ -41,7 +41,7 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.125f);
+                    player = f->createPacMan(i, j,0.125);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:

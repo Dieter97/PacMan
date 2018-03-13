@@ -38,16 +38,16 @@ bool Entity::collision(const Entity *e) {
 
 /*
     //Calculate the sides of rect A
-    leftA = floorf(this->getPosX());
-    rightA = floorf(this->getPosX()) + this->width;
-    topA = floorf(this->getPosY());
-    bottomA = floorf(this->getPosY()) + this->heigth;
+    leftA = roundf(this->getPosX());
+    rightA = roundf(this->getPosX()) + this->width;
+    topA = roundf(this->getPosY());
+    bottomA = roundf(this->getPosY()) + this->heigth;
 
     //Calculate the sides of rect B
-    leftB = floorf(e->getPosX());
-    rightB = floorf(e->getPosX()) + e->width;
-    topB = floorf(e->getPosY());
-    bottomB = floorf(e->getPosY()) + e->heigth;
+    leftB = roundf(e->getPosX());
+    rightB = roundf(e->getPosX()) + e->width;
+    topB = roundf(e->getPosY());
+    bottomB = roundf(e->getPosY()) + e->heigth;
 */
     //Calculate the sides of rect A
     leftA = this->getPosX();
