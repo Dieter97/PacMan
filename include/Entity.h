@@ -16,8 +16,8 @@ public:
 protected:
     float posX;
     float posY;
-    static const int width = 1.0;
-    static const int heigth = 1.0;
+    static const int width = 1;
+    static const int heigth = 1;
     int type;
 public:
     int getType() const;
@@ -35,6 +35,7 @@ public:
     virtual void visualize() = 0;
 
     bool collision(const Entity* e);
+
 };
 
 

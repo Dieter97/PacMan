@@ -16,8 +16,8 @@ protected:
     int windowWidth;
 
     //Tile parameters
-    int tilewidth;
-    int tileHeigth;
+    float tilewidth;
+    float tileHeigth;
 
     //Scaling
     float SCALE_FACTOR;
@@ -29,7 +29,7 @@ public:
 
     void setSpriteSheet(SDL_Texture *spriteSheet);
 
-    SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth, int tileHeigth);
+    SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth, int tileHeigth,float scale);
 
     SDL_Renderer *getRenderer() const;
 
@@ -43,9 +43,9 @@ public:
 
     void setWindowWidth(int windowWidth);
 
-    int getTilewidth() const;
+    float getTilewidth() const;
 
-    int getTileHeigth() const;
+    float getTileHeigth() const;
 
     double getSCALE_FACTOR() const;
 };

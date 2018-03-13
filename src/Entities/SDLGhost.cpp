@@ -11,22 +11,12 @@ using namespace std;
 
 void SDLGhost::visualize() {
     // Create render position and render
-    if(posX>context->getWindowHeigth()){
-        posX = -spriteHeigth;
-    }
-    if(posY>context->getWindowWidth()){
-        posY = -spriteWidth;
-    }
-    if(posX<-spriteHeigth){
-        posX = context->getWindowHeigth();
-    }
-    if(posY<-spriteWidth){
-        posY = context->getWindowWidth();
-    }
-    SDL_Rect position = {posX*context->getTilewidth()*(context->getSCALE_FACTOR()),
-                         posY*context->getTileHeigth()*(context->getSCALE_FACTOR()),
-                         spriteWidth * context->getSCALE_FACTOR(),
-                         spriteHeigth * context->getSCALE_FACTOR()};
+    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())));
+    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())));
+    int SDLHeigth = (int)(spriteWidth * context->getSCALE_FACTOR());
+    int SDLWidth = (int)(spriteHeigth * context->getSCALE_FACTOR());
+
+    SDL_Rect position = {SDLPosX,SDLPosY,SDLWidth,SDLHeigth};
     SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprites[STATE][frame / ANIMATION_SPEED], &position, 0.0, nullptr, SDL_FLIP_NONE);
 
     //Go to next frame

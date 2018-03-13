@@ -25,16 +25,12 @@ private:
     SDLContext* context;
 
     //Windwow parameters
-    static const int WINDOW_WIDTH = 693;
-    static const int WINDOW_HEIGTH = 890;
+    static const int WINDOW_WIDTH = 630;
+    static const int WINDOW_HEIGTH = 1024;
 
     //Tile parameters
     static const int tileHeight = 15;
     static const int tileWidth = 15;
-
-    //TODO CALCULATE SCALE FACTOR AND USE TO FIT SCREEN
-    //Scaling
-    int SCALE;
 
 public:
     Ghost* createGhost(float posX,float posY,float speed,int color) override;
@@ -42,7 +38,7 @@ public:
     Tile* createTile(float posX,float posY,int tileType,int tileColor) override ;
     Event* createEventSystem() override ;
     Map* createMap(int width,int height) override ;
-    bool initDisplay() override ;
+    bool initDisplay(int mapWidth ,int mapHeight) override ;
     bool loadMedia() override ;
     void close() override;
     void render() override ;

@@ -28,9 +28,9 @@ void SDLContext::setWindowWidth(int windowWidth) {
     SDLContext::windowWidth = windowWidth;
 }
 
-SDLContext::SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth,int tileHeight) :
-        renderer(renderer), windowHeigth(windowHeigth), windowWidth(windowWidth), tilewidth(tileWidth),tileHeigth(tileHeight){
-    SCALE_FACTOR = 2.2;
+SDLContext::SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth,int tileHeight,float scale) :
+        renderer(renderer), windowHeigth(windowHeigth), windowWidth(windowWidth),
+        tilewidth(tileWidth),tileHeigth(tileHeight), SCALE_FACTOR(scale){
 }
 
 SDL_Texture *SDLContext::getSpriteSheet() const {
@@ -41,11 +41,11 @@ void SDLContext::setSpriteSheet(SDL_Texture *spriteSheet) {
     SDLContext::spriteSheet = spriteSheet;
 }
 
-int SDLContext::getTilewidth() const {
+float SDLContext::getTilewidth() const {
     return tilewidth;
 }
 
-int SDLContext::getTileHeigth() const {
+float SDLContext::getTileHeigth() const {
     return tileHeigth;
 }
 

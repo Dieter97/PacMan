@@ -48,3 +48,18 @@ void MovingEntity::pushBack(){
             break;
     }
 }
+
+void MovingEntity::checkMapBounds(int mapWidth, int mapHeigth) {
+    if(this->getPosX() > mapWidth){
+        this->setPosX(-1);
+    }
+    if(this->getPosX() < -1){
+        this->setPosX(mapWidth);
+    }
+    if(this->getPosY() > mapHeigth){
+        this->setPosY(-1);
+    }
+    if(this->getPosY() < -1){
+        this->setPosY(mapHeigth);
+    }
+}

@@ -27,7 +27,7 @@ bool Game::initGame(Factory* f) {
         //Read map parameters from level file
         level >> mapWidth; level >> mapHeigth;
 
-        factory->initDisplay();
+        factory->initDisplay(mapWidth,mapHeigth);
 
         //Read the entire map from the file
         int i = 0,j = 0,num = 0;
@@ -41,23 +41,23 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.125);
+                    player = f->createPacMan(i, j,0.125f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125,RED_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,RED_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case PINK_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125,PINK_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,PINK_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case BLUE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125,BLUE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,BLUE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case ORANGE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125,ORANGE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,ORANGE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 default:
@@ -139,6 +139,8 @@ void Game::start() {
             playerDirection = nextDirection;
         }
 
+        player->checkMapBounds(mapWidth,mapHeigth);
+
         //Collision for enemies
         for(auto const& enemy: enemies){
             if(tileMap->checkCollision(enemy)){
@@ -150,6 +152,7 @@ void Game::start() {
                 cout << "Player colliding with a ghost!" << endl;
             }
             enemy-> move(nextDirection);
+            enemy->checkMapBounds(mapWidth,mapHeigth);
             enemy->visualize();
         }
 

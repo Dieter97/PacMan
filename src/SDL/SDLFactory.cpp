@@ -18,14 +18,14 @@ PacMan *SDLFactory::createPacMan(float posX, float posY, float speed) {
 }
 
 Tile *SDLFactory::createTile(float posX, float posY, int tileType, int tileColor) {
-    return new SDLTile(posX, posY,tileType,tileColor, context);;
+    return new SDLTile(posX, posY,tileType,tileColor, context);
 }
 
 SDLFactory::~SDLFactory() {
     close();
 }
 
-bool SDLFactory::initDisplay() {
+bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
     //Initialization flag
     bool success = true;
     //Initialize SDL
@@ -55,7 +55,17 @@ bool SDLFactory::initDisplay() {
                     std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
                     success = false;
                 } else {
-                    context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight);
+
+                    float scale1 = (float)WINDOW_HEIGTH/((float)tileHeight*(float)mapHeight);
+                    float scale2 = (float)WINDOW_WIDTH/((float)tileWidth*(float)mapWidth);
+                    if(scale1 < scale2){
+                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,scale1);
+                        std::cout << "Using scale factor: " << scale1 << std::endl;
+                    }else{
+                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,scale2);
+                        std::cout << "Using scale factor: " << scale2 << std::endl;
+                    }
+
                     this->loadMedia();
                 }
             }

@@ -19,6 +19,8 @@ public:
     void move(int direction);
 
     void pushBack();
+
+    void checkMapBounds(int mapWidth,int mapHeigth) ;
 };
 
 
