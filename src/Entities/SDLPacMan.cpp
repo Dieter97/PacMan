@@ -12,8 +12,8 @@ void SDLPacMan::visualize() {
     // Create render position and render
     int SDLHeigth = (int)(spriteWidth * context->getSCALE_FACTOR());
     int SDLWidth = (int)(spriteHeigth * context->getSCALE_FACTOR());
-    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())));
-    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())));
+    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();;
+    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();;
 
 
     SDL_Rect position = {SDLPosX,SDLPosY,SDLWidth,SDLHeigth};

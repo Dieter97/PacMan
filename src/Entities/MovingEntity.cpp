@@ -2,6 +2,7 @@
 // Created by dieter on 05/03/18.
 //
 
+#include <cmath>
 #include "../../include/MovingEntity.h"
 #include "../../include/Types.h"
 
@@ -50,15 +51,15 @@ void MovingEntity::pushBack(){
 
 void MovingEntity::checkMapBounds(int mapWidth, int mapHeigth) {
     if(this->getPosX() > mapWidth){
-        this->setPosX(-1);
+        this->setPosX(0);
     }
-    if(this->getPosX() < -1){
+    if(this->getPosX() < 0){
         this->setPosX(mapWidth);
     }
     if(this->getPosY() > mapHeigth){
-        this->setPosY(-1);
+        this->setPosY(0);
     }
-    if(this->getPosY() < -1){
+    if(this->getPosY() < 0){
         this->setPosY(mapHeigth);
     }
 }

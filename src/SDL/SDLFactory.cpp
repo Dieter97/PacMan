@@ -28,16 +28,20 @@ SDLFactory::~SDLFactory() {
 bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
     //Initialization flag
     bool success = true;
+
     int usedWindowWidth = WINDOW_WIDTH;
     int usedWindowHeigth = WINDOW_HEIGTH;
+    int x_off=0, y_off=0;
 
     float scale1 = (float)WINDOW_HEIGTH/((float)tileHeight*(float)mapHeight);
     float scale2 = (float)WINDOW_WIDTH/((float)tileWidth*(float)mapWidth);
 
     if(scale1 < scale2){
         usedWindowWidth = (int)(scale1 * tileWidth * mapWidth);
+        x_off = (WINDOW_WIDTH - usedWindowWidth)/2;
     }else{
         usedWindowHeigth = (int)(scale2 * tileHeight * mapHeight);
+        y_off = (WINDOW_HEIGTH - usedWindowHeigth)/2;
     }
 
     //Initialize SDL
@@ -46,7 +50,7 @@ bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
         success = false;
     } else {
         //Create window
-        gWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, usedWindowWidth, usedWindowHeigth,
+        gWindow = SDL_CreateWindow("PacMan", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGTH,
                                    SDL_WINDOW_SHOWN);
         if (gWindow == nullptr) {
             std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
@@ -70,10 +74,12 @@ bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
 
 
                     if(scale1 < scale2){
-                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,scale1);
+                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,
+                                                 scale1,x_off,y_off);
                         std::cout << "Using scale factor: " << scale1 << std::endl;
                     }else{
-                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,scale2);
+                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,
+                                                 scale2,x_off,y_off);
                         std::cout << "Using scale factor: " << scale2 << std::endl;
                     }
                     //SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);

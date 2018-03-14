@@ -13,7 +13,7 @@ float Entity::getPosX() const {
 }
 
 void Entity::setPosX(float posX) {
-    Entity::posX = posX;
+    this->posX = posX;
 }
 
 float Entity::getPosY() const {
@@ -21,7 +21,7 @@ float Entity::getPosY() const {
 }
 
 void Entity::setPosY(float posY) {
-    Entity::posY = posY;
+    posY = posY;
 }
 
 Entity::Entity() {
@@ -30,7 +30,7 @@ Entity::Entity() {
 }
 
 bool Entity::collision(const Entity *e) {
-    //The sides of the rectangles
+   //The sides of the rectangles
     float leftA, leftB;
     float rightA, rightB;
     float topA, topB;
@@ -61,6 +61,9 @@ bool Entity::collision(const Entity *e) {
     topB = e->getPosY();
     bottomB = e->getPosY() + e->heigth;
 
+    float test;
+    test = leftA - floorf(leftA);
+
     //If any of the sides from A are outside of B
     if( bottomA <= topB )
     {
@@ -83,9 +86,11 @@ bool Entity::collision(const Entity *e) {
     }
 
     //If none of the sides from A are outside B
-    return true;
-
-    return (floor(e->getPosY()) == floor(this->getPosY()) && floor(e->getPosX()) == floor(this->getPosX()));
+    return true;/*
+    bool result_floor,result_ceil;
+    result_floor = ((e->getPosY()) == (this->getPosY()) && (e->getPosX()) == (this->getPosX()));
+    result_ceil = (ceilf(e->getPosY()) == ceilf(this->getPosY()) && ceilf(e->getPosX()) == ceilf(this->getPosX()));
+    return result_ceil;// || result_floor;*/
 }
 
 int Entity::getType() const {
@@ -95,3 +100,4 @@ int Entity::getType() const {
 void Entity::setType(int type) {
     Entity::type = type;
 }
+

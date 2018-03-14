@@ -21,8 +21,8 @@ SDLTile::SDLTile( float posX, float posY, int type, int color, SDLContext *conte
 }
 
 void SDLTile::visualize() {
-    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())));
-    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())));
+    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();;
+    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();;
     int SDLHeigth = (int)ceilf((float)(spriteWidth * context->getSCALE_FACTOR()));
     int SDLWidth = (int)ceilf((float)((spriteHeigth * context->getSCALE_FACTOR())));
 

@@ -41,7 +41,7 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.125);
+                    player = f->createPacMan(i, j,0.125f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
@@ -139,7 +139,7 @@ void Game::start() {
             playerDirection = nextDirection;
         }
 
-        player->checkMapBounds(mapWidth,mapHeigth);
+        player->checkMapBounds(mapWidth-1,mapHeigth-1);
 
         //Collision for enemies
         for(auto const& enemy: enemies){

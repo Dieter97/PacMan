@@ -25,7 +25,7 @@ bool Map::checkCollision(Entity *e) {
             switch (type){
                 case POINT_SMALL:
                     //POINT
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
                     if(result && e->getType() == PACMAN){
                         std::cout << "Point scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
@@ -34,7 +34,7 @@ bool Map::checkCollision(Entity *e) {
                     break;
                 case POINT_BIG:
                     //BIG point (energize)
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
                     if(result && e->getType() == PACMAN){
                         std::cout << "Bonus scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
@@ -42,7 +42,7 @@ bool Map::checkCollision(Entity *e) {
                     }
                     break;
                 case DOOR_HORIZONTAL:
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
                     if(result && e->getType() == PACMAN){
                         return true;
                     }
@@ -51,7 +51,7 @@ bool Map::checkCollision(Entity *e) {
                     break;
                 default:
                     //Check regular collision with wall
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
 
                     if(result){
                         return result;
