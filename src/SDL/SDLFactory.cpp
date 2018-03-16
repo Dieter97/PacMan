@@ -82,7 +82,7 @@ bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
                                                  scale2,x_off,y_off);
                         std::cout << "Using scale factor: " << scale2 << std::endl;
                     }
-                    //SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+                    SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
                     this->loadMedia();
                 }
