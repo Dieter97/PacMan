@@ -81,10 +81,10 @@ bool Game::initGame(Factory* f) {
         return false;
     }
 
+
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
     tileMap->loadMap(b,BLUE_TILE);
-
     //Create event handler
     events = factory->createEventSystem();
     return true;
@@ -151,7 +151,7 @@ void Game::start() {
                 //TODO HANDLE ENEMY COLLISION
                 cout << "Player colliding with a ghost!" << endl;
             }
-            enemy-> move(nextDirection);
+            enemy-> move(enemy->getNextDirection());
             enemy->checkMapBounds(mapWidth,mapHeigth);
             enemy->visualize();
         }

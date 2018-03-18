@@ -17,12 +17,17 @@ protected:
     int MAP_HEIGHT;
 
     Tile ***tileMap;
-
 public:
+
     Map(int width,int height);
     virtual void visualize() = 0;
+    Tile ***getTileMap() const;
     virtual void loadMap(int** map,int COLOR) = 0;
     bool checkCollision(Entity* e);
+
+    int getMAP_WIDTH() const;
+
+    int getMAP_HEIGHT() const;
 };
 
 

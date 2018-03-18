@@ -62,3 +62,15 @@ bool Map::checkCollision(Entity *e) {
     }
     return result;
 }
+
+Tile ***Map::getTileMap() const {
+    return tileMap;
+}
+
+int Map::getMAP_WIDTH() const {
+    return MAP_WIDTH;
+}
+
+int Map::getMAP_HEIGHT() const {
+    return MAP_HEIGHT;
+}
