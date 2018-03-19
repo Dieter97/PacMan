@@ -41,7 +41,7 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.125f);
+                    player = f->createPacMan(i, j,0.11f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:

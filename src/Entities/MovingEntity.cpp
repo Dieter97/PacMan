@@ -8,6 +8,7 @@
 
 MovingEntity::MovingEntity(float posX, float posY,float speed) : Entity(posX, posY) {
     this->speed = speed;
+    this->hitBoxOffset = (int)(speed-0.125f)*10+94;
 }
 
 void MovingEntity::move(int direction) {
@@ -28,9 +29,12 @@ void MovingEntity::move(int direction) {
         default:
             break;
     }
+
 }
 
 void MovingEntity::pushBack(){
+    float roundX = roundf(posX);
+    float roundY = roundf(posY);
     switch (this->STATE){
         case DIR_UP:
             posY = posY + speed;
@@ -46,7 +50,13 @@ void MovingEntity::pushBack(){
             break;
         default:
             break;
+    }/*
+    if(posX+0.05f > roundX || posX-0.05f < roundX){
+        posX = roundX;
     }
+    if(posY+0.05f > roundX || posY-0.05f < roundX){
+        posY = roundY;
+    }*/
 }
 
 void MovingEntity::checkMapBounds(int mapWidth, int mapHeigth) {

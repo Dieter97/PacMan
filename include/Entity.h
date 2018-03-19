@@ -14,10 +14,11 @@ public:
     Entity();
 
 protected:
-    float posX;
-    float posY;
     static const int width = 1;
     static const int heigth = 1;
+    float posX;
+    float posY;
+    int hitBoxOffset;
     int type;
 public:
     int getType() const;

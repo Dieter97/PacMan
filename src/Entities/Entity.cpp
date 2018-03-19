@@ -6,7 +6,9 @@
 #include "../../include/Entity.h"
 
 Entity::Entity(float posX, float posY) : posX(posX), posY(posY){
+    this->hitBoxOffset = 1;
 }
+
 
 float Entity::getPosX() const {
     return posX;
@@ -36,6 +38,10 @@ bool Entity::collision(const Entity *e) {
     float topA, topB;
     float bottomA, bottomB;
 
+    int offset = e->hitBoxOffset;
+    if(this->hitBoxOffset > e->hitBoxOffset){
+        offset = this->hitBoxOffset;
+    }
 /*
     //Calculate the sides of rect A
     leftA = roundf(this->getPosX());
@@ -50,19 +56,16 @@ bool Entity::collision(const Entity *e) {
     bottomB = roundf(e->getPosY()) + e->heigth;
 */
     //Calculate the sides of rect A
-    leftA = this->getPosX();
-    rightA = this->getPosX() + this->width;
-    topA = this->getPosY();
-    bottomA = this->getPosY() + this->heigth;
+    leftA = (this->getPosX()*100);
+    rightA = (this->getPosX()*100) + this->width*offset;
+    topA = (this->getPosY()*100);
+    bottomA = (this->getPosY()*100) + this->heigth*offset;
 
     //Calculate the sides of rect B
-    leftB = e->getPosX();
-    rightB = e->getPosX() + e->width;
-    topB = e->getPosY();
-    bottomB = e->getPosY() + e->heigth;
-
-    float test;
-    test = leftA - floorf(leftA);
+    leftB = (e->getPosX()*100);
+    rightB = (e->getPosX()*100) + e->width*offset;
+    topB = (e->getPosY()*100);
+    bottomB = (e->getPosY()*100) + e->heigth*offset;
 
     //If any of the sides from A are outside of B
     if( bottomA <= topB )
