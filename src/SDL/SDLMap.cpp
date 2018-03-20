@@ -18,12 +18,12 @@ void SDLMap::loadMap(int** map,int COLOR) {
     //Fill tileMap with tiles from a reference map
     for(int i = 0; i<MAP_WIDTH;i++){
         for(int j = 0; j<MAP_HEIGHT;j++){
-            tileMap[i][j] = new SDLTile((i*TILE_WIDTH),(j*TILE_HEIGHT),map[i][j],COLOR,context);
+            tileMap[i][j] = new SDLTile(i,j,map[i][j],COLOR,context);
         }
     }
 }
 
-SDLMap::SDLMap(int width, int height,int tileWidth,int tileHeight, SDLContext* context) :
-        Map(width, height,tileWidth,tileHeight) {
+SDLMap::SDLMap(int width, int height, SDLContext* context) :
+        Map(width, height) {
     this->context = context;
 }

@@ -11,19 +11,12 @@ using namespace std;
 
 void SDLGhost::visualize() {
     // Create render position and render
-    if(posX>context->getWindowHeigth()){
-        posX = -spriteHeigth;
-    }
-    if(posY>context->getWindowWidth()){
-        posY = -spriteWidth;
-    }
-    if(posX<-spriteHeigth){
-        posX = context->getWindowHeigth();
-    }
-    if(posY<-spriteWidth){
-        posY = context->getWindowWidth();
-    }
-    SDL_Rect position = {posX, posY, spriteHeigth*SPRITE_SCALE, spriteWidth*SPRITE_SCALE};
+    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();
+    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();;
+    int SDLHeigth = (int)(spriteWidth * context->getSCALE_FACTOR());
+    int SDLWidth = (int)(spriteHeigth * context->getSCALE_FACTOR());
+
+    SDL_Rect position = {SDLPosX,SDLPosY,SDLWidth,SDLHeigth};
     SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprites[STATE][frame / ANIMATION_SPEED], &position, 0.0, nullptr, SDL_FLIP_NONE);
 
     //Go to next frame
@@ -37,8 +30,8 @@ void SDLGhost::visualize() {
 
 }
 
-SDLGhost::SDLGhost(int posX, int posY,int speed,int color,SDLContext* context) :
-        Ghost(posX,posY,(spriteWidth-HIT_BOX_OFFSET)*SPRITE_SCALE,(spriteHeigth-HIT_BOX_OFFSET)*SPRITE_SCALE,speed) {
+SDLGhost::SDLGhost(float posX, float posY,float speed,int color,SDLContext* context) :
+        Ghost(posX,posY,speed) {
     cout << "Creating SDLGhost" << endl;
     this->context = context;
     this->COLOR = color;

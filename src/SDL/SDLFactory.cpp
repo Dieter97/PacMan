@@ -9,27 +9,41 @@
 #include "../../include/SDLTile.h"
 #include "../../include/SDLMap.h"
 
-Ghost *SDLFactory::createGhost(int posX, int posY,int speed,int color) {
+Ghost *SDLFactory::createGhost(float posX, float posY,float speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
 }
 
-PacMan *SDLFactory::createPacMan(int posX, int posY, int speed) {
+PacMan *SDLFactory::createPacMan(float posX, float posY, float speed) {
     return new SDLPacMan(posX, posY,speed, context);
 }
 
-Tile *SDLFactory::createTile(int posX, int posY, int tileType, int tileColor) {
-    return new SDLTile(posX, posY,tileType,tileColor, context);;
+Tile *SDLFactory::createTile(float posX, float posY, int tileType, int tileColor) {
+    return new SDLTile(posX, posY,tileType,tileColor, context);
 }
 
 SDLFactory::~SDLFactory() {
     close();
 }
 
-bool SDLFactory::initDisplay(int width,int heigth) {
+bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
     //Initialization flag
     bool success = true;
-    this->WINDOW_WIDTH = width;
-    this->WINDOW_HEIGTH = heigth;
+
+    int usedWindowWidth = WINDOW_WIDTH;
+    int usedWindowHeigth = WINDOW_HEIGTH;
+    int x_off=0, y_off=0;
+
+    float scale1 = (float)WINDOW_HEIGTH/((float)tileHeight*(float)mapHeight);
+    float scale2 = (float)WINDOW_WIDTH/((float)tileWidth*(float)mapWidth);
+
+    if(scale1 < scale2){
+        usedWindowWidth = (int)(scale1 * tileWidth * mapWidth);
+        x_off = (WINDOW_WIDTH - usedWindowWidth)/2;
+    }else{
+        usedWindowHeigth = (int)(scale2 * tileHeight * mapHeight);
+        y_off = (WINDOW_HEIGTH - usedWindowHeigth)/2;
+    }
+
     //Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
@@ -57,7 +71,20 @@ bool SDLFactory::initDisplay(int width,int heigth) {
                     std::cout << "SDL_image could not initialize! SDL_image Error: " << IMG_GetError() << std::endl;
                     success = false;
                 } else {
-                    context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH);
+
+
+                    if(scale1 < scale2){
+                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,
+                                                 scale1,x_off,y_off);
+                        std::cout << "Using scale factor: " << scale1 << std::endl;
+                    }else{
+                        context = new SDLContext(gRenderer, WINDOW_WIDTH, WINDOW_HEIGTH,tileWidth,tileHeight,
+                                                 scale2,x_off,y_off);
+                        std::cout << "Using scale factor: " << scale2 << std::endl;
+                    }
+                    //SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+
+                    this->loadMedia();
                 }
             }
         }
@@ -70,7 +97,7 @@ bool SDLFactory::loadMedia() {
     //Loading success flag
     bool success = true;
     SDL_Texture *texture;
-    SDL_Surface *loadedSurface = IMG_Load("../resources/sprites.png");
+    SDL_Surface *loadedSurface = IMG_Load("../resources/sprites2.png");
     if (loadedSurface == nullptr) {
         std::cout << "Unable to load image! SDL_image Error: " << IMG_GetError() << std::endl;
         success = false;
@@ -124,5 +151,5 @@ Event *SDLFactory::createEventSystem() {
 }
 
 Map *SDLFactory::createMap(int width, int height) {
-    return new SDLMap(width,height,TILE_WIDTH*TILE_SCALE,TILE_HEIGTH*TILE_SCALE,context);
+    return new SDLMap(width,height,context);
 }

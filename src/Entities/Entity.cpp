@@ -2,53 +2,51 @@
 // Created by dieter on 05/03/18.
 //
 
+#include <cmath>
 #include "../../include/Entity.h"
 
-Entity::Entity(int posX, int posY,int width,int heigth) : posX(posX), posY(posY), width(width), heigth(heigth) {
+Entity::Entity(float posX, float posY) : posX(posX), posY(posY){
+    width = 1;
+    heigth = 1;
 }
 
-int Entity::getPosX() const {
+float Entity::getPosX() const {
     return posX;
 }
 
-void Entity::setPosX(int posX) {
-    Entity::posX = posX;
+void Entity::setPosX(float posX) {
+    this->posX = posX;
 }
 
-int Entity::getPosY() const {
+float Entity::getPosY() const {
     return posY;
 }
 
-void Entity::setPosY(int posY) {
-    Entity::posY = posY;
+void Entity::setPosY(float posY) {
+    this->posY = posY;
 }
 
 Entity::Entity() {
     posX = 0;
     posY = 0;
-    width = 0;
-    heigth = 0;
 }
 
 bool Entity::collision(const Entity *e) {
-    //The sides of the rectangles
-    int leftA, leftB;
-    int rightA, rightB;
-    int topA, topB;
-    int bottomA, bottomB;
+   //The sides of the rectangles
 
-    //Calculate the sides of rect A
-    leftA = this->posX;
-    rightA = this->posX + this->width;
-    topA = this->posY;
-    bottomA = this->posY + this->heigth;
+    float mid_xA = this->getPosX() + 0.5f;
+    float mid_yA = this->getPosY() + 0.5f;
+    float leftA = mid_xA - this->width/2;
+    float rightA = mid_xA + this->width/2;
+    float topA = mid_yA - this->heigth/2;
+    float bottomA = mid_yA + this->heigth/2;
 
-    //Calculate the sides of rect B
-    leftB = e->posX;
-    rightB = e->posX + e->width;
-    topB = e->posY;
-    bottomB = e->posY + e->heigth;
-
+    float mid_xB = e->getPosX() + 0.5f;
+    float mid_yB = e->getPosY() + 0.5f;
+    float leftB = mid_xB - e->width/2;
+    float rightB = mid_xB + e->width/2;
+    float topB = mid_yB - e->heigth/2;
+    float bottomB = mid_yB + e->heigth/2;
 
     //If any of the sides from A are outside of B
     if( bottomA <= topB )
@@ -72,7 +70,11 @@ bool Entity::collision(const Entity *e) {
     }
 
     //If none of the sides from A are outside B
-    return true;
+    return true;/*
+    bool result_floor,result_ceil;
+    result_floor = ((e->getPosY()) == (this->getPosY()) && (e->getPosX()) == (this->getPosX()));
+    result_ceil = (ceilf(e->getPosY()) == ceilf(this->getPosY()) && ceilf(e->getPosX()) == ceilf(this->getPosX()));
+    return result_ceil;// || result_floor;*/
 }
 
 int Entity::getType() const {
@@ -82,3 +84,20 @@ int Entity::getType() const {
 void Entity::setType(int type) {
     Entity::type = type;
 }
+
+float Entity::getWidth() const {
+    return width;
+}
+
+void Entity::setWidth(float width) {
+    Entity::width = width;
+}
+
+float Entity::getHeigth() const {
+    return heigth;
+}
+
+void Entity::setHeigth(float heigth) {
+    Entity::heigth = heigth;
+}
+

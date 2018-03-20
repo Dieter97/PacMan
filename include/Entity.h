@@ -8,33 +8,40 @@
 
 class Entity {
 protected:
+    float width;
+    float heigth;
+    float posX;
+    float posY;
+    int type;
+
 public:
-    Entity(int posX, int posY,int width,int height);
+    Entity(float posX, float posY);
 
     Entity();
-
-protected:
-    int posX;
-    int posY;
-    int width;
-    int heigth;
-    int type;
-public:
     int getType() const;
 
     void setType(int type);
 
-    int getPosX() const;
+    float getPosX() const;
 
-    void setPosX(int posX);
+    void setPosX(float posX);
 
-    int getPosY() const;
+    float getPosY() const;
 
-    void setPosY(int posY);
+    void setPosY(float posY);
 
     virtual void visualize() = 0;
 
     bool collision(const Entity* e);
+
+    float getWidth() const;
+
+    void setWidth(float width);
+
+    float getHeigth() const;
+
+    void setHeigth(float heigth);
+
 };
 
 

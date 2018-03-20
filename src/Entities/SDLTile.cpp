@@ -3,14 +3,20 @@
 //
 
 #include "../../include/SDLTile.h"
+#include "../../include/Types.h"
 
-SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
-        : Tile(posX, posY, (spriteWidth-HIT_BOX_OFFSET)*SPRITE_SCALE,(spriteHeigth-HIT_BOX_OFFSET)*SPRITE_SCALE,type) {
+SDLTile::SDLTile( float posX, float posY, int type, int color, SDLContext *context)
+        : Tile(posX, posY,type) {
     this->context = context;
     this->COLOR = color;
 
-    int spriteY = 296 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
-    int spriteX = 61 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
+    if(type==POINT_SMALL){
+        this->setWidth(0.01f);
+        this->setHeigth(0.01f);
+    }
+
+    int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
+    int spriteX = 6 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
 
     sprite = new SDL_Rect();
     sprite->x = spriteX;
@@ -21,14 +27,19 @@ SDLTile::SDLTile( int posX, int posY, int type, int color, SDLContext *context)
 }
 
 void SDLTile::visualize() {
-    SDL_Rect position = {posX, posY, spriteHeigth * SPRITE_SCALE, spriteWidth * SPRITE_SCALE};
+    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();;
+    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();;
+    int SDLHeigth = (int)ceilf((float)(spriteWidth * context->getSCALE_FACTOR()));
+    int SDLWidth = (int)ceilf((float)((spriteHeigth * context->getSCALE_FACTOR())));
+
+    SDL_Rect position = {SDLPosX,SDLPosY,SDLWidth,SDLHeigth};
     SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprite , &position, 0.0, nullptr, SDL_FLIP_NONE);
 }
 
 void SDLTile::setTILETYPE(int type) {
     Tile::setTILETYPE(type);
-    int spriteY = 296 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
-    int spriteX = 61 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
+    int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
+    int spriteX = 6 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
 
     sprite = new SDL_Rect();
     sprite->x = spriteX;

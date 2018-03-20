@@ -12,7 +12,7 @@
 class SDLMap : public Map{
 public:
 
-    SDLMap(int width, int height, int tileWidth, int tileHeight, SDLContext *context);
+    SDLMap(int width, int height, SDLContext *context);
 
     void visualize() override ;
     void loadMap(int** map,int COLOR) override ;

@@ -11,15 +11,15 @@
 
 class SDLTile : public Tile {
 public:
-    SDLTile(int posX, int posY, int type, int color, SDLContext *context);
+    SDLTile(float posX, float posY, int type, int color, SDLContext *context);
 
     void visualize() override;
     void setTILETYPE(int type) override ;
 
 private:
     //Sprite
-    static const int spriteWidth = 9;
-    static const int spriteHeigth = 9;
+    static const int spriteWidth = 16;
+    static const int spriteHeigth = 16;
     static const int SPRITE_SCALE = 4;
     static const int HIT_BOX_OFFSET = 3;
     int COLOR;

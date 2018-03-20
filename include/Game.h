@@ -26,6 +26,9 @@ private:
     std::vector<Ghost*> enemies;
     Map* tileMap;
     Event* events;
+
+    //Game Variables
+    int points;
 };
 
 

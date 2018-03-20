@@ -22,8 +22,7 @@ enum GhostColor{
     ORANGE_GHOST
 };
 
-enum Events
-{
+enum Events {
     KEY_PRESS_QUIT,
     KEY_PRESS_SURFACE_DEFAULT,
     KEY_PRESS_SURFACE_UP,
@@ -31,6 +30,13 @@ enum Events
     KEY_PRESS_SURFACE_LEFT,
     KEY_PRESS_SURFACE_RIGHT,
     KEY_PRESS_SURFACE_TOTAL
+};
+
+enum CollisionEvents {
+    NO_COLL,
+    COLL,
+    POINT,
+    BONUS
 };
 
 enum TilesTypes{

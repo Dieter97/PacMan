@@ -11,14 +11,22 @@
 class MovingEntity : public Entity {
 protected:
     int STATE;
-    int speed;
+    float speed;
+    bool changedDir = false;
 public:
-    MovingEntity(int posX, int posY,int width,int heigth, int speed);
+    bool isChangedDir() const;
 
-public:
+    void setChangedDir(bool changedDir);
+
+    MovingEntity(float posX, float posY, float speed);
+
     void move(int direction);
 
     void pushBack();
+
+    void checkMapBounds(int mapWidth,int mapHeigth) ;
+
+    void move();
 };
 
 

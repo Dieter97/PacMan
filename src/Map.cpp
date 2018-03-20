@@ -6,11 +6,9 @@
 #include "../include/Map.h"
 #include "../include/Types.h"
 
-Map::Map(int width, int height, int tileWidth, int tileHeigth) {
+Map::Map(int width, int height) {
     MAP_HEIGHT = height;
     MAP_WIDTH = width;
-    TILE_WIDTH = tileWidth;
-    TILE_HEIGHT = tileHeigth;
 
     //Dynamically fill array with empty (abstract) tiles
     tileMap = new Tile **[MAP_WIDTH];
@@ -19,32 +17,32 @@ Map::Map(int width, int height, int tileWidth, int tileHeigth) {
     }
 }
 
-bool Map::checkCollision(Entity *e) {
-    bool result = false;
+int Map::checkCollision(Entity *e) {
+    int result = NO_COLL;
     for(int i = 0; i<MAP_WIDTH;i++){
         for(int j = 0; j<MAP_HEIGHT;j++){
             int type = tileMap[i][j]->getTILETYPE();
             switch (type){
                 case POINT_SMALL:
                     //POINT
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
                     if(result && e->getType() == PACMAN){
-                        std::cout << "Point scored!" << std::endl;
+                        //std::cout << "Point scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
-                        return true;
+                        return POINT;
                     }
                     break;
                 case POINT_BIG:
                     //BIG point (energize)
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
                     if(result && e->getType() == PACMAN){
-                        std::cout << "Bonus scored!" << std::endl;
+                        //std::cout << "Bonus scored!" << std::endl;
                         tileMap[i][j]->setTILETYPE(BLANK);
-                        return true;
+                        return BONUS;
                     }
                     break;
                 case DOOR_HORIZONTAL:
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
                     if(result && e->getType() == PACMAN){
                         return true;
                     }
@@ -53,12 +51,56 @@ bool Map::checkCollision(Entity *e) {
                     break;
                 default:
                     //Check regular collision with wall
-                    result = tileMap[i][j]->collision(e);
+                    result = e->collision(tileMap[i][j]);
 
                     if(result){
                         return result;
                     }
                     break;
+            }
+        }
+    }
+    return result;
+}
+
+bool Map::isIntersection(int posX,int posY){
+    int dir[4][2] = {{0,1},{0,-1},
+                     {1,0},{-1,0}};
+    int j=0;
+    if(posX >= this->MAP_WIDTH-1 || posY >= this->MAP_HEIGHT-1
+            || posX < 1 || posY < 1){
+        return false;
+    }
+    for (auto &i : dir) {
+        if(tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == BLANK ||
+           tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == POINT_BIG ||
+           tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == POINT_SMALL){
+            j++;
+        }
+    }
+
+    return j > 2;
+
+}
+
+Tile ***Map::getTileMap() const {
+    return tileMap;
+}
+
+int Map::getMAP_WIDTH() const {
+    return MAP_WIDTH;
+}
+
+int Map::getMAP_HEIGHT() const {
+    return MAP_HEIGHT;
+}
+
+bool Map::isDone() {
+    bool result = true;
+    for(int i = 0; i<MAP_WIDTH;i++) {
+        for (int j = 0; j < MAP_HEIGHT; j++) {
+            if(tileMap[i][j]->getTILETYPE() == POINT_SMALL){
+                result = false;
             }
         }
     }

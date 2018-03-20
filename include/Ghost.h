@@ -7,11 +7,15 @@
 
 
 #include "MovingEntity.h"
+#include "AI.h"
 
 class Ghost : public MovingEntity {
-
+private:
+    //GreedyAI *brain;
 public:
-    Ghost(int posX, int posY,int width,int heigth,int speed);
+    Ghost(float posX, float posY,float speed);
+    //void setAI(Entity* target,Map* map);
+    int getNextDirection();
 };
 
 

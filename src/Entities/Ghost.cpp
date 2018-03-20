@@ -5,10 +5,20 @@
 #include <iostream>
 #include "../../include/Ghost.h"
 #include "../../include/Types.h"
+#include "../../include/GreedyAI.h"
 
 using namespace std;
 
-Ghost::Ghost(int posX, int posY,int width,int heigth,int speed) : MovingEntity(posX, posY,width,heigth,speed){
+Ghost::Ghost(float posX, float posY,float speed) : MovingEntity(posX, posY,speed){
     this->type = GHOST;
-    this->STATE = DIR_DOWN;
+    this->STATE = DIR_UP;
+}
+/*
+void Ghost::setAI(Entity *target, Map *map) {
+    this->brain = new GreedyAI(target,map);
+}*/
+
+int Ghost::getNextDirection() {
+    this->STATE = rand() % 4;
+    return this->STATE;
 }

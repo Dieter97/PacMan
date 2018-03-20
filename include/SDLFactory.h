@@ -24,13 +24,21 @@ private:
 
     SDLContext* context;
 
+    //Windwow parameters
+    static const int WINDOW_WIDTH = 800;
+    static const int WINDOW_HEIGTH = 800;
+
+    //Tile parameters
+    static const int tileHeight = 15;
+    static const int tileWidth = 15;
+
 public:
-    Ghost* createGhost(int posX,int posY,int speed,int color) override;
-    PacMan* createPacMan(int posX,int posY,int speed) override;
-    Tile* createTile(int posX,int posY,int tileType,int tileColor) override ;
+    Ghost* createGhost(float posX,float posY,float speed,int color) override;
+    PacMan* createPacMan(float posX,float posY,float speed) override;
+    Tile* createTile(float posX,float posY,int tileType,int tileColor) override ;
     Event* createEventSystem() override ;
     Map* createMap(int width,int height) override ;
-    bool initDisplay(int windowWidth,int windowHeigth) override ;
+    bool initDisplay(int mapWidth ,int mapHeight) override ;
     bool loadMedia() override ;
     void close() override;
     void render() override ;
