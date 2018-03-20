@@ -3,11 +3,17 @@
 //
 
 #include "../../include/SDLTile.h"
+#include "../../include/Types.h"
 
 SDLTile::SDLTile( float posX, float posY, int type, int color, SDLContext *context)
         : Tile(posX, posY,type) {
     this->context = context;
     this->COLOR = color;
+
+    if(type==POINT_SMALL){
+        this->setWidth(0.01f);
+        this->setHeigth(0.01f);
+    }
 
     int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
     int spriteX = 6 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);

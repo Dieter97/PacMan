@@ -11,9 +11,7 @@ using namespace std;
 
 Ghost::Ghost(float posX, float posY,float speed) : MovingEntity(posX, posY,speed){
     this->type = GHOST;
-    this->STATE = DIR_DOWN;
-    this->counter = 0;
-    this->dir = DIR_DOWN;
+    this->STATE = DIR_UP;
 }
 /*
 void Ghost::setAI(Entity *target, Map *map) {
@@ -21,10 +19,6 @@ void Ghost::setAI(Entity *target, Map *map) {
 }*/
 
 int Ghost::getNextDirection() {
-    counter++;
-    if(counter > 100){
-        dir = rand() % 4;
-        counter = 0;
-    }
-    return dir;
+    this->STATE = rand() % 4;
+    return this->STATE;
 }

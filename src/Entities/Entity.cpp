@@ -6,9 +6,9 @@
 #include "../../include/Entity.h"
 
 Entity::Entity(float posX, float posY) : posX(posX), posY(posY){
-    this->hitBoxOffset = 1;
+    width = 1;
+    heigth = 1;
 }
-
 
 float Entity::getPosX() const {
     return posX;
@@ -23,7 +23,7 @@ float Entity::getPosY() const {
 }
 
 void Entity::setPosY(float posY) {
-    posY = posY;
+    this->posY = posY;
 }
 
 Entity::Entity() {
@@ -33,39 +33,20 @@ Entity::Entity() {
 
 bool Entity::collision(const Entity *e) {
    //The sides of the rectangles
-    float leftA, leftB;
-    float rightA, rightB;
-    float topA, topB;
-    float bottomA, bottomB;
 
-    int offset = e->hitBoxOffset;
-    if(this->hitBoxOffset > e->hitBoxOffset){
-        offset = this->hitBoxOffset;
-    }
-/*
-    //Calculate the sides of rect A
-    leftA = roundf(this->getPosX());
-    rightA = roundf(this->getPosX()) + this->width;
-    topA = roundf(this->getPosY());
-    bottomA = roundf(this->getPosY()) + this->heigth;
+    float mid_xA = this->getPosX() + 0.5f;
+    float mid_yA = this->getPosY() + 0.5f;
+    float leftA = mid_xA - this->width/2;
+    float rightA = mid_xA + this->width/2;
+    float topA = mid_yA - this->heigth/2;
+    float bottomA = mid_yA + this->heigth/2;
 
-    //Calculate the sides of rect B
-    leftB = roundf(e->getPosX());
-    rightB = roundf(e->getPosX()) + e->width;
-    topB = roundf(e->getPosY());
-    bottomB = roundf(e->getPosY()) + e->heigth;
-*/
-    //Calculate the sides of rect A
-    leftA = (this->getPosX()*100);
-    rightA = (this->getPosX()*100) + this->width*offset;
-    topA = (this->getPosY()*100);
-    bottomA = (this->getPosY()*100) + this->heigth*offset;
-
-    //Calculate the sides of rect B
-    leftB = (e->getPosX()*100);
-    rightB = (e->getPosX()*100) + e->width*offset;
-    topB = (e->getPosY()*100);
-    bottomB = (e->getPosY()*100) + e->heigth*offset;
+    float mid_xB = e->getPosX() + 0.5f;
+    float mid_yB = e->getPosY() + 0.5f;
+    float leftB = mid_xB - e->width/2;
+    float rightB = mid_xB + e->width/2;
+    float topB = mid_yB - e->heigth/2;
+    float bottomB = mid_yB + e->heigth/2;
 
     //If any of the sides from A are outside of B
     if( bottomA <= topB )
@@ -102,5 +83,21 @@ int Entity::getType() const {
 
 void Entity::setType(int type) {
     Entity::type = type;
+}
+
+float Entity::getWidth() const {
+    return width;
+}
+
+void Entity::setWidth(float width) {
+    Entity::width = width;
+}
+
+float Entity::getHeigth() const {
+    return heigth;
+}
+
+void Entity::setHeigth(float heigth) {
+    Entity::heigth = heigth;
 }
 

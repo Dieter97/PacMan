@@ -15,13 +15,12 @@ using namespace std;
 
 bool Game::initGame(Factory* f) {
     this->factory = f;
-
     //First load the map
 
     int *b[99];
     int map[99][99];
     string line;
-    ifstream level ("../resources/level2.map");
+    ifstream level ("../resources/level.map");
     if (level.is_open())
     {
         //Read map parameters from level file
@@ -41,7 +40,7 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.11f);
+                    player = f->createPacMan(i, j,0.125f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
@@ -87,6 +86,7 @@ bool Game::initGame(Factory* f) {
     tileMap->loadMap(b,BLUE_TILE);
     //Create event handler
     events = factory->createEventSystem();
+    this->points = 0;
     return true;
 }
 
@@ -128,7 +128,8 @@ void Game::start() {
         tileMap->visualize();
 
         //Map collision for player
-        if(tileMap->checkCollision(player)){
+        int playerCollision = tileMap->checkCollision(player);
+        if(playerCollision){
             //std::cout << "Player colliding with a Tile!" << std::endl;
             player->pushBack();
             player->move(playerDirection);
@@ -138,21 +139,52 @@ void Game::start() {
         }else{
             playerDirection = nextDirection;
         }
-
         player->checkMapBounds(mapWidth-1,mapHeigth-1);
+
+        //Player Collisions with other items
+        switch (playerCollision){
+            case POINT:
+                this->points++;
+                cout << "Points: " << this->points << endl;
+                if(tileMap->isDone()){
+                    cout << "YOU WIN" << endl;
+                }
+
+                break;
+            case BONUS:
+                //TODO energize pacman
+                break;
+            default:
+                //Nothing
+                break;
+        }
 
         //Collision for enemies
         for(auto const& enemy: enemies){
+            bool intersection = tileMap->isIntersection((int)roundf(enemy->getPosX()),(int)roundf(enemy->getPosY()));
+            if(!enemy->isChangedDir() && intersection){
+                enemy->setChangedDir(1);
+                enemy->setPosX((int)roundf(enemy->getPosX()));
+                enemy->setPosY((int)roundf(enemy->getPosY()));
+                enemy->move(enemy->getNextDirection());
+            } else if(intersection){
+                enemy->move();
+            }else{
+                enemy->move();
+                enemy->setChangedDir(0);
+            }
             if(tileMap->checkCollision(enemy)){
                 enemy->pushBack();
+                enemy->getNextDirection();
             }
             if(player->collision(enemy)){
                 //Player collision with enemy
                 //TODO HANDLE ENEMY COLLISION
+                //quit = true;
                 cout << "Player colliding with a ghost!" << endl;
             }
-            enemy-> move(enemy->getNextDirection());
-            enemy->checkMapBounds(mapWidth,mapHeigth);
+
+            enemy->checkMapBounds(mapWidth-1,mapHeigth-1);
             enemy->visualize();
         }
 

@@ -8,19 +8,16 @@
 
 class Entity {
 protected:
+    float width;
+    float heigth;
+    float posX;
+    float posY;
+    int type;
+
 public:
     Entity(float posX, float posY);
 
     Entity();
-
-protected:
-    static const int width = 1;
-    static const int heigth = 1;
-    float posX;
-    float posY;
-    int hitBoxOffset;
-    int type;
-public:
     int getType() const;
 
     void setType(int type);
@@ -36,6 +33,14 @@ public:
     virtual void visualize() = 0;
 
     bool collision(const Entity* e);
+
+    float getWidth() const;
+
+    void setWidth(float width);
+
+    float getHeigth() const;
+
+    void setHeigth(float heigth);
 
 };
 
