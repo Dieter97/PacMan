@@ -11,7 +11,7 @@ MovingEntity::MovingEntity(float posX, float posY,float speed) : Entity(posX, po
 }
 
 void MovingEntity::move(int direction) {
-    this->STATE = direction;
+    this->DIRECTION = direction;
     switch (direction){
         case DIR_UP:
             posY = posY - speed;
@@ -32,7 +32,7 @@ void MovingEntity::move(int direction) {
 }
 
 void MovingEntity::move() {
-    switch (this->STATE){
+    switch (this->DIRECTION){
         case DIR_UP:
             posY = posY - speed;
             break;
@@ -53,7 +53,7 @@ void MovingEntity::move() {
 void MovingEntity::pushBack(){
     float roundX = roundf(posX);
     float roundY = roundf(posY);
-    switch (this->STATE){
+    switch (this->DIRECTION){
         case DIR_UP:
             posY = posY + speed;
             break;

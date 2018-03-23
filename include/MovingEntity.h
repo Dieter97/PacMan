@@ -10,23 +10,18 @@
 
 class MovingEntity : public Entity {
 protected:
-    int STATE;
+    int DIRECTION;
     float speed;
     bool changedDir = false;
 public:
     bool isChangedDir() const;
-
     void setChangedDir(bool changedDir);
-
     MovingEntity(float posX, float posY, float speed);
-
     void move(int direction);
-
     void pushBack();
-
     void checkMapBounds(int mapWidth,int mapHeigth) ;
-
     void move();
+    virtual void die() = 0;
 };
 
 

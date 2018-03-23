@@ -10,12 +10,16 @@
 #include "AI.h"
 
 class Ghost : public MovingEntity {
-private:
+protected:
     //GreedyAI *brain;
+    int STATE;
 public:
     Ghost(float posX, float posY,float speed);
     //void setAI(Entity* target,Map* map);
     int getNextDirection();
+    int getSTATE() const;
+    void setSTATE(int STATE);
+    void die();
 };
 
 

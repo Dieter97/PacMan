@@ -26,11 +26,10 @@ private:
     //Sprite
     static const int spriteWidth = 15;
     static const int spriteHeigth = 15;
-    static const int SPRITE_SCALE = 3;
-    static const int HIT_BOX_OFFSET = 4;
     int COLOR;
 
     SDL_Rect* sprites[6][ANIMATION_FRAMES];
+    SDL_Rect* dead_sprite[4];
     SDLContext* context;
 };
 

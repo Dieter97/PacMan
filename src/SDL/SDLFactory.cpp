@@ -97,7 +97,7 @@ bool SDLFactory::loadMedia() {
     //Loading success flag
     bool success = true;
     SDL_Texture *texture;
-    SDL_Surface *loadedSurface = IMG_Load("../resources/sprites2.png");
+    SDL_Surface *loadedSurface = IMG_Load("../resources/sprites.png");
     if (loadedSurface == nullptr) {
         std::cout << "Unable to load image! SDL_image Error: " << IMG_GetError() << std::endl;
         success = false;

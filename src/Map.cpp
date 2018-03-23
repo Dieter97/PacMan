@@ -67,8 +67,8 @@ bool Map::isIntersection(int posX,int posY){
     int dir[4][2] = {{0,1},{0,-1},
                      {1,0},{-1,0}};
     int j=0;
-    if(posX >= this->MAP_WIDTH-1 || posY >= this->MAP_HEIGHT-1
-            || posX < 1 || posY < 1){
+    //Don't check the border tiles
+    if(posX >= this->MAP_WIDTH-1 || posY >= this->MAP_HEIGHT-1 || posX < 1 || posY < 1){
         return false;
     }
     for (auto &i : dir) {
@@ -80,7 +80,6 @@ bool Map::isIntersection(int posX,int posY){
     }
 
     return j > 2;
-
 }
 
 Tile ***Map::getTileMap() const {

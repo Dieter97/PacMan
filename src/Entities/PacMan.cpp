@@ -7,6 +7,10 @@
 
 PacMan::PacMan(float posX, float posY, float speed) : MovingEntity(posX, posY, speed) {
     this->type = PACMAN;
-    this->STATE = DIR_LEFT;
+    this->DIRECTION = DIR_LEFT;
+}
+
+void PacMan::die() {
+
 }
 

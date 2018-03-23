@@ -11,6 +11,7 @@
 class PacMan : public MovingEntity {
 public:
     PacMan(float posX, float posY, float speed);
+    void die();
 };
 
 

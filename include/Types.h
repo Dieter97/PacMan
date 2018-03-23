@@ -11,7 +11,8 @@ enum STATES{
     DIR_LEFT,
     DIR_DOWN,
     DIR_UP,
-    SPAWNING,
+    DEAD,
+    FLEE,
     DEFAULT
 };
 

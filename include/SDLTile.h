@@ -20,8 +20,6 @@ private:
     //Sprite
     static const int spriteWidth = 16;
     static const int spriteHeigth = 16;
-    static const int SPRITE_SCALE = 4;
-    static const int HIT_BOX_OFFSET = 3;
     int COLOR;
 
     SDL_Rect* sprite;

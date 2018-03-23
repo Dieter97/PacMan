@@ -20,7 +20,7 @@ bool Game::initGame(Factory* f) {
     int *b[99];
     int map[99][99];
     string line;
-    ifstream level ("../resources/level.map");
+    ifstream level ("../resources/level2.map");
     if (level.is_open())
     {
         //Read map parameters from level file
@@ -83,7 +83,7 @@ bool Game::initGame(Factory* f) {
 
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
-    tileMap->loadMap(b,BLUE_TILE);
+    tileMap->loadMap(b,ORANGE_TILE);
     //Create event handler
     events = factory->createEventSystem();
     this->points = 0;
@@ -95,9 +95,8 @@ void Game::start() {
     //Init game
     bool quit = false;
 
-
-    int playerDirection = DIR_LEFT;
-    int nextDirection = DIR_LEFT;
+    int playerDirection = DIR_UP;
+    int nextDirection = playerDirection;
     //Game loop
     while(!quit){
         factory->clear();
@@ -149,10 +148,13 @@ void Game::start() {
                 if(tileMap->isDone()){
                     cout << "YOU WIN" << endl;
                 }
-
                 break;
             case BONUS:
                 //TODO energize pacman
+                //Set enemies in vulnerable state
+                for(auto const& enemy: enemies){
+                    enemy->setSTATE(FLEE);
+                }
                 break;
             default:
                 //Nothing
@@ -180,7 +182,11 @@ void Game::start() {
             if(player->collision(enemy)){
                 //Player collision with enemy
                 //TODO HANDLE ENEMY COLLISION
-                //quit = true;
+                //If pacman is energized kill ghost
+                if(enemy->getSTATE() == FLEE){
+                    enemy->setSTATE(DEAD);
+                }
+
                 cout << "Player colliding with a ghost!" << endl;
             }
 

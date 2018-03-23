@@ -9,26 +9,12 @@ SDLTile::SDLTile( float posX, float posY, int type, int color, SDLContext *conte
         : Tile(posX, posY,type) {
     this->context = context;
     this->COLOR = color;
-
-    if(type==POINT_SMALL){
-        this->setWidth(0.01f);
-        this->setHeigth(0.01f);
-    }
-
-    int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
-    int spriteX = 6 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
-
-    sprite = new SDL_Rect();
-    sprite->x = spriteX;
-    sprite->y = spriteY;
-    sprite->w = spriteWidth;
-    sprite->h = spriteHeigth;
-
+    this->setTILETYPE(TILETYPE);
 }
 
 void SDLTile::visualize() {
-    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();;
-    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();;
+    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();
+    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();
     int SDLHeigth = (int)ceilf((float)(spriteWidth * context->getSCALE_FACTOR()));
     int SDLWidth = (int)ceilf((float)((spriteHeigth * context->getSCALE_FACTOR())));
 
@@ -38,8 +24,14 @@ void SDLTile::visualize() {
 
 void SDLTile::setTILETYPE(int type) {
     Tile::setTILETYPE(type);
-    int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth  ;
+    int spriteY = 128 + ((TILETYPE-(TILETYPE%6))/6)*spriteHeigth;
     int spriteX = 6 +(((TILETYPE%6)+(COLOR*6))*spriteWidth);
+
+    //Points are smaller to hit
+    if(type==POINT_SMALL){
+        this->setWidth(0.01f);
+        this->setHeigth(0.01f);
+    }
 
     sprite = new SDL_Rect();
     sprite->x = spriteX;
