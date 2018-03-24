@@ -2,12 +2,14 @@
 // Created by dieter on 26/02/18.
 //
 
+#include <SDL_ttf.h>
 #include "../../include/SDLFactory.h"
 #include "../../include/SDLGhost.h"
 #include "../../include/SDLEvent.h"
 #include "../../include/SDLPacMan.h"
 #include "../../include/SDLTile.h"
 #include "../../include/SDLMap.h"
+#include "../UI/SDLTextView.h"
 
 Ghost *SDLFactory::createGhost(float posX, float posY,float speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
@@ -84,7 +86,11 @@ bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
                     }
                     //SDL_SetWindowFullscreen(gWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-                    this->loadMedia();
+                    if (TTF_Init() < 0) {
+                        std::cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << std::endl;
+                    }else{
+                        this->loadMedia();
+                    }
                 }
             }
         }
@@ -115,6 +121,15 @@ bool SDLFactory::loadMedia() {
         //Get rid of old loaded surface
         SDL_FreeSurface(loadedSurface);
     }
+
+    gFont = TTF_OpenFont("../resources/pixel.ttf",8);
+    if(gFont == nullptr){
+        std::cout << "Unable to load ttf! SDL_ttf Error: " << TTF_GetError() << std::endl;
+        success = false;
+    } else{
+        context->setFont(gFont);
+    }
+
     return success;
 }
 
@@ -129,7 +144,11 @@ void SDLFactory::close() {
     gWindow = nullptr;
     gRenderer = NULL;
 
+    //Destroy font
+    TTF_CloseFont( gFont );
+
     //Quit SDL subsystems
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
@@ -152,4 +171,8 @@ Event *SDLFactory::createEventSystem() {
 
 Map *SDLFactory::createMap(int width, int height) {
     return new SDLMap(width,height,context);
+}
+
+TextView *SDLFactory::createTextView(float posX, float posY, std::string string, int fontSize) {
+    return new SDLTextView(posX,posY,string,fontSize,this->context);
 }

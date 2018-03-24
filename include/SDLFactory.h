@@ -21,6 +21,8 @@ private:
     SDL_Renderer* gRenderer = nullptr;
     //Current displayed texture
     SDL_Texture* gTexture = nullptr;
+    //TTF
+    TTF_Font* gFont = nullptr;
 
     SDLContext* context;
 
@@ -32,6 +34,9 @@ private:
     static const int tileHeight = 15;
     static const int tileWidth = 15;
 
+    //GAME
+
+
 public:
     Ghost* createGhost(float posX,float posY,float speed,int color) override;
     PacMan* createPacMan(float posX,float posY,float speed) override;
@@ -40,6 +45,7 @@ public:
     Map* createMap(int width,int height) override ;
     bool initDisplay(int mapWidth ,int mapHeight) override ;
     bool loadMedia() override ;
+    TextView* createTextView(float posX, float posY,std::string string,int fontSize);
     void close() override;
     void render() override ;
     void clear() override ;

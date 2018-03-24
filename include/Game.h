@@ -7,6 +7,7 @@
 
 
 #include "Factory.h"
+#include "../src/UI/GameUI.h"
 
 class Game {
 public:
@@ -14,8 +15,6 @@ public:
     bool initGame(Factory* f);
 
 private:
-    int windowHeigth;
-    int windowWidth;
     int mapHeigth;
     int mapWidth;
 
@@ -29,6 +28,9 @@ private:
 
     //Game Variables
     int points;
+
+    //UI
+    GameUI* ui;
 };
 
 

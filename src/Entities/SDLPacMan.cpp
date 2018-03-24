@@ -17,7 +17,21 @@ void SDLPacMan::visualize() {
 
 
     SDL_Rect position = {SDLPosX,SDLPosY,SDLWidth,SDLHeigth};
-    SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprites[DIRECTION][frame / ANIMATION_SPEED], &position, 0.0, nullptr, SDL_FLIP_NONE);
+
+    SDL_Rect* spriteToLoad;
+    switch (this->STATE){
+        case DEFAULT:
+            spriteToLoad = sprites[DIR_LEFT][1];
+            break;
+        case DEAD:
+            //TODO HANDLE DEAD ANIMATION
+            break;
+        default:
+            spriteToLoad = sprites[this->DIRECTION][frame / ANIMATION_SPEED];
+            break;
+    }
+
+    SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), spriteToLoad, &position, 0.0, nullptr, SDL_FLIP_NONE);
     //Go to next frame
     ++frame;
 

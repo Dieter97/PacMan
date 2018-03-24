@@ -12,7 +12,7 @@ using namespace std;
 void SDLGhost::visualize() {
     // Create render position and render
     int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();
-    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();;
+    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();
     int SDLHeigth = (int)(spriteWidth * context->getSCALE_FACTOR());
     int SDLWidth = (int)(spriteHeigth * context->getSCALE_FACTOR());
 
@@ -40,7 +40,6 @@ void SDLGhost::visualize() {
     if( frame / ANIMATION_SPEED >= ANIMATION_FRAMES ) {
         frame = 0;
     }
-
 }
 
 SDLGhost::SDLGhost(float posX, float posY,float speed,int color,SDLContext* context) :

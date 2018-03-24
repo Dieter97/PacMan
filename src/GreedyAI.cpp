@@ -2,8 +2,8 @@
 // Created by dieter on 18/03/18.
 //
 
-#include "GreedyAI.h"
-#include "Types.h"
+#include "../include/GreedyAI.h"
+#include "../include/Types.h"
 
 GreedyAI::GreedyAI(Entity* target,Map* map): target(target) {
     int width = map->getMAP_WIDTH();

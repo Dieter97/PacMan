@@ -9,9 +9,15 @@
 #include "MovingEntity.h"
 
 class PacMan : public MovingEntity {
+protected:
+    int STATE;
 public:
     PacMan(float posX, float posY, float speed);
     void die();
+
+    int getSTATE() const;
+
+    void setSTATE(int STATE);
 };
 
 

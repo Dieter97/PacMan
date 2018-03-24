@@ -15,6 +15,7 @@ using namespace std;
 
 bool Game::initGame(Factory* f) {
     this->factory = f;
+    ui = new GameUI();
     //First load the map
 
     int *b[99];
@@ -80,10 +81,10 @@ bool Game::initGame(Factory* f) {
         return false;
     }
 
-
+    ui->addView("message",f->createTextView(mapWidth/2-2,mapHeigth/2-3.2f,"PacMan",24));
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
-    tileMap->loadMap(b,ORANGE_TILE);
+    tileMap->loadMap(b,PINK_TILE);
     //Create event handler
     events = factory->createEventSystem();
     this->points = 0;
@@ -96,9 +97,10 @@ void Game::start() {
     bool quit = false;
 
     int playerDirection = DIR_UP;
-    int nextDirection = playerDirection;
+    int nextDirection = DIR_UP;
     //Game loop
     while(!quit){
+
         factory->clear();
         switch (events->getEvent()){
             case KEY_PRESS_QUIT:
@@ -119,7 +121,6 @@ void Game::start() {
             default:
                 break;
         }
-
 
         player->move(nextDirection);
 
@@ -162,38 +163,40 @@ void Game::start() {
         }
 
         //Collision for enemies
-        for(auto const& enemy: enemies){
-            bool intersection = tileMap->isIntersection((int)roundf(enemy->getPosX()),(int)roundf(enemy->getPosY()));
-            if(!enemy->isChangedDir() && intersection){
+        for(auto const& enemy: enemies) {
+            bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
+            if (!enemy->isChangedDir() && intersection) {
                 enemy->setChangedDir(1);
-                enemy->setPosX((int)roundf(enemy->getPosX()));
-                enemy->setPosY((int)roundf(enemy->getPosY()));
+                enemy->setPosX((int) roundf(enemy->getPosX()));
+                enemy->setPosY((int) roundf(enemy->getPosY()));
                 enemy->move(enemy->getNextDirection());
-            } else if(intersection){
+            } else if (intersection) {
                 enemy->move();
-            }else{
+            } else {
                 enemy->move();
                 enemy->setChangedDir(0);
             }
-            if(tileMap->checkCollision(enemy)){
+            if (tileMap->checkCollision(enemy)) {
                 enemy->pushBack();
                 enemy->getNextDirection();
             }
-            if(player->collision(enemy)){
+            if (player->collision(enemy)) {
                 //Player collision with enemy
                 //TODO HANDLE ENEMY COLLISION
                 //If pacman is energized kill ghost
-                if(enemy->getSTATE() == FLEE){
+                if (enemy->getSTATE() == FLEE) {
                     enemy->setSTATE(DEAD);
                 }
 
                 cout << "Player colliding with a ghost!" << endl;
             }
 
-            enemy->checkMapBounds(mapWidth-1,mapHeigth-1);
+            enemy->checkMapBounds(mapWidth - 1, mapHeigth - 1);
             enemy->visualize();
         }
 
+
+        ui->visualize();
         player->visualize();
         factory->render();
     }

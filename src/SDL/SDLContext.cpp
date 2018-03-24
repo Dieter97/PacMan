@@ -4,6 +4,14 @@
 
 #include "../../include/SDLContext.h"
 
+SDLContext::SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth,int tileHeight,
+                       float scale,int x_off,int y_off) :
+        renderer(renderer), windowHeigth(windowHeigth), windowWidth(windowWidth),
+        tilewidth(tileWidth),tileHeigth(tileHeight), SCALE_FACTOR(scale), X_offset(x_off),Y_offset(y_off){
+    spriteSheet = nullptr;
+    font = nullptr;
+}
+
 SDL_Renderer *SDLContext::getRenderer() const {
     return renderer;
 }
@@ -26,12 +34,6 @@ int SDLContext::getWindowWidth() const {
 
 void SDLContext::setWindowWidth(int windowWidth) {
     SDLContext::windowWidth = windowWidth;
-}
-
-SDLContext::SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth,int tileHeight,
-                       float scale,int x_off,int y_off) :
-        renderer(renderer), windowHeigth(windowHeigth), windowWidth(windowWidth),
-        tilewidth(tileWidth),tileHeigth(tileHeight), SCALE_FACTOR(scale), X_offset(x_off),Y_offset(y_off){
 }
 
 SDL_Texture *SDLContext::getSpriteSheet() const {
@@ -60,4 +62,12 @@ int SDLContext::getX_offset() const {
 
 int SDLContext::getY_offset() const {
     return Y_offset;
+}
+
+void SDLContext::setFont(TTF_Font* f) {
+    SDLContext::font = f;
+}
+
+TTF_Font *SDLContext::getFont() {
+    return SDLContext::font;
 }
