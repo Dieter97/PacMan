@@ -15,9 +15,7 @@ protected:
 public:
     View(float posX,float posY);
     virtual void visualize() = 0;
-
     bool isVisible() const;
-
     void setVisible(bool visible);
 };
 

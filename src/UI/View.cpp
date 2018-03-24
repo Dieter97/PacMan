@@ -5,7 +5,7 @@
 #include "View.h"
 
 View::View(float posX, float posY) : posX(posX),posY(posY){
-
+    visible = true;
 }
 
 bool View::isVisible() const {

@@ -21,13 +21,13 @@ bool Game::initGame(Factory* f) {
     int *b[99];
     int map[99][99];
     string line;
-    ifstream level ("../resources/level2.map");
+    ifstream level ("../resources/level.map");
     if (level.is_open())
     {
         //Read map parameters from level file
         level >> mapWidth; level >> mapHeigth;
 
-        factory->initDisplay(mapWidth,mapHeigth);
+        factory->initDisplay(mapWidth,mapHeigth+1);
 
         //Read the entire map from the file
         int i = 0,j = 0,num = 0;
@@ -80,11 +80,13 @@ bool Game::initGame(Factory* f) {
         cout << "Error reading level file!";
         return false;
     }
+    //Create UI elements
+    ui->addTextView("start",factory->createTextView(mapWidth/2-6.5f,mapHeigth/2-3.2f,"Press space to start",18));
+    ui->addTextView("points",factory->createTextView(0,mapHeigth,"Points: 0",12));
 
-    ui->addView("message",f->createTextView(mapWidth/2-2,mapHeigth/2-3.2f,"PacMan",24));
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
-    tileMap->loadMap(b,PINK_TILE);
+    tileMap->loadMap(b,BLUE_TILE);
     //Create event handler
     events = factory->createEventSystem();
     this->points = 0;
@@ -93,11 +95,12 @@ bool Game::initGame(Factory* f) {
 
 void Game::start() {
 
-    //Init game
+    //Init game loop vars
     bool quit = false;
-
+    bool playing = false;
     int playerDirection = DIR_UP;
     int nextDirection = DIR_UP;
+
     //Game loop
     while(!quit){
 
@@ -106,96 +109,102 @@ void Game::start() {
             case KEY_PRESS_QUIT:
                 quit = true;
                 break;
-            case KEY_PRESS_SURFACE_RIGHT:
+            case KEY_PRESS_RIGHT:
                 nextDirection = DIR_RIGHT;
                 break;
-            case KEY_PRESS_SURFACE_LEFT:
+            case KEY_PRESS_LEFT:
                 nextDirection = DIR_LEFT;
                 break;
-            case KEY_PRESS_SURFACE_UP:
+            case KEY_PRESS_UP:
                 nextDirection = DIR_UP;
                 break;
-            case KEY_PRESS_SURFACE_DOWN:
+            case KEY_PRESS_DOWN:
                 nextDirection = DIR_DOWN;
+                break;
+            case KEY_PRESS_SPACE:
+                playing = true;
                 break;
             default:
                 break;
         }
 
-        player->move(nextDirection);
+        if(playing){
+            ui->removeTextView("start");
+            player->move(nextDirection);
+
+            //Map collision for player
+            int playerCollision;
+            if((playerCollision = tileMap->checkCollision(player))){
+                //std::cout << "Player colliding with a Tile!" << std::endl;
+                player->pushBack();
+                player->move(playerDirection);
+                if(tileMap->checkCollision(player)){
+                    player->pushBack();
+                }
+            }else{
+                playerDirection = nextDirection;
+            }
+            player->checkMapBounds(mapWidth-1,mapHeigth-1);
+            //Player Coll isions with other items
+            switch (playerCollision){
+                case POINT:
+                    this->points++;
+                    cout << "Points: " << this->points << endl;
+                    ui->changeText("points","Points: "+to_string(this->points));
+                    if(tileMap->isDone()){
+                        cout << "YOU WIN" << endl;
+                    }
+                    break;
+                case BONUS:
+                    //TODO energize pacman
+                    //Set enemies in vulnerable state
+                    for(auto const& enemy: enemies){
+                        enemy->setSTATE(FLEE);
+                    }
+                    break;
+                default:
+                    //Nothing
+                    break;
+            }
+
+            //Collision for enemies
+            for(auto const& enemy: enemies) {
+                bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
+                if (!enemy->isChangedDir() && intersection) {
+                    enemy->setChangedDir(1);
+                    enemy->setPosX((int) roundf(enemy->getPosX()));
+                    enemy->setPosY((int) roundf(enemy->getPosY()));
+                    enemy->move(enemy->getNextDirection());
+                } else if (intersection) {
+                    enemy->move();
+                } else {
+                    enemy->move();
+                    enemy->setChangedDir(0);
+                }
+                if (tileMap->checkCollision(enemy)) {
+                    enemy->pushBack();
+                    enemy->getNextDirection();
+                }
+                if (player->collision(enemy)) {
+                    //Player collision with enemy
+                    //TODO HANDLE ENEMY COLLISION
+                    //If pacman is energized kill ghost
+                    if (enemy->getSTATE() == FLEE) {
+                        enemy->setSTATE(DEAD);
+                    }
+
+                    cout << "Player colliding with a ghost!" << endl;
+                }
+
+                enemy->checkMapBounds(mapWidth - 1, mapHeigth - 1);
+            }
+        }
 
         //Render map
         tileMap->visualize();
-
-        //Map collision for player
-        int playerCollision = tileMap->checkCollision(player);
-        if(playerCollision){
-            //std::cout << "Player colliding with a Tile!" << std::endl;
-            player->pushBack();
-            player->move(playerDirection);
-            if(tileMap->checkCollision(player)){
-                player->pushBack();
-            }
-        }else{
-            playerDirection = nextDirection;
-        }
-        player->checkMapBounds(mapWidth-1,mapHeigth-1);
-
-        //Player Collisions with other items
-        switch (playerCollision){
-            case POINT:
-                this->points++;
-                cout << "Points: " << this->points << endl;
-                if(tileMap->isDone()){
-                    cout << "YOU WIN" << endl;
-                }
-                break;
-            case BONUS:
-                //TODO energize pacman
-                //Set enemies in vulnerable state
-                for(auto const& enemy: enemies){
-                    enemy->setSTATE(FLEE);
-                }
-                break;
-            default:
-                //Nothing
-                break;
-        }
-
-        //Collision for enemies
-        for(auto const& enemy: enemies) {
-            bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
-            if (!enemy->isChangedDir() && intersection) {
-                enemy->setChangedDir(1);
-                enemy->setPosX((int) roundf(enemy->getPosX()));
-                enemy->setPosY((int) roundf(enemy->getPosY()));
-                enemy->move(enemy->getNextDirection());
-            } else if (intersection) {
-                enemy->move();
-            } else {
-                enemy->move();
-                enemy->setChangedDir(0);
-            }
-            if (tileMap->checkCollision(enemy)) {
-                enemy->pushBack();
-                enemy->getNextDirection();
-            }
-            if (player->collision(enemy)) {
-                //Player collision with enemy
-                //TODO HANDLE ENEMY COLLISION
-                //If pacman is energized kill ghost
-                if (enemy->getSTATE() == FLEE) {
-                    enemy->setSTATE(DEAD);
-                }
-
-                cout << "Player colliding with a ghost!" << endl;
-            }
-
-            enemy->checkMapBounds(mapWidth - 1, mapHeigth - 1);
+        for(auto const& enemy: enemies){
             enemy->visualize();
         }
-
-
         ui->visualize();
         player->visualize();
         factory->render();

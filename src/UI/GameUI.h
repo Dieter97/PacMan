@@ -9,15 +9,18 @@
 #include <map>
 #include <string>
 #include "View.h"
+#include "TextView.h"
 
 class GameUI {
 protected:
-    std::map<std::string,View*> views;
+    std::map<std::string,TextView*> textViews;
 
 public:
     GameUI();
     void visualize();
-    void addView(std::string key,View* view);
+    void addTextView(std::string key,TextView* view);
+    bool removeTextView(std::string key);
+    void changeText(std::string key,std::string text);
 };
 
 

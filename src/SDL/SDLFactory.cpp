@@ -122,7 +122,7 @@ bool SDLFactory::loadMedia() {
         SDL_FreeSurface(loadedSurface);
     }
 
-    gFont = TTF_OpenFont("../resources/pixel.ttf",8);
+    gFont = TTF_OpenFont("../resources/pixel.ttf",24);
     if(gFont == nullptr){
         std::cout << "Unable to load ttf! SDL_ttf Error: " << TTF_GetError() << std::endl;
         success = false;
