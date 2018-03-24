@@ -13,6 +13,8 @@ protected:
     int DIRECTION;
     float speed;
     bool changedDir = false;
+    float spawnX;
+    float spawnY;
 public:
     bool isChangedDir() const;
     void setChangedDir(bool changedDir);
@@ -21,7 +23,11 @@ public:
     void pushBack();
     void checkMapBounds(int mapWidth,int mapHeigth) ;
     void move();
-    virtual void die() = 0;
+    int getDIRECTION() const;
+
+    float getSpawnX() const;
+
+    float getSpawnY() const;
 };
 
 

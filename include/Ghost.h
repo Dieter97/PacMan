@@ -19,7 +19,6 @@ public:
     int getNextDirection();
     int getSTATE() const;
     void setSTATE(int STATE);
-    void die();
 };
 
 

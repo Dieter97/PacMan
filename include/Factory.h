@@ -11,7 +11,8 @@
 #include "PacMan.h"
 #include "Tile.h"
 #include "Map.h"
-#include "../src/UI/TextView.h"
+#include "TextView.h"
+#include "../src/Timing/Timer.h"
 #include <string>
 
 class Factory {
@@ -25,6 +26,7 @@ public:
     virtual bool initDisplay(int mapWidth ,int mapHeight) = 0;
     virtual bool loadMedia() = 0;
     virtual TextView* createTextView(float posX, float posY,std::string string,int fontSize) = 0;
+    virtual Timer* createTimer() = 0;
     virtual void close() = 0;
     virtual void render() = 0;
     virtual void clear() = 0;

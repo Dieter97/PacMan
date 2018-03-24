@@ -31,7 +31,3 @@ int Ghost::getSTATE() const {
 void Ghost::setSTATE(int STATE) {
     Ghost::STATE = STATE;
 }
-
-void Ghost::die() {
-
-}

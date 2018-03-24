@@ -2,8 +2,8 @@
 // Created by dieter on 24/03/18.
 //
 
-#include "GameUI.h"
-#include "TextView.h"
+#include "../../include/GameUI.h"
+#include "../../include/TextView.h"
 
 void GameUI::addTextView(std::string key,TextView *view) {
     GameUI::textViews.emplace(key,view);

@@ -6,7 +6,7 @@
 #define GAMETEST_SDLTEXTVIEW_H
 
 
-#include "../../include/SDLContext.h"
+#include "SDLContext.h"
 #include "TextView.h"
 #include <string>
 

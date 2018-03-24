@@ -11,10 +11,6 @@ PacMan::PacMan(float posX, float posY, float speed) : MovingEntity(posX, posY, s
     this->STATE = DIR_LEFT;
 }
 
-void PacMan::die() {
-
-}
-
 int PacMan::getSTATE() const {
     return STATE;
 }

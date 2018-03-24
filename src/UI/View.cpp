@@ -2,7 +2,7 @@
 // Created by dieter on 24/03/18.
 //
 
-#include "View.h"
+#include "../../include/View.h"
 
 View::View(float posX, float posY) : posX(posX),posY(posY){
     visible = true;

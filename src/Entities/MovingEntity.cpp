@@ -8,6 +8,8 @@
 
 MovingEntity::MovingEntity(float posX, float posY,float speed) : Entity(posX, posY) {
     this->speed = speed;
+    this->spawnX = posX;
+    this->spawnY = posY;
 }
 
 void MovingEntity::move(int direction) {
@@ -92,4 +94,16 @@ bool MovingEntity::isChangedDir() const {
 
 void MovingEntity::setChangedDir(bool changedDir) {
     MovingEntity::changedDir = changedDir;
+}
+
+int MovingEntity::getDIRECTION() const {
+    return DIRECTION;
+}
+
+float MovingEntity::getSpawnX() const {
+    return spawnX;
+}
+
+float MovingEntity::getSpawnY() const {
+    return spawnY;
 }

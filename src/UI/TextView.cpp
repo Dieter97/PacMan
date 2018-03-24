@@ -2,7 +2,7 @@
 // Created by dieter on 24/03/18.
 //
 
-#include "TextView.h"
+#include "../../include/TextView.h"
 
 
 TextView::TextView(float posX, float posY) : View(posX, posY), fontSize(12) {

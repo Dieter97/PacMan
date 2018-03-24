@@ -9,7 +9,8 @@
 #include "../../include/SDLPacMan.h"
 #include "../../include/SDLTile.h"
 #include "../../include/SDLMap.h"
-#include "../UI/SDLTextView.h"
+#include "../../include/SDLTextView.h"
+#include "../Timing/SDLTimer.h"
 
 Ghost *SDLFactory::createGhost(float posX, float posY,float speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);
@@ -175,4 +176,8 @@ Map *SDLFactory::createMap(int width, int height) {
 
 TextView *SDLFactory::createTextView(float posX, float posY, std::string string, int fontSize) {
     return new SDLTextView(posX,posY,string,fontSize,this->context);
+}
+
+Timer *SDLFactory::createTimer() {
+    return new SDLTimer();
 }

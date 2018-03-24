@@ -7,7 +7,8 @@
 
 
 #include "Factory.h"
-#include "../src/UI/GameUI.h"
+#include "GameUI.h"
+#include "../src/Timing/Timer.h"
 
 class Game {
 public:
@@ -26,8 +27,14 @@ private:
     Map* tileMap;
     Event* events;
 
+    //Timers
+    Timer* ghostTimer;
+    Timer* fpsTimer;
+    int countedFrames;
+
     //Game Variables
     int points;
+    int lives;
 
     //UI
     GameUI* ui;

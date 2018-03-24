@@ -46,6 +46,7 @@ public:
     bool initDisplay(int mapWidth ,int mapHeight) override ;
     bool loadMedia() override ;
     TextView* createTextView(float posX, float posY,std::string string,int fontSize);
+    Timer* createTimer();
     void close() override;
     void render() override ;
     void clear() override ;
