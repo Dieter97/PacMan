@@ -108,7 +108,7 @@ void Game::start() {
 
     //Init game loop vars
     bool quit = false;
-    bool playing = false;
+    this->playing = false;
     int playerDirection = DIR_UP;
     int nextDirection = DIR_UP;
 
@@ -148,48 +148,50 @@ void Game::start() {
                 nextDirection = DIR_DOWN;
                 break;
             case KEY_PRESS_SPACE:
-                playing = true;
+                this->playing = true;
                 break;
             default:
                 break;
         }
 
-        if(playing){
+        if(this->playing){
             ui->removeTextView("start");
 
             //First move the player
+            //try the wanted dir
             player->move(nextDirection);
 
-            //Map collision for player
-            int playerCollision;
-            if((playerCollision = tileMap->checkCollision(player))){
-                //std::cout << "Player colliding with a Tile!" << std::endl;
-                player->pushBack();
-                player->move(playerDirection);
-                if(tileMap->checkCollision(player)){
-                    player->pushBack();
-                }
-            }else{
-                playerDirection = nextDirection;
-            }
-            player->checkMapBounds(mapWidth-1,mapHeigth-1);
 
-            //Player Collisions with other items
-            switch (playerCollision){
-                case POINT:
-                    this->points++;
-                    ui->changeText("points","Points: "+to_string(this->points));
-                    if(tileMap->isDone()){
-                        ui->addTextView("win",factory->createTextView(mapWidth/2-2,mapHeigth/2,"YOU WIN!",18));
-                        playing = false;
+            //Check the player collision with map and other tiles
+            int playerCollision = tileMap->checkCollision(player);
+            switch(playerCollision){
+                case NO_COLL:
+                    playerDirection = nextDirection;
+                    break;
+                case COLL:
+                    //player can't move in the desired dir move in old dir
+                    player->pushBack();
+                    player->move(playerDirection);
+                    switch (tileMap->checkCollision(player)){
+                        case COLL:
+                            player->pushBack();
+                            break;
+                        case POINT:
+                            this->handlePoint();
+                            break;
+                        case BONUS:
+                            this->handleBonus();
+                            break;
+                        default:
+                            //Nothing
+                            break;
                     }
                     break;
+                case POINT:
+                    this->handlePoint();
+                    break;
                 case BONUS:
-                    //Set enemies in vulnerable state for 10 sec
-                    for(auto const& enemy: enemies){
-                        enemy->setSTATE(FLEE);
-                    }
-                    this->ghostTimer->start();
+                    this->handleBonus();
                     break;
                 default:
                     //Nothing
@@ -225,7 +227,7 @@ void Game::start() {
                             //Do nothing
                             break;
                         default:
-                            playing = false;
+                            this->playing = false;
                             if(lives > 0){
                                 //TODO ev set ghost back to spawn location
                                 this->lives--;
@@ -269,5 +271,22 @@ void Game::start() {
 
     //Close game
     factory->close();
+}
+
+void Game::handlePoint() {
+    this->points++;
+    ui->changeText("points","Points: "+to_string(this->points));
+    if(tileMap->isDone()){ //TODO REWRITE ISDONE FUNCTION (REMOVE IT)
+        ui->addTextView("win",factory->createTextView(mapWidth/2-2,mapHeigth/2,"YOU WIN!",18));
+        this->playing = false;
+    }
+}
+
+void Game::handleBonus() {
+    //Set enemies in vulnerable state for 10 sec
+    for(auto const& enemy: enemies){
+        enemy->setSTATE(FLEE);
+    }
+    this->ghostTimer->start();
 }
 

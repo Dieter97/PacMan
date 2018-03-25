@@ -14,6 +14,8 @@ class Game {
 public:
     void start();
     bool initGame(Factory* f);
+    void handlePoint();
+    void handleBonus();
 
 private:
     int mapHeigth;
@@ -35,6 +37,7 @@ private:
     //Game Variables
     int points;
     int lives;
+    bool playing;
 
     //UI
     GameUI* ui;
