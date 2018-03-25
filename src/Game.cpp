@@ -22,7 +22,7 @@ bool Game::initGame(Factory* f) {
     int *b[99];
     int map[99][99];
     string line;
-    ifstream level ("../resources/level.map");
+    ifstream level ("../resources/level2.map");
     if (level.is_open())
     {
         //Read map parameters from level file
@@ -96,7 +96,7 @@ bool Game::initGame(Factory* f) {
 
     //Create UI elements
     ui->addTextView("start",factory->createTextView(mapWidth/2-6.5f,mapHeigth/2-3.2f,"Press space to start",18));
-    ui->addTextView("points",factory->createTextView(0,mapHeigth,"Points: 0",12));
+    ui->addTextView("score",factory->createTextView(0,mapHeigth,"Score: 0",12));
     ui->addTextView("lives",factory->createTextView(mapWidth-6,mapHeigth,"Lives: "+to_string(this->lives),12));
 
     //Create the level tile map
@@ -281,7 +281,7 @@ void Game::start() {
 
 void Game::handlePoint() {
     this->points++;
-    ui->changeText("points","Points: "+to_string(this->points));
+    ui->changeText("score","Score: "+to_string(this->points));
     if(points >= neededPoints){
         ui->addTextView("win",factory->createTextView(mapWidth/2-2,mapHeigth/2,"YOU WIN!",18));
         this->playing = false;

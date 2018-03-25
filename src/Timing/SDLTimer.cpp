@@ -3,7 +3,7 @@
 //
 
 #include <SDL_timer.h>
-#include "SDLTimer.h"
+#include "../../include/SDLTimer.h"
 
 
 SDLTimer::SDLTimer() {

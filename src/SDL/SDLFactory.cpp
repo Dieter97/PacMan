@@ -10,7 +10,7 @@
 #include "../../include/SDLTile.h"
 #include "../../include/SDLMap.h"
 #include "../../include/SDLTextView.h"
-#include "../Timing/SDLTimer.h"
+#include "../../include/SDLTimer.h"
 
 Ghost *SDLFactory::createGhost(float posX, float posY,float speed,int color) {
     return new SDLGhost(posX, posY,speed,color, context);

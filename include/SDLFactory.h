@@ -27,15 +27,12 @@ private:
     SDLContext* context;
 
     //Windwow parameters
-    static const int WINDOW_WIDTH = 800;
-    static const int WINDOW_HEIGTH = 800;
+    static const int WINDOW_WIDTH = 600;
+    static const int WINDOW_HEIGTH = 900;
 
     //Tile parameters
     static const int tileHeight = 15;
     static const int tileWidth = 15;
-
-    //GAME
-
 
 public:
     Ghost* createGhost(float posX,float posY,float speed,int color) override;

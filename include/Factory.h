@@ -12,7 +12,7 @@
 #include "Tile.h"
 #include "Map.h"
 #include "TextView.h"
-#include "../src/Timing/Timer.h"
+#include "Timer.h"
 #include <string>
 
 class Factory {

@@ -8,7 +8,7 @@
 
 #include "Factory.h"
 #include "GameUI.h"
-#include "../src/Timing/Timer.h"
+#include "Timer.h"
 
 class Game {
 public:
