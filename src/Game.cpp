@@ -16,12 +16,13 @@ using namespace std;
 bool Game::initGame(Factory* f) {
     this->factory = f;
     ui = new GameUI();
+    this->neededPoints = 0;
     //First load the map
 
     int *b[99];
     int map[99][99];
     string line;
-    ifstream level ("../resources/level2.map");
+    ifstream level ("../resources/level.map");
     if (level.is_open())
     {
         //Read map parameters from level file
@@ -59,6 +60,10 @@ bool Game::initGame(Factory* f) {
                 case ORANGE_GHOST_SPAWN:
                     enemies.emplace_back(factory->createGhost(i, j,0.125f,ORANGE_GHOST));
                     map[i][j] = BLANK;
+                    break;
+                case POINT_SMALL:
+                    this->neededPoints++;
+                    map[i][j] = num;
                     break;
                 default:
                     map[i][j] = num;
@@ -197,6 +202,7 @@ void Game::start() {
                     //Nothing
                     break;
             }
+            player->checkMapBounds(mapWidth - 1, mapHeigth - 1);
 
             //Collision and movement for enemies
             for(auto const& enemy: enemies) {
@@ -276,7 +282,7 @@ void Game::start() {
 void Game::handlePoint() {
     this->points++;
     ui->changeText("points","Points: "+to_string(this->points));
-    if(tileMap->isDone()){ //TODO REWRITE ISDONE FUNCTION (REMOVE IT)
+    if(points >= neededPoints){
         ui->addTextView("win",factory->createTextView(mapWidth/2-2,mapHeigth/2,"YOU WIN!",18));
         this->playing = false;
     }

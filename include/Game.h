@@ -36,6 +36,7 @@ private:
 
     //Game Variables
     int points;
+    int neededPoints;
     int lives;
     bool playing;
 
