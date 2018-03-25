@@ -101,7 +101,7 @@ bool Game::initGame(Factory* f) {
 
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
-    tileMap->loadMap(b,BLUE_TILE);
+    tileMap->loadMap(b,ORANGE_TILE);
 
     //Create event handler
     events = factory->createEventSystem();
@@ -130,7 +130,7 @@ void Game::start() {
         {
             avgFPS = 0;
         }
-        cout << "FPS: " << avgFPS << endl;
+        cout << "\rFPS: " << avgFPS;
 
         //Clear screen
         factory->clear();
@@ -165,7 +165,6 @@ void Game::start() {
             //First move the player
             //try the wanted dir
             player->move(nextDirection);
-
 
             //Check the player collision with map and other tiles
             int playerCollision = tileMap->checkCollision(player);
