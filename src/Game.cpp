@@ -130,7 +130,7 @@ void Game::start() {
         {
             avgFPS = 0;
         }
-        cout << "\rFPS: " << avgFPS;
+        cout << "FPS: " << avgFPS << endl;
 
         //Clear screen
         factory->clear();

@@ -49,32 +49,28 @@ bool Entity::collision(const Entity *e) {
     float bottomB = mid_yB + e->heigth/2;
 
     //If any of the sides from A are outside of B
-    if( bottomA <= topB )
+    if( bottomA-topB <= 0.001f  )
     {
         return false;
     }
 
-    if( topA >= bottomB )
+    if( 0.001f >= bottomB-topA)
     {
         return false;
     }
 
-    if( rightA <= leftB )
+    if( rightA-leftB <= 0.001f )
     {
         return false;
     }
 
-    if( leftA >= rightB )
+    if( 0.001f >= rightB-leftA )
     {
         return false;
     }
 
     //If none of the sides from A are outside B
-    return true;/*
-    bool result_floor,result_ceil;
-    result_floor = ((e->getPosY()) == (this->getPosY()) && (e->getPosX()) == (this->getPosX()));
-    result_ceil = (ceilf(e->getPosY()) == ceilf(this->getPosY()) && ceilf(e->getPosX()) == ceilf(this->getPosX()));
-    return result_ceil;// || result_floor;*/
+    return true;
 }
 
 int Entity::getType() const {
