@@ -49,22 +49,22 @@ bool Entity::collision(const Entity *e) {
     float bottomB = mid_yB + e->heigth/2;
 
     //If any of the sides from A are outside of B
-    if( bottomA-topB <= 0.001f  )
+    if( bottomA-topB <= 0.0001f  )
     {
         return false;
     }
 
-    if( 0.001f >= bottomB-topA)
+    if( 0.0001f >= bottomB-topA)
     {
         return false;
     }
 
-    if( rightA-leftB <= 0.001f )
+    if( rightA-leftB <= 0.0001f )
     {
         return false;
     }
 
-    if( 0.001f >= rightB-leftA )
+    if( 0.0001f >= rightB-leftA )
     {
         return false;
     }

@@ -24,10 +24,10 @@ public:
     void checkMapBounds(int mapWidth,int mapHeigth) ;
     void move();
     int getDIRECTION() const;
-
     float getSpawnX() const;
-
     float getSpawnY() const;
+
+    float getSpeed() const;
 };
 
 

@@ -16,7 +16,7 @@ public:
     bool initGame(Factory* f);
     void handlePoint();
     void handleBonus();
-
+    bool smoothRoundLocation(int dir,MovingEntity* e);
 private:
     int mapHeigth;
     int mapWidth;

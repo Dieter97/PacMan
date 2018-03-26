@@ -42,7 +42,7 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.125f);
+                    player = f->createPacMan(i, j,0.12111f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
@@ -88,7 +88,7 @@ bool Game::initGame(Factory* f) {
 
     //Init game vars
     this->points = 0;
-    this->lives = 3;
+    this->lives = 9999;
 
     //Init timers
     this->fpsTimer = factory->createTimer();
@@ -116,6 +116,7 @@ void Game::start() {
     this->playing = false;
     int playerDirection = DIR_UP;
     int nextDirection = DIR_UP;
+    bool crossing = false;
 
     //Start fpsTimer
     this->fpsTimer->start();
@@ -168,6 +169,17 @@ void Game::start() {
 
             //Check the player collision with map and other tiles
             int playerCollision = tileMap->checkCollision(player);
+            //Clip location of player to rounded coordinates on tilemap
+            bool intersection = tileMap->isIntersection((int) roundf(player->getPosX()), (int) roundf(player->getPosY()));
+            if(!crossing && intersection){
+                //crossing = smoothRoundLocation(player->getDIRECTION(),player);
+                player->setPosX((int) roundf(player->getPosX()));
+                player->setPosY((int) roundf(player->getPosY()));
+                crossing = true;
+            } else if(!intersection){
+                crossing = false;
+            }
+
             switch(playerCollision){
                 case NO_COLL:
                     playerDirection = nextDirection;
@@ -179,6 +191,8 @@ void Game::start() {
                     switch (tileMap->checkCollision(player)){
                         case COLL:
                             player->pushBack();
+                            player->setPosX((int) roundf(player->getPosX()));
+                            player->setPosY((int) roundf(player->getPosY()));
                             break;
                         case POINT:
                             this->handlePoint();
@@ -205,7 +219,7 @@ void Game::start() {
 
             //Collision and movement for enemies
             for(auto const& enemy: enemies) {
-                bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
+                intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
                     enemy->setChangedDir(1);
                     enemy->setPosX((int) roundf(enemy->getPosX()));
@@ -295,3 +309,40 @@ void Game::handleBonus() {
     this->ghostTimer->start();
 }
 
+bool Game::smoothRoundLocation(int dir, MovingEntity* e){
+    bool result = false;
+    switch (dir){
+        case DIR_UP:
+            if((roundf(e->getPosY()) + e->getSpeed()) < e->getPosY()){
+                e->setPosX((int) roundf(e->getPosX()));
+                e->setPosY((int) roundf(e->getPosY()));
+                result = true;
+            }
+            break;
+        case DIR_DOWN:
+            if((roundf(e->getPosY()) - e->getSpeed()) > e->getPosY()){
+                e->setPosX((int) roundf(e->getPosX()));
+                e->setPosY((int) roundf(e->getPosY()));
+                result = true;
+            }
+            break;
+        case DIR_LEFT:
+            if((roundf(e->getPosX()) - e->getSpeed()) < e->getPosX()){
+                e->setPosX((int) roundf(e->getPosX()));
+                e->setPosY((int) roundf(e->getPosY()));
+                result = true;
+            }
+            break;
+        case DIR_RIGHT:
+            if((roundf(e->getPosX()) + e->getSpeed()) > e->getPosX()){
+                e->setPosX((int) roundf(e->getPosX()));
+                e->setPosY((int) roundf(e->getPosY()));
+                result = true;
+            }
+            break;
+        default:
+            result = false;
+            break;
+    }
+    return result;
+}
