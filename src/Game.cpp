@@ -42,7 +42,7 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.12111f);
+                    player = f->createPacMan(i, j,0.111f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
@@ -101,7 +101,7 @@ bool Game::initGame(Factory* f) {
 
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
-    tileMap->loadMap(b,ORANGE_TILE);
+    tileMap->loadMap(b,BLUE_TILE);
 
     //Create event handler
     events = factory->createEventSystem();
@@ -170,15 +170,18 @@ void Game::start() {
             //Check the player collision with map and other tiles
             int playerCollision = tileMap->checkCollision(player);
             //Clip location of player to rounded coordinates on tilemap
-            bool intersection = tileMap->isIntersection((int) roundf(player->getPosX()), (int) roundf(player->getPosY()));
-            if(!crossing && intersection){
-                //crossing = smoothRoundLocation(player->getDIRECTION(),player);
-                player->setPosX((int) roundf(player->getPosX()));
-                player->setPosY((int) roundf(player->getPosY()));
-                crossing = true;
-            } else if(!intersection){
-                crossing = false;
+            if(playerDirection != nextDirection){
+                bool intersection = tileMap->isIntersection((int) roundf(player->getPosX()), (int) roundf(player->getPosY()));
+                if(!crossing && intersection){
+                    //crossing = smoothRoundLocation(player->getDIRECTION(),player);
+                    player->setPosX((int) roundf(player->getPosX()));
+                    player->setPosY((int) roundf(player->getPosY()));
+                    crossing = true;
+                } else if(!intersection){
+                    crossing = false;
+                }
             }
+
 
             switch(playerCollision){
                 case NO_COLL:
@@ -219,7 +222,7 @@ void Game::start() {
 
             //Collision and movement for enemies
             for(auto const& enemy: enemies) {
-                intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
+                bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
                     enemy->setChangedDir(1);
                     enemy->setPosX((int) roundf(enemy->getPosX()));
