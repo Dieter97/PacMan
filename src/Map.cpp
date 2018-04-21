@@ -74,7 +74,8 @@ bool Map::isIntersection(int posX,int posY){
     for (auto &i : dir) {
         if(tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == BLANK ||
            tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == POINT_BIG ||
-           tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == POINT_SMALL){
+           tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == POINT_SMALL ||
+           tileMap[(int)posX+ i[0]][(int)posY+ i[1]]->getTILETYPE() == DOOR_HORIZONTAL){
             j++;
         }
     }

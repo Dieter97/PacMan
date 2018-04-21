@@ -35,7 +35,7 @@ private:
     static const int tileWidth = 15;
 
 public:
-    Ghost* createGhost(float posX,float posY,float speed,AI * brain, int color) override;
+    Ghost* createGhost(float posX,float posY,float speed, int color) override;
     PacMan* createPacMan(float posX,float posY,float speed) override;
     Tile* createTile(float posX,float posY,int tileType,int tileColor) override ;
     Event* createEventSystem() override ;

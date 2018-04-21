@@ -42,23 +42,23 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.111f);
+                    player = f->createPacMan(i, j,0.128f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),RED_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.09f,RED_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case PINK_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),PINK_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,PINK_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case BLUE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),BLUE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,BLUE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case ORANGE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),ORANGE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,ORANGE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case POINT_SMALL:
@@ -102,6 +102,12 @@ bool Game::initGame(Factory* f) {
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
     tileMap->loadMap(b,BLUE_TILE);
+
+    //Initiate brains(AI) for enemies
+    for(auto const& enemy: enemies) {
+
+        enemy->setBrain(new Blinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+    }
 
     //Create event handler
     events = factory->createEventSystem();
@@ -172,7 +178,7 @@ void Game::start() {
             //Clip location of player to rounded coordinates on tilemap
             if(playerDirection != nextDirection){
                 bool intersection = tileMap->isIntersection((int) roundf(player->getPosX()), (int) roundf(player->getPosY()));
-                crossing = smoothRoundLocation(player->getDIRECTION(),player);
+                // crossing = smoothRoundLocation(player->getDIRECTION(),player);
                 if(!crossing && intersection){
                     //
                     player->setPosX((int) roundf(player->getPosX()));
@@ -223,12 +229,15 @@ void Game::start() {
 
             //Collision and movement for enemies
             for(auto const& enemy: enemies) {
+                if(enemy->getPosX() == enemy->getSpawnX() && enemy->getPosY() == enemy->getSpawnY()){
+                    //enemy->setMODE(CHASING);
+                }
                 bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
                     enemy->setChangedDir(1);
                     enemy->setPosX((int) roundf(enemy->getPosX()));
                     enemy->setPosY((int) roundf(enemy->getPosY()));
-                    enemy->move(enemy->getNextDirection(0,0));
+                    enemy->move(enemy->getNextDirection());
                 } else if (intersection) {
                     enemy->move();
                 } else {
@@ -237,14 +246,16 @@ void Game::start() {
                 }
                 if (tileMap->checkCollision(enemy)) {
                     enemy->pushBack();
-                    enemy->getNextDirection(0,0);
+                    enemy->setPosX((int) roundf(enemy->getPosX()));
+                    enemy->setPosY((int) roundf(enemy->getPosY()));
+                    enemy->getNextDirection();
                 }
                 if (player->collision(enemy)) {
                     //Player collision with enemy
                     //If pacman is energized kill ghost
-                    switch (enemy->getSTATE()){
+                    switch (enemy->getMODE()){
                         case FLEE:
-                            enemy->setSTATE(DEAD);
+                            enemy->setMODE(DEAD);
                             break;
                         case DEAD:
                             //Do nothing
@@ -274,7 +285,9 @@ void Game::start() {
                 if(this->ghostTimer->getTicks() > 8000){
                     this->ghostTimer->stop();
                     for(auto const& enemy: enemies){
-                        if(enemy->getSTATE() != DEAD){enemy->setSTATE(enemy->getDIRECTION());
+                        if(enemy->getMODE() != DEAD){
+                            enemy->setSTATE(enemy->getDIRECTION());
+                            enemy->setMODE(CHASING);
                         }
                     }
                 }
@@ -307,9 +320,9 @@ void Game::handlePoint() {
 }
 
 void Game::handleBonus() {
-    //Set enemies in vulnerable state for 10 sec
+    //Set enemies in vulnerable state for XX seconds
     for(auto const& enemy: enemies){
-        enemy->setSTATE(FLEE);
+        enemy->setMODE(FLEE);
     }
     this->ghostTimer->start();
 }

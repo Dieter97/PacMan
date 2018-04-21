@@ -9,7 +9,7 @@
 #include "Factory.h"
 #include "GameUI.h"
 #include "Timer.h"
-#include "GreedyAI.h"
+#include "Blinky.h"
 
 class Game {
 public:

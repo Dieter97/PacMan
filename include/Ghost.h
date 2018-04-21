@@ -14,14 +14,18 @@ protected:
     AI *brain;
     int STATE;
     int MODE;
+
 public:
-    Ghost(float posX, float posY,float speed,AI* ai);
+    Ghost(float posX, float posY,float speed);
     //void setAI(Entity* target,Map* map);
-    int getNextDirection(float targetX, float targetY);
+    int getNextDirection();
     int getSTATE() const;
     void setSTATE(int STATE);
 
+    void setBrain(AI *brain);
+
     int getMODE() const;
+    void setMODE(int mode);
 };
 
 

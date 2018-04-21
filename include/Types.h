@@ -11,8 +11,6 @@ enum STATES{
     DIR_LEFT,
     DIR_DOWN,
     DIR_UP,
-    DEAD,
-    FLEE,
     DEFAULT
 };
 
@@ -86,7 +84,9 @@ enum EntityType{
     TILE
 };
 
-enum EnemyMode{
+enum EntityMode{
+    DEAD,
+    FLEE,
     SCATTERING,
     CHASING
 };

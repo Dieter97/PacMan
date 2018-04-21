@@ -7,11 +7,17 @@
 
 
 #include "Map.h"
+#include "MovingEntity.h"
 
 class AI {
-
+protected:
+    Map* map;
+    int spawnX;
+    int spawnY;
+    MovingEntity* target;
 public:
-    virtual int getNextDirection(float targetX, float targetY, int mode) = 0;
+    AI(Map* m,int x, int y,MovingEntity* t);
+    virtual int getNextDirection(float posX, float posY, int mode) = 0;
 };
 
 
