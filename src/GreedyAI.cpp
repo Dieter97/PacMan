@@ -5,26 +5,22 @@
 #include "../include/GreedyAI.h"
 #include "../include/Types.h"
 
-GreedyAI::GreedyAI(Entity* target,Map* map): target(target) {
-    int width = map->getMAP_WIDTH();
-    int heigth = map->getMAP_HEIGHT();
-    Tile*** tileMap = map->getTileMap();
-    //Dynamically fill 2D array with all movable tiles
-    this->map = new int *[width];
-    for(int i=0;i<width;i++){
-        this->map[i] = new int[heigth];
-        for(int j =0;j<heigth;j++){
-            int tile = tileMap[i][j]->getTILETYPE();
-            if(tile == POINT_SMALL || tile == POINT_BIG || tile == BLANK){
-                this->map[i][j] = 1;
-            }else{
-                this->map[i][j] = 0;
-            }
-        }
+int GreedyAI::getNextDirection(float targetX, float targetY,int mode) {
+    int direction = 0;
+    switch (mode){
+        case SCATTERING:
+            //Random decision
+            direction= rand() % 4;
+            break;
+        case CHASING:
+            //Make 'intelligent' decision
+            int dir[4][2] = {{0,1},{0,-1},
+                             {1,0},{-1,0}};
+
+            break;
+        default:
+            break;
     }
-}
 
-int GreedyAI::nextDirection() {
-
-    return rand() % 3;
+    return direction;
 }

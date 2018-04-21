@@ -46,19 +46,19 @@ bool Game::initGame(Factory* f) {
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,RED_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),RED_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case PINK_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,PINK_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),PINK_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case BLUE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,BLUE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),BLUE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case ORANGE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,ORANGE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.125f,new GreedyAI(),ORANGE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case POINT_SMALL:
@@ -172,8 +172,9 @@ void Game::start() {
             //Clip location of player to rounded coordinates on tilemap
             if(playerDirection != nextDirection){
                 bool intersection = tileMap->isIntersection((int) roundf(player->getPosX()), (int) roundf(player->getPosY()));
+                crossing = smoothRoundLocation(player->getDIRECTION(),player);
                 if(!crossing && intersection){
-                    //crossing = smoothRoundLocation(player->getDIRECTION(),player);
+                    //
                     player->setPosX((int) roundf(player->getPosX()));
                     player->setPosY((int) roundf(player->getPosY()));
                     crossing = true;
@@ -227,7 +228,7 @@ void Game::start() {
                     enemy->setChangedDir(1);
                     enemy->setPosX((int) roundf(enemy->getPosX()));
                     enemy->setPosY((int) roundf(enemy->getPosY()));
-                    enemy->move(enemy->getNextDirection());
+                    enemy->move(enemy->getNextDirection(0,0));
                 } else if (intersection) {
                     enemy->move();
                 } else {
@@ -236,7 +237,7 @@ void Game::start() {
                 }
                 if (tileMap->checkCollision(enemy)) {
                     enemy->pushBack();
-                    enemy->getNextDirection();
+                    enemy->getNextDirection(0,0);
                 }
                 if (player->collision(enemy)) {
                     //Player collision with enemy
@@ -273,7 +274,8 @@ void Game::start() {
                 if(this->ghostTimer->getTicks() > 8000){
                     this->ghostTimer->stop();
                     for(auto const& enemy: enemies){
-                        if(enemy->getSTATE() != DEAD){enemy->setSTATE(enemy->getDIRECTION());}
+                        if(enemy->getSTATE() != DEAD){enemy->setSTATE(enemy->getDIRECTION());
+                        }
                     }
                 }
             }

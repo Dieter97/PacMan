@@ -7,13 +7,11 @@
 
 
 #include "Map.h"
-#include "GreedyAI.h"
 
 class AI {
 
 public:
-
-    virtual int nextDirection() = 0;
+    virtual int getNextDirection(float targetX, float targetY, int mode) = 0;
 };
 
 

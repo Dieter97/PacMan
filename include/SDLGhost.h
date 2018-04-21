@@ -13,7 +13,7 @@
 class SDLGhost : public Ghost {
 
 public:
-    SDLGhost(float posX, float posY, float speed,int color, SDLContext *context);
+    SDLGhost(float posX, float posY, float speed,AI* brain, int color, SDLContext *context);
 
     void visualize() override;
 

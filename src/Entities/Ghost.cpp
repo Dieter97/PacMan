@@ -9,19 +9,16 @@
 
 using namespace std;
 
-Ghost::Ghost(float posX, float posY,float speed) : MovingEntity(posX, posY,speed){
+Ghost::Ghost(float posX, float posY,float speed,AI* ai) : MovingEntity(posX, posY,speed){
     this->type = GHOST;
     this->DIRECTION = DIR_UP;
     this->STATE = DIR_UP;
+    this->MODE = SCATTERING;
+    this->brain = ai;
 }
-/*
-void Ghost::setAI(Entity *target, Map *map) {
-    this->brain = new GreedyAI(target,map);
-}*/
 
-int Ghost::getNextDirection() {
-   (this->DIRECTION = rand() % 4);
-    return this->DIRECTION;
+int Ghost::getNextDirection(float targetX, float targetY) {
+    return this->DIRECTION = brain->getNextDirection(targetX,targetY,this->MODE);
 }
 
 int Ghost::getSTATE() const {
@@ -30,4 +27,8 @@ int Ghost::getSTATE() const {
 
 void Ghost::setSTATE(int STATE) {
     Ghost::STATE = STATE;
+}
+
+int Ghost::getMODE() const {
+    return MODE;
 }

@@ -5,16 +5,11 @@
 #ifndef GAMETEST_GREEDYAI_H
 #define GAMETEST_GREEDYAI_H
 
+#include "AI.h"
 
-#include "Map.h"
-
-class GreedyAI {
-private:
-    int** map;
-    Entity* target;
+class GreedyAI : public AI {
 public:
-    GreedyAI(Entity* target,Map* map);
-    int nextDirection();
+    int getNextDirection(float targetX, float targetY, int mode) override ;
 };
 
 

@@ -86,6 +86,11 @@ enum EntityType{
     TILE
 };
 
+enum EnemyMode{
+    SCATTERING,
+    CHASING
+};
+
 enum TileColor{
     BLUE_TILE,
     PINK_TILE,
