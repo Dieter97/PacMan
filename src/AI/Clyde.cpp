@@ -16,11 +16,17 @@ int Clyde::getNextDirection(float posX,float posY, int mode) {
     switch (mode){
         case SCATTERING:
             //Random decision
-            direction = calculateShortest(posX,posY,-10,0);
+            direction = calculateShortest(posX,posY,-10,map->getMAP_HEIGHT()+10);
             break;
         case CHASING:
-            //Move to target
-            direction = calculateShortest(posX,posY,targetX,targetY);
+            //Move to target: when far away from target --> move to target
+            //when close to target: scatter
+            if(std::sqrt(((posX - target->getPosX()) * (posX - target->getPosX())) +
+                                 ((posY - target->getPosY()) * (posY - target->getPosY()))) > 8){
+                direction = calculateShortest(posX,posY,targetX,targetY);
+            }else{
+                direction = calculateShortest(posX,posY,-10,map->getMAP_HEIGHT()+10);
+            }
             break;
         case FLEE:
             //Random decision

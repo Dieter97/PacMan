@@ -16,11 +16,27 @@ int Pinky::getNextDirection(float posX,float posY, int mode) {
     switch (mode){
         case SCATTERING:
             //Random decision
-            direction = calculateShortest(posX,posY,-10,0);
+            direction = calculateShortest(posX,posY,-10,-10);
             break;
         case CHASING:
-            //Move to target
-            direction = calculateShortest(posX,posY,targetX,targetY);
+            //Move to target: chasing 4 tile in front of target
+            switch (target->getDIRECTION()){
+                case DIR_UP:
+                    direction = calculateShortest(posX,posY,targetX,targetY-4);
+                    break;
+                case DIR_DOWN:
+                    direction = calculateShortest(posX,posY,targetX,targetY+4);
+                    break;
+                case DIR_LEFT:
+                    direction = calculateShortest(posX,posY,targetX-4,targetY);
+                    break;
+                case DIR_RIGHT:
+                    direction = calculateShortest(posX,posY,targetX+4,targetY);
+                    break;
+                default:
+                    //noting
+                    break;
+            }
             break;
         case FLEE:
             //Random decision

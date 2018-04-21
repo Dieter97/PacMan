@@ -2,13 +2,10 @@
 // Created by dieter on 26/02/18.
 //
 
-#include <zconf.h>
 #include <iostream>
 #include <fstream>
 #include "../include/Game.h"
 #include "../include/Types.h"
-#include "../include/Map.h"
-#include "../include/SDLMap.h"
 
 using namespace std;
 
@@ -105,8 +102,7 @@ bool Game::initGame(Factory* f) {
 
     //Initiate brains(AI) for enemies
     for(auto const& enemy: enemies) {
-
-        enemy->setBrain(new Blinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+        enemy->setBrain(new Inky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
     }
 
     //Create event handler

@@ -2,8 +2,8 @@
 // Created by dieter on 18/03/18.
 //
 
-#ifndef GAMETEST_GREEDYAI_H
-#define GAMETEST_GREEDYAI_H
+#ifndef GAMETEST_INKY_H
+#define GAMETEST_INKY_H
 
 #include "AI.h"
 
@@ -18,4 +18,4 @@ public:
 };
 
 
-#endif //GAMETEST_GREEDYAI_H
+#endif //GAMETEST_INKY_H

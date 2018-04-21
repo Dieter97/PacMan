@@ -16,7 +16,7 @@ int Blinky::getNextDirection(float posX,float posY, int mode) {
     switch (mode){
         case SCATTERING:
             //Random decision
-            direction = calculateShortest(posX,posY,-10,0);
+            direction = calculateShortest(posX,posY,map->getMAP_WIDTH()+10,-10);
             break;
         case CHASING:
             //Move to target

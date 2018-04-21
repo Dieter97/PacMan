@@ -15,12 +15,28 @@ int Inky::getNextDirection(float posX,float posY, int mode) {
     float targetY = target->getPosY();
     switch (mode){
         case SCATTERING:
-            //Random decision
-            direction = calculateShortest(posX,posY,-10,0);
+            //Move to selected scatter point
+            direction = calculateShortest(posX,posY,map->getMAP_WIDTH()+10,map->getMAP_HEIGHT()+10);
             break;
         case CHASING:
-            //Move to target
-            direction = calculateShortest(posX,posY,targetX,targetY);
+            //Move to target: chasing 2 tile in front of target
+            switch (target->getDIRECTION()){
+                case DIR_UP:
+                    direction = calculateShortest(posX,posY,targetX,targetY-2);
+                    break;
+                case DIR_DOWN:
+                    direction = calculateShortest(posX,posY,targetX,targetY+2);
+                    break;
+                case DIR_LEFT:
+                    direction = calculateShortest(posX,posY,targetX-2,targetY);
+                    break;
+                case DIR_RIGHT:
+                    direction = calculateShortest(posX,posY,targetX+2,targetY);
+                    break;
+                default:
+                    //noting
+                    break;
+            }
             break;
         case FLEE:
             //Random decision
@@ -31,6 +47,7 @@ int Inky::getNextDirection(float posX,float posY, int mode) {
             direction = calculateShortest(posX,posY,spawnX,spawnY);
             break;
         default:
+            //Nothing
             break;
     }
 
@@ -42,10 +59,9 @@ int Inky::calculateShortest(float x1,float y1,float x2,float y2){
                      {1,0},{-1,0}};
     int res = -1;
     std::map<float,int> distances;
-    float locX,locY,dist,temp;
+    float locX,locY;
     Tile *** tileMap = this->map->getTileMap();
-    //Make 'intelligent' decision
-    dist = FLT_MAX;
+
     //first calculate all distances in the available directions
     for(auto &i : dir){
         if(tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == BLANK ||
@@ -68,11 +84,13 @@ int Inky::calculateShortest(float x1,float y1,float x2,float y2){
                     res = DIR_RIGHT;
                 }
             }
-            distances.emplace((float) std::sqrt(
-                    ((locX - x2) * (locX - x2)) + ((locY - y2) * (locY - y2))),res);
+            distances.emplace((float) std::sqrt(((locX - x2) * (locX - x2)) + ((locY - y2) * (locY - y2))),res);
         }
     }
+
+
     res = distances.begin()->second;
+    //Don't allow the ghost to go back
     switch (prev_dir) {
         case DIR_RIGHT:
             if(res == DIR_LEFT){

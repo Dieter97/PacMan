@@ -10,6 +10,10 @@
 #include "GameUI.h"
 #include "Timer.h"
 #include "Blinky.h"
+#include "Pinky.h"
+#include "Clyde.h"
+#include "Inky.h"
+
 
 class Game {
 public:
