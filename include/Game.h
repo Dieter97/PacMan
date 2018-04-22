@@ -43,6 +43,7 @@ private:
     int points;
     int neededPoints;
     int lives;
+    int ghostMode;
     bool playing;
 
     //UI

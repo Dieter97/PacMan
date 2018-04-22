@@ -102,7 +102,24 @@ bool Game::initGame(Factory* f) {
 
     //Initiate brains(AI) for enemies
     for(auto const& enemy: enemies) {
-        enemy->setBrain(new Inky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+        switch (enemy->getName()){
+            case BLINKY:
+                enemy->setBrain(new Blinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            case PINKY:
+                enemy->setBrain(new Pinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            case INKY:
+                enemy->setBrain(new Inky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            case CLYDE:
+                enemy->setBrain(new Clyde(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            default:
+                //nothing
+                break;
+        }
+
     }
 
     //Create event handler
@@ -119,6 +136,8 @@ void Game::start() {
     int playerDirection = DIR_UP;
     int nextDirection = DIR_UP;
     bool crossing = false;
+    this->ghostMode = SCATTERING;
+    this->ghostTimer->start();
 
     //Start fpsTimer
     this->fpsTimer->start();
@@ -133,7 +152,7 @@ void Game::start() {
         {
             avgFPS = 0;
         }
-        cout << "FPS: " << avgFPS << endl;
+        //cout << "FPS: " << avgFPS << endl;
 
         //Clear screen
         factory->clear();
@@ -277,15 +296,49 @@ void Game::start() {
             }
 
             //Check ghost timer
-            if(this->ghostTimer->isStarted()){
-                if(this->ghostTimer->getTicks() > 8000){
-                    this->ghostTimer->stop();
-                    for(auto const& enemy: enemies){
-                        if(enemy->getMODE() != DEAD){
-                            enemy->setSTATE(enemy->getDIRECTION());
-                            enemy->setMODE(CHASING);
+            if(this->ghostTimer->isStarted()) {
+                switch (this->ghostMode) {
+                    case SCATTERING:
+                        if(this->ghostTimer->getTicks() > 7000){
+                            this->ghostMode = CHASING;
+                            cout << "Starting to chase" << endl;
+                            this->ghostTimer->stop();
+                            for(auto const& enemy: enemies){
+                                if(enemy->getMODE() != DEAD){
+                                    enemy->setSTATE(enemy->getDIRECTION());
+                                    enemy->setMODE(CHASING);
+                                }
+                            }
+                            this->ghostTimer->start();
                         }
-                    }
+                        break;
+                    case CHASING:
+                        if(this->ghostTimer->getTicks() > 20000){
+                            cout << "Starting to scatter" << endl;
+                            this->ghostMode = SCATTERING;
+                            this->ghostTimer->stop();
+                            for(auto const& enemy: enemies){
+                                if(enemy->getMODE() != DEAD){
+                                    enemy->setSTATE(enemy->getDIRECTION());
+                                    enemy->setMODE(SCATTERING);
+                                }
+                            }
+                            this->ghostTimer->start();
+                        }
+                        break;
+                    case FLEE:
+                        if(this->ghostTimer->getTicks() > 8000){
+                            this->ghostMode = SCATTERING;
+                            this->ghostTimer->stop();
+                            for(auto const& enemy: enemies){
+                                if(enemy->getMODE() != DEAD){
+                                    enemy->setSTATE(enemy->getDIRECTION());
+                                    enemy->setMODE(SCATTERING);
+                                }
+                            }
+                            this->ghostTimer->start();
+                        }
+                        break;
                 }
             }
         }
@@ -317,6 +370,7 @@ void Game::handlePoint() {
 
 void Game::handleBonus() {
     //Set enemies in vulnerable state for XX seconds
+    this->ghostTimer->stop();
     for(auto const& enemy: enemies){
         enemy->setMODE(FLEE);
     }

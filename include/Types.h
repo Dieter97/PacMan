@@ -21,6 +21,13 @@ enum GhostColor{
     ORANGE_GHOST
 };
 
+enum GhostNames{
+    BLINKY,
+    PINKY,
+    INKY,
+    CLYDE
+};
+
 enum Events {
     KEY_PRESS_QUIT,
     KEY_PRESS_DEFAULT,

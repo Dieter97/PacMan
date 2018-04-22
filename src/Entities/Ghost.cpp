@@ -9,12 +9,13 @@
 
 using namespace std;
 
-Ghost::Ghost(float posX, float posY,float speed) : MovingEntity(posX, posY,speed){
+Ghost::Ghost(float posX, float posY,float speed,int name) : MovingEntity(posX, posY,speed){
     this->type = GHOST;
     this->DIRECTION = DIR_UP;
     this->STATE = DIR_UP;
     this->MODE = SCATTERING;
     this->brain = nullptr;
+    this->name = name;
 }
 
 int Ghost::getNextDirection() {
@@ -39,4 +40,16 @@ void Ghost::setMODE(int mode) {
 
 void Ghost::setBrain(AI *brain) {
     Ghost::brain = brain;
+}
+
+AI *Ghost::getBrain() const {
+    return brain;
+}
+
+int Ghost::getName() const {
+    return name;
+}
+
+void Ghost::setName(int name) {
+    Ghost::name = name;
 }
