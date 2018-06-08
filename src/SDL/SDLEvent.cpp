@@ -19,7 +19,6 @@ int SDLEvent::getEvent() {
                         return KEY_PRESS_UP;
                     case SDLK_DOWN:
                         return KEY_PRESS_DOWN;
-
                     case SDLK_LEFT:
                         return KEY_PRESS_LEFT;
 
@@ -27,6 +26,8 @@ int SDLEvent::getEvent() {
                         return KEY_PRESS_RIGHT;
                     case SDLK_SPACE:
                         return KEY_PRESS_SPACE;
+                    case SDLK_ESCAPE:
+                        return  KEY_PRESS_ESC;
                     default:
                         return KEY_PRESS_DEFAULT;
                 }

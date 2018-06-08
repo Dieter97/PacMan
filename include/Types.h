@@ -11,8 +11,6 @@ enum STATES{
     DIR_LEFT,
     DIR_DOWN,
     DIR_UP,
-    DEAD,
-    FLEE,
     DEFAULT
 };
 
@@ -23,6 +21,13 @@ enum GhostColor{
     ORANGE_GHOST
 };
 
+enum GhostNames{
+    BLINKY,
+    PINKY,
+    INKY,
+    CLYDE
+};
+
 enum Events {
     KEY_PRESS_QUIT,
     KEY_PRESS_DEFAULT,
@@ -31,7 +36,7 @@ enum Events {
     KEY_PRESS_LEFT,
     KEY_PRESS_RIGHT,
     KEY_PRESS_SPACE,
-    KEY_PRESS_SURFACE_TOTAL
+    KEY_PRESS_ESC
 };
 
 enum CollisionEvents {
@@ -84,6 +89,13 @@ enum EntityType{
     PACMAN,
     GHOST,
     TILE
+};
+
+enum EntityMode{
+    DEAD,
+    FLEE,
+    SCATTERING,
+    CHASING
 };
 
 enum TileColor{

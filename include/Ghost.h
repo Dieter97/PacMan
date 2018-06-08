@@ -11,14 +11,28 @@
 
 class Ghost : public MovingEntity {
 protected:
-    //GreedyAI *brain;
+    AI *brain;
     int STATE;
+    int MODE;
+    int name;
 public:
-    Ghost(float posX, float posY,float speed);
+    Ghost(float posX, float posY,float speed,int name);
     //void setAI(Entity* target,Map* map);
     int getNextDirection();
     int getSTATE() const;
     void setSTATE(int STATE);
+
+    void setBrain(AI *brain);
+
+    int getMODE() const;
+    void setMODE(int mode);
+
+    AI *getBrain() const;
+
+    int getName() const;
+
+    void setName(int name);
+
 };
 
 

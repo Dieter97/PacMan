@@ -5,23 +5,21 @@
 #include <iostream>
 #include "../../include/Ghost.h"
 #include "../../include/Types.h"
-#include "../../include/GreedyAI.h"
+#include "../../include/Blinky.h"
 
 using namespace std;
 
-Ghost::Ghost(float posX, float posY,float speed) : MovingEntity(posX, posY,speed){
+Ghost::Ghost(float posX, float posY,float speed,int name) : MovingEntity(posX, posY,speed){
     this->type = GHOST;
     this->DIRECTION = DIR_UP;
     this->STATE = DIR_UP;
+    this->MODE = SCATTERING;
+    this->brain = nullptr;
+    this->name = name;
 }
-/*
-void Ghost::setAI(Entity *target, Map *map) {
-    this->brain = new GreedyAI(target,map);
-}*/
 
 int Ghost::getNextDirection() {
-   (this->DIRECTION = rand() % 4);
-    return this->DIRECTION;
+    return this->DIRECTION = brain->getNextDirection(this->posX,this->posY,this->MODE);
 }
 
 int Ghost::getSTATE() const {
@@ -30,4 +28,28 @@ int Ghost::getSTATE() const {
 
 void Ghost::setSTATE(int STATE) {
     Ghost::STATE = STATE;
+}
+
+int Ghost::getMODE() const {
+    return MODE;
+}
+
+void Ghost::setMODE(int mode) {
+    Ghost::MODE = mode;
+}
+
+void Ghost::setBrain(AI *brain) {
+    Ghost::brain = brain;
+}
+
+AI *Ghost::getBrain() const {
+    return brain;
+}
+
+int Ghost::getName() const {
+    return name;
+}
+
+void Ghost::setName(int name) {
+    Ghost::name = name;
 }

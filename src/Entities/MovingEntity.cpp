@@ -107,3 +107,7 @@ float MovingEntity::getSpawnX() const {
 float MovingEntity::getSpawnY() const {
     return spawnY;
 }
+
+float MovingEntity::getSpeed() const {
+    return speed;
+}

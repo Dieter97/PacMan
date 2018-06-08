@@ -9,6 +9,11 @@
 #include "Factory.h"
 #include "GameUI.h"
 #include "Timer.h"
+#include "Blinky.h"
+#include "Pinky.h"
+#include "Clyde.h"
+#include "Inky.h"
+
 
 class Game {
 public:
@@ -16,7 +21,7 @@ public:
     bool initGame(Factory* f);
     void handlePoint();
     void handleBonus();
-
+    bool smoothRoundLocation(int dir,MovingEntity* e);
 private:
     int mapHeigth;
     int mapWidth;
@@ -32,12 +37,14 @@ private:
     //Timers
     Timer* ghostTimer;
     Timer* fpsTimer;
+    Timer* debounce;
     int countedFrames;
 
     //Game Variables
     int points;
     int neededPoints;
     int lives;
+    int ghostMode;
     bool playing;
 
     //UI

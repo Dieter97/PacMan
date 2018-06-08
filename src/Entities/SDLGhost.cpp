@@ -19,9 +19,9 @@ void SDLGhost::visualize() {
     SDL_Rect position = {SDLPosX,SDLPosY,SDLWidth,SDLHeigth};
 
     SDL_Rect* spriteToLoad;
-    switch (this->STATE){
+    switch (this->MODE){
         case FLEE:
-            spriteToLoad = sprites[FLEE][frame / ANIMATION_SPEED];
+            spriteToLoad = sprites[4][frame / ANIMATION_SPEED];
             break;
         case DEAD:
             spriteToLoad = dead_sprite[DIRECTION];
@@ -42,8 +42,8 @@ void SDLGhost::visualize() {
     }
 }
 
-SDLGhost::SDLGhost(float posX, float posY,float speed,int color,SDLContext* context) :
-        Ghost(posX,posY,speed) {
+SDLGhost::SDLGhost(float posX, float posY,float speed, int color,SDLContext* context) :
+        Ghost(posX,posY,speed,color) {
     cout << "Creating SDLGhost" << endl;
     this->context = context;
     this->COLOR = color;
