@@ -37,6 +37,7 @@ private:
     //Timers
     Timer* ghostTimer;
     Timer* fpsTimer;
+    Timer* debounce;
     int countedFrames;
 
     //Game Variables

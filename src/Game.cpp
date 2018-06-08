@@ -39,23 +39,23 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.128f);
+                    player = f->createPacMan(i, j,0.1f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.09f,RED_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.1f,RED_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case PINK_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,PINK_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.1f,PINK_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case BLUE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,BLUE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.1f,BLUE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case ORANGE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j,0.125f,ORANGE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j,0.1f,ORANGE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case POINT_SMALL:
@@ -85,11 +85,12 @@ bool Game::initGame(Factory* f) {
 
     //Init game vars
     this->points = 0;
-    this->lives = 9999;
+    this->lives = 3;
 
     //Init timers
     this->fpsTimer = factory->createTimer();
     this->ghostTimer = factory->createTimer();
+    this->debounce = factory->createTimer();
 
     //Create UI elements
     ui->addTextView("start",factory->createTextView(mapWidth/2-6.5f,mapHeigth/2-3.2f,"Press space to start",18));
@@ -177,6 +178,23 @@ void Game::start() {
             case KEY_PRESS_SPACE:
                 this->playing = true;
                 break;
+            case KEY_PRESS_ESC:
+                if(this->debounce->getTicks() > 200 || this->debounce->getTicks() == 0) {
+                    this->debounce->stop();
+                    if (this->playing) {
+                        this->playing = false;
+                        ui->addTextView("pause",
+                                        factory->createTextView(mapWidth / 2 - 6.5f, mapHeigth / 2 - 3.2f, "Paused",
+                                                                12));
+                        this->ghostTimer->pause();
+                        this->debounce->start();
+                    } else {
+                        this->playing = true;
+                        ui->removeTextView("pause");
+                        this->ghostTimer->unpause();
+                        this->debounce->start();
+                    }
+                }
             default:
                 break;
         }
@@ -286,6 +304,7 @@ void Game::start() {
                                 ui->changeText("lives","Lives: "+to_string(this->lives));
                             }else{
                                 ui->addTextView("lose",factory->createTextView(mapWidth/2-2.5f,mapHeigth/2-3.8f,"Game over",18));
+
                             }
                             break;
                     }

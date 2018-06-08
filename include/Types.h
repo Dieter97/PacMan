@@ -36,7 +36,7 @@ enum Events {
     KEY_PRESS_LEFT,
     KEY_PRESS_RIGHT,
     KEY_PRESS_SPACE,
-    KEY_PRESS_SURFACE_TOTAL
+    KEY_PRESS_ESC
 };
 
 enum CollisionEvents {
