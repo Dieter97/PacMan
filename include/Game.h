@@ -13,7 +13,8 @@
 #include "Pinky.h"
 #include "Clyde.h"
 #include "Inky.h"
-
+#include "Types.h"
+#include <string>
 
 class Game {
 public:
@@ -21,21 +22,22 @@ public:
     bool initGame(Factory* f);
     void handlePoint();
     void handleBonus();
+    bool loadMap(std::string levelFile);
+    void loadBrains();
     bool smoothRoundLocation(int dir,MovingEntity* e);
     void stop();
-    void restart();
-    void resetLevel();
+    void restart(Game* g);
+    void resetLevel(Game *g);
 private:
     int mapHeigth;
     int mapWidth;
-
+    std::string levelFile;
     Factory* factory;
 
     //Entities
     PacMan* player;
     std::vector<Ghost*> enemies;
     Map* tileMap;
-    Map* orgTileMap;
     Event* events;
 
     //Timers

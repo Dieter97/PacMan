@@ -25,7 +25,8 @@ public:
     void changeTextView(std::string key, std::string text);
     void addButton(std::string key,Button* btn);
     bool removeButton(std::string key);
-    void onClick();
+    void onClick(Game *g);
+    void removeAllUI();
 };
 
 

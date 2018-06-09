@@ -5,8 +5,6 @@
 #ifndef GAMETEST_TYPES_H
 #define GAMETEST_TYPES_H
 
-typedef void (*Function)();
-
 enum STATES{
     DIR_RIGHT,
     DIR_LEFT,

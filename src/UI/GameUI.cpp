@@ -34,10 +34,22 @@ bool GameUI::removeButton(std::string key) {
     return GameUI::buttons.erase(key) != 0;
 }
 
-void GameUI::onClick() {
+void GameUI::onClick(Game* g) {
+    Button * selected = nullptr;
     for(auto& view : buttons){
-        view.second->onClick();
+        if(view.second->isSelected()){
+            selected = view.second;
+            break;
+        }
     }
+    if(selected != nullptr) {
+        selected->onClick(g);
+    }
+}
+
+void GameUI::removeAllUI() {
+    this->buttons.clear();
+    this->textViews.clear();
 }
 
 GameUI::GameUI() = default;

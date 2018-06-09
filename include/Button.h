@@ -9,11 +9,15 @@
 #include "Types.h"
 #include <string>
 
+class Game; //Class Game exists without including it
+typedef void (*Function)(Game* g);
+
 class Button : public View {
 protected:
     std::string text;
     int fontSize;
     Function action;
+
     bool selected = false;
 public:
     Button(float posX, float posY);
@@ -22,7 +26,8 @@ public:
     void setText(const std::string &text);
     void select();
     void unselect();
-    void onClick();
+    void onClick(Game* g);
+    bool isSelected();
 };
 
 #endif //GAMETEST_BUTTON_H

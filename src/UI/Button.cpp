@@ -3,6 +3,7 @@
 //
 
 #include "../../include/Button.h"
+#include "../../include/Game.h"
 
 Button::Button(float posX, float posY) : View(posX, posY), fontSize(12) {
     View::visible = true;
@@ -34,9 +35,13 @@ void Button::unselect() {
     Button::text = Button::text.substr(0, Button::text.size()-4);
 }
 
-void Button::onClick() {
+void Button::onClick(Game* g) {
     if(Button::selected) {
         //Execute the given action
-        Button::action();
+        Button::action(g);
     }
+}
+
+bool Button::isSelected() {
+    return Button::selected;
 }

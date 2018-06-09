@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 #include "../include/Game.h"
-#include "../include/Types.h"
 
 using namespace std;
 
@@ -13,20 +12,78 @@ using namespace std;
 bool Game::initGame(Factory* f) {
     this->factory = f;
     ui = new GameUI();
-    this->neededPoints = 0;
-    //First load the map
-
-    int *b[99];
-    int map[99][99];
-    string line;
-    ifstream level ("../resources/level2.map");
-    if (level.is_open())
-    {
+    this->levelFile = "../resources/level2.map";
+    ifstream level (levelFile);
+    if (level.is_open()) {
         //Read map parameters from level file
         level >> mapWidth; level >> mapHeigth;
-
         factory->initDisplay(mapWidth,mapHeigth+1);
+    }else{
+        return false;
+    }
+    level.close();
 
+    //Load the map
+    if(!this->loadMap(levelFile)){
+        return false;
+    }
+
+    //Init game vars
+    this->points = 0;
+    this->lives = 3;
+
+    //Init timers
+    this->fpsTimer = factory->createTimer();
+    this->ghostTimer = factory->createTimer();
+    this->debounce = factory->createTimer();
+
+    //Create UI elements
+    ui->removeAllUI();
+    ui->addTextView("start",factory->createTextView(mapWidth/2-6.5f,mapHeigth/2-3.2f,"Press space to start",18));
+    ui->addTextView("score",factory->createTextView(0,mapHeigth,"Score: 0",12));
+    ui->addTextView("lives",factory->createTextView(mapWidth-6,mapHeigth,"Lives: "+to_string(this->lives),12));
+
+    this->loadBrains();
+
+    //Create event handler
+    events = factory->createEventSystem();
+
+    return true;
+}
+
+void Game::loadBrains(){
+    //Initiate brains(AI) for enemies
+    for(auto const& enemy: enemies) {
+        switch (enemy->getName()){
+            case BLINKY:
+                enemy->setBrain(new Blinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            case PINKY:
+                enemy->setBrain(new Pinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            case INKY:
+                enemy->setBrain(new Inky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            case CLYDE:
+                enemy->setBrain(new Clyde(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
+                break;
+            default:
+                //nothing
+                break;
+        }
+    }
+}
+
+bool Game::loadMap(std::string levelFile){
+    int *b[99];
+    int map[99][99];
+    this->neededPoints = 0;
+    string line;
+    ifstream level (levelFile);
+    if (level.is_open()) {
+        int n,m;
+        //skip the first line
+        level >> n; level >> m;
         //Read the entire map from the file
         int i = 0,j = 0,num = 0;
         while(level >> num || !level.eof()) {
@@ -39,7 +96,7 @@ bool Game::initGame(Factory* f) {
             //Create entity based on input number
             switch (num){
                 case PLAYER_SPAWN:
-                    player = f->createPacMan(i, j,0.1f);
+                    player = factory->createPacMan(i, j,0.1f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
@@ -73,60 +130,19 @@ bool Game::initGame(Factory* f) {
             }
         }
         //convert 2D array to 1D array of pointers
-        for(int k = 0;k<mapWidth;k++){
+        for(int k = 0;k<mapWidth;k++) {
             b[k] = map[k];
         }
-        level.close();
     }
     else{
         cout << "Error reading level file!";
         return false;
     }
-
-    //Init game vars
-    this->points = 0;
-    this->lives = 3;
-
-    //Init timers
-    this->fpsTimer = factory->createTimer();
-    this->ghostTimer = factory->createTimer();
-    this->debounce = factory->createTimer();
-
-    //Create UI elements
-    ui->addTextView("start",factory->createTextView(mapWidth/2-6.5f,mapHeigth/2-3.2f,"Press space to start",18));
-    ui->addTextView("score",factory->createTextView(0,mapHeigth,"Score: 0",12));
-    ui->addTextView("lives",factory->createTextView(mapWidth-6,mapHeigth,"Lives: "+to_string(this->lives),12));
+    level.close();
 
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
     tileMap->loadMap(b,BLUE_TILE);
-    this->orgTileMap = tileMap;
-
-    //Initiate brains(AI) for enemies
-    for(auto const& enemy: enemies) {
-        switch (enemy->getName()){
-            case BLINKY:
-                enemy->setBrain(new Blinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
-                break;
-            case PINKY:
-                enemy->setBrain(new Pinky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
-                break;
-            case INKY:
-                enemy->setBrain(new Inky(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
-                break;
-            case CLYDE:
-                enemy->setBrain(new Clyde(this->tileMap,(int)enemy->getSpawnX(),(int)enemy->getSpawnY(),player));
-                break;
-            default:
-                //nothing
-                break;
-        }
-
-    }
-
-    //Create event handler
-    events = factory->createEventSystem();
-
     return true;
 }
 
@@ -135,14 +151,39 @@ void Game::stop(){
     exit(0);
 }
 
-void Game::restart(){
+void Game::restart(Game* g){
     std::cout << "Restarting game!" << std::endl;
-    this->finished = false;
-    this->paused = false;
-    this->playing = false;
-    this->points = 0;
-    this->lives = 99;
-    this->tileMap = orgTileMap;
+    g->finished = false;
+    g->paused = false;
+    g->playing = false;
+    g->points = 0;
+    g->lives = 3;
+    g->enemies.clear();
+    g->loadMap("../resources/level2.map");
+    g->loadBrains();
+    g->ghostTimer->stop();
+    g->ghostTimer->start();
+    g->ghostTimer->pause();
+    //Create UI elements
+    g->ui->removeAllUI();
+    g->ui->addTextView("start",g->factory->createTextView(g->mapWidth/2-6.5f,g->mapHeigth/2-3.2f,"Press space to start",18));
+    ui->addTextView("score",factory->createTextView(0,mapHeigth,"Score: 0",12));
+    ui->addTextView("lives",factory->createTextView(mapWidth-6,mapHeigth,"Lives:3", 12));
+}
+
+void Game::resetLevel(Game *g) {
+    std::cout << "Restarting game!" << std::endl;
+    g->finished = false;
+    g->paused = false;
+    g->playing = false;
+    g->enemies.clear();
+    g->loadMap("../resources/level2.map");
+    g->loadBrains();
+    g->lives++;
+    g->ui->removeAllUI();
+    g->ui->addTextView("start",g->factory->createTextView(g->mapWidth/2-6.5f,g->mapHeigth/2-3.2f,"Press space to start",18));
+    ui->addTextView("score",factory->createTextView(0,mapHeigth,"Score: "+to_string(g->points),12));
+    ui->addTextView("lives",factory->createTextView(mapWidth-6,mapHeigth,"Lives: "+to_string(g->lives), 12));
 }
 
 void Game::start() {
@@ -157,6 +198,7 @@ void Game::start() {
     bool crossing = false;
     this->ghostMode = SCATTERING;
     this->ghostTimer->start();
+    this->ghostTimer->pause();
 
     //Start fpsTimer
     this->fpsTimer->start();
@@ -167,8 +209,7 @@ void Game::start() {
 
         //Calculate and correct fps
         float avgFPS = this->countedFrames / ( this->fpsTimer->getTicks() / 1000.f );
-        if( avgFPS > 2000000 )
-        {
+        if( avgFPS > 2000000 ) {
             avgFPS = 0;
         }
         //cout << "FPS: " << avgFPS << endl;
@@ -196,6 +237,7 @@ void Game::start() {
             case KEY_PRESS_SPACE:
                 if(!paused && !finished){
                     this->playing = true;
+                    this->ghostTimer->unpause();
                 }
                 break;
             case KEY_PRESS_ESC:
@@ -204,11 +246,9 @@ void Game::start() {
                     if (this->playing) {
                         this->playing = false;
                         this->paused = true;
-                        ui->addTextView("pause",
-                                        factory->createTextView(mapWidth / 2 - 6.5f, mapHeigth / 2 - 3.2f, "Paused",
-                                                                12));
-                        ui->addButton("exit_btn",factory->createButton(-5,0,"Exit game",12, (Function )&Game::stop));
-                        ui->addButton("restart_btn",factory->createButton(mapWidth,mapHeigth,"Restart game",12,(Function )&Game::restart));
+                        ui->addTextView("pause", factory->createTextView(mapWidth / 2 - 1.5f, mapHeigth / 3, "Paused", 18));
+                        ui->addButton("restart_btn",factory->createButton(mapWidth / 2 -2.2f,mapHeigth / 3 + 2.5f,"Restart game",12,(Function )&Game::restart));
+                        ui->addButton("exit_btn",factory->createButton(mapWidth / 2 - 1.5f,mapHeigth / 3 + 3.0f,"Exit game",12, (Function) &Game::stop));
                         this->ghostTimer->pause();
                         this->debounce->start();
                     } else {
@@ -220,9 +260,11 @@ void Game::start() {
                         this->ghostTimer->unpause();
                         this->debounce->start();
                     }
+                }else{
+                    this->ghostTimer->unpause();
                 }
             case MOUSE_CLICK:
-                ui->onClick();
+                ui->onClick(this);
             default:
                 break;
         }
@@ -249,7 +291,6 @@ void Game::start() {
                     crossing = false;
                 }
             }
-
 
             switch(playerCollision){
                 case NO_COLL:
@@ -333,9 +374,8 @@ void Game::start() {
                             }else{
                                 this->finished = true;
                                 ui->addTextView("lose",factory->createTextView(mapWidth/2-2.5f,mapHeigth/2-3.8f,"Game over",18));
-                                ui->addButton("restart_btn",factory->createButton(mapWidth,mapHeigth,"Restart game",12,(Function )&Game::restart));
-                                ui->addButton("exit_btn",factory->createButton(-5,0,"Exit game",12, (Function) &Game::stop));
-
+                                ui->addButton("restart_btn",factory->createButton(mapWidth/2 -2.2f,mapHeigth/3 + 1.5f,"Restart game",12,(Function )&Game::restart));
+                                ui->addButton("exit_btn",factory->createButton(mapWidth/2 - 1.5f,mapHeigth/3 + 2.0f,"Exit game",12, (Function) &Game::stop));
                             }
                             break;
                     }
@@ -412,8 +452,9 @@ void Game::start() {
 void Game::handlePoint() {
     this->points++;
     ui->changeTextView("score", "Score: " + to_string(this->points));
-    if(points >= neededPoints){
+    if((points % neededPoints) == 0){
         ui->addTextView("win",factory->createTextView(mapWidth/2-2,mapHeigth/2,"YOU WIN!",18));
+        ui->addButton("next_btn",factory->createButton(mapWidth / 2 - 1.5f,mapHeigth / 3 + 3.0f,"Next level",12, (Function) &Game::resetLevel));
         this->playing = false;
     }
 }
@@ -464,3 +505,5 @@ bool Game::smoothRoundLocation(int dir, MovingEntity* e){
     }
     return result;
 }
+
+
