@@ -22,7 +22,7 @@ public:
     bool initGame(Factory* f);
     void handlePoint();
     void handleBonus();
-    bool loadMap(std::string levelFile);
+    bool loadMap();
     void loadBrains();
     bool smoothRoundLocation(int dir,MovingEntity* e);
     void stop();
@@ -31,7 +31,7 @@ public:
 private:
     int mapHeigth;
     int mapWidth;
-    std::string levelFile;
+    std::string levelFile = "../../resources/level.map";
     Factory* factory;
 
     //Entities

@@ -12,7 +12,7 @@ using namespace std;
 bool Game::initGame(Factory* f) {
     this->factory = f;
     ui = new GameUI();
-    this->levelFile = "../resources/level2.map";
+    this->levelFile = "../resources/level.map";
     ifstream level (levelFile);
     if (level.is_open()) {
         //Read map parameters from level file
@@ -24,7 +24,7 @@ bool Game::initGame(Factory* f) {
     level.close();
 
     //Load the map
-    if(!this->loadMap(levelFile)){
+    if(!this->loadMap()){
         return false;
     }
 
@@ -74,7 +74,7 @@ void Game::loadBrains(){
     }
 }
 
-bool Game::loadMap(std::string levelFile){
+bool Game::loadMap(){
     int *b[99];
     int map[99][99];
     this->neededPoints = 0;
@@ -159,7 +159,7 @@ void Game::restart(Game* g){
     g->points = 0;
     g->lives = 3;
     g->enemies.clear();
-    g->loadMap("../resources/level2.map");
+    g->loadMap();
     g->loadBrains();
     g->ghostTimer->stop();
     g->ghostTimer->start();
@@ -177,7 +177,7 @@ void Game::resetLevel(Game *g) {
     g->paused = false;
     g->playing = false;
     g->enemies.clear();
-    g->loadMap("../resources/level2.map");
+    g->loadMap();
     g->loadBrains();
     g->lives++;
     g->ui->removeAllUI();
@@ -332,7 +332,7 @@ void Game::start() {
             //Collision and movement for enemies
             for(auto const& enemy: enemies) {
                 if(enemy->getPosX() == enemy->getSpawnX() && enemy->getPosY() == enemy->getSpawnY()){
-                    //enemy->setMODE(CHASING);
+                    enemy->setMODE(CHASING);
                 }
                 bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()), (int) roundf(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
@@ -417,7 +417,7 @@ void Game::start() {
                         }
                         break;
                     case FLEE:
-                        if(this->ghostTimer->getTicks() > 8000){
+                        if(this->ghostTimer->getTicks() > 5000){
                             this->ghostMode = SCATTERING;
                             this->ghostTimer->stop();
                             for(auto const& enemy: enemies){
