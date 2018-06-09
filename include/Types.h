@@ -5,6 +5,7 @@
 #ifndef GAMETEST_TYPES_H
 #define GAMETEST_TYPES_H
 
+typedef void (*Function)();
 
 enum STATES{
     DIR_RIGHT,
@@ -36,7 +37,8 @@ enum Events {
     KEY_PRESS_LEFT,
     KEY_PRESS_RIGHT,
     KEY_PRESS_SPACE,
-    KEY_PRESS_ESC
+    KEY_PRESS_ESC,
+    MOUSE_CLICK
 };
 
 enum CollisionEvents {

@@ -13,6 +13,7 @@
 #include "Map.h"
 #include "TextView.h"
 #include "Timer.h"
+#include "Button.h"
 #include <string>
 
 class Factory {
@@ -26,6 +27,7 @@ public:
     virtual bool initDisplay(int mapWidth ,int mapHeight) = 0;
     virtual bool loadMedia() = 0;
     virtual TextView* createTextView(float posX, float posY,std::string string,int fontSize) = 0;
+    virtual Button* createButton(float posX,float posY, std::string string,int fontSize,Function action) = 0;
     virtual Timer* createTimer() = 0;
     virtual void close() = 0;
     virtual void render() = 0;

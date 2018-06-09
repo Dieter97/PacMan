@@ -100,6 +100,7 @@ bool Game::initGame(Factory* f) {
     //Create the level tile map
     tileMap = factory->createMap(mapWidth,mapHeigth);
     tileMap->loadMap(b,BLUE_TILE);
+    this->orgTileMap = tileMap;
 
     //Initiate brains(AI) for enemies
     for(auto const& enemy: enemies) {
@@ -129,11 +130,28 @@ bool Game::initGame(Factory* f) {
     return true;
 }
 
+void Game::stop(){
+    std::cout << "BYE";
+    exit(0);
+}
+
+void Game::restart(){
+    std::cout << "Restarting game!" << std::endl;
+    this->finished = false;
+    this->paused = false;
+    this->playing = false;
+    this->points = 0;
+    this->lives = 99;
+    this->tileMap = orgTileMap;
+}
+
 void Game::start() {
 
     //Init game loop vars
     bool quit = false;
     this->playing = false;
+    this->paused = false;
+    this->finished = false;
     int playerDirection = DIR_UP;
     int nextDirection = DIR_UP;
     bool crossing = false;
@@ -176,25 +194,35 @@ void Game::start() {
                 nextDirection = DIR_DOWN;
                 break;
             case KEY_PRESS_SPACE:
-                this->playing = true;
+                if(!paused && !finished){
+                    this->playing = true;
+                }
                 break;
             case KEY_PRESS_ESC:
                 if(this->debounce->getTicks() > 200 || this->debounce->getTicks() == 0) {
                     this->debounce->stop();
                     if (this->playing) {
                         this->playing = false;
+                        this->paused = true;
                         ui->addTextView("pause",
                                         factory->createTextView(mapWidth / 2 - 6.5f, mapHeigth / 2 - 3.2f, "Paused",
                                                                 12));
+                        ui->addButton("exit_btn",factory->createButton(-5,0,"Exit game",12, (Function )&Game::stop));
+                        ui->addButton("restart_btn",factory->createButton(mapWidth,mapHeigth,"Restart game",12,(Function )&Game::restart));
                         this->ghostTimer->pause();
                         this->debounce->start();
                     } else {
                         this->playing = true;
+                        this->paused = false;
                         ui->removeTextView("pause");
+                        ui->removeButton("exit_btn");
+                        ui->removeButton("restart_btn");
                         this->ghostTimer->unpause();
                         this->debounce->start();
                     }
                 }
+            case MOUSE_CLICK:
+                ui->onClick();
             default:
                 break;
         }
@@ -301,9 +329,12 @@ void Game::start() {
                                 ui->addTextView("start",factory->createTextView(mapWidth/2-6.5f,mapHeigth/2-3.2f,"Press space to start",18));
                                 player->setPosX(player->getSpawnX());
                                 player->setPosY(player->getSpawnY());
-                                ui->changeText("lives","Lives: "+to_string(this->lives));
+                                ui->changeTextView("lives", "Lives: " + to_string(this->lives));
                             }else{
+                                this->finished = true;
                                 ui->addTextView("lose",factory->createTextView(mapWidth/2-2.5f,mapHeigth/2-3.8f,"Game over",18));
+                                ui->addButton("restart_btn",factory->createButton(mapWidth,mapHeigth,"Restart game",12,(Function )&Game::restart));
+                                ui->addButton("exit_btn",factory->createButton(-5,0,"Exit game",12, (Function) &Game::stop));
 
                             }
                             break;
@@ -380,7 +411,7 @@ void Game::start() {
 
 void Game::handlePoint() {
     this->points++;
-    ui->changeText("score","Score: "+to_string(this->points));
+    ui->changeTextView("score", "Score: " + to_string(this->points));
     if(points >= neededPoints){
         ui->addTextView("win",factory->createTextView(mapWidth/2-2,mapHeigth/2,"YOU WIN!",18));
         this->playing = false;

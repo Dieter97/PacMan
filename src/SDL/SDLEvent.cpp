@@ -32,6 +32,9 @@ int SDLEvent::getEvent() {
                         return KEY_PRESS_DEFAULT;
                 }
             }
+            if(e.type == SDL_MOUSEBUTTONDOWN) {
+                return MOUSE_CLICK;
+            }
         }
 
 }

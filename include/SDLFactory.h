@@ -10,6 +10,7 @@
 #include <SDL2/SDL.h>
 #include "SDL2/SDL_image.h"
 #include "SDLContext.h"
+#include "Types.h"
 
 
 class SDLFactory : public Factory{
@@ -43,6 +44,7 @@ public:
     bool initDisplay(int mapWidth ,int mapHeight) override ;
     bool loadMedia() override ;
     TextView* createTextView(float posX, float posY,std::string string,int fontSize);
+    Button* createButton(float posX, float posY, std::string string, int fontSize, Function action) override ;
     Timer* createTimer();
     void close() override;
     void render() override ;

@@ -13,14 +13,31 @@ void GameUI::visualize() {
     for(auto& view : textViews){
         view.second->visualize();
     }
+    for(auto& view : buttons){
+        view.second->visualize();
+    }
 }
 
 bool GameUI::removeTextView(std::string key) {
     return GameUI::textViews.erase(key) != 0;
 }
 
-void GameUI::changeText(std::string key, std::string text) {
+void GameUI::changeTextView(std::string key, std::string text) {
     GameUI::textViews.at(key)->setText(text);
+}
+
+void GameUI::addButton(std::string key, Button *btn) {
+    GameUI::buttons.emplace(key,btn);
+}
+
+bool GameUI::removeButton(std::string key) {
+    return GameUI::buttons.erase(key) != 0;
+}
+
+void GameUI::onClick() {
+    for(auto& view : buttons){
+        view.second->onClick();
+    }
 }
 
 GameUI::GameUI() = default;

@@ -11,6 +11,7 @@
 #include "../../include/SDLMap.h"
 #include "../../include/SDLTextView.h"
 #include "../../include/SDLTimer.h"
+#include "../../include/SDLButton.h"
 
 Ghost *SDLFactory::createGhost(float posX, float posY,float speed, int color) {
     return new SDLGhost(posX, posY,speed,color, context);
@@ -180,4 +181,8 @@ TextView *SDLFactory::createTextView(float posX, float posY, std::string string,
 
 Timer *SDLFactory::createTimer() {
     return new SDLTimer();
+}
+
+Button *SDLFactory::createButton(float posX, float posY, std::string string, int fontSize, Function action) {
+    return new SDLButton(posX, posY, string, fontSize, action,this->context);
 }

@@ -22,6 +22,9 @@ public:
     void handlePoint();
     void handleBonus();
     bool smoothRoundLocation(int dir,MovingEntity* e);
+    void stop();
+    void restart();
+    void resetLevel();
 private:
     int mapHeigth;
     int mapWidth;
@@ -32,6 +35,7 @@ private:
     PacMan* player;
     std::vector<Ghost*> enemies;
     Map* tileMap;
+    Map* orgTileMap;
     Event* events;
 
     //Timers
@@ -45,7 +49,7 @@ private:
     int neededPoints;
     int lives;
     int ghostMode;
-    bool playing;
+    bool playing,paused,finished;
 
     //UI
     GameUI* ui;
