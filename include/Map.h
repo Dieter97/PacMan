@@ -27,6 +27,8 @@ public:
     int getMAP_HEIGHT() const;
     bool isIntersection(int posX,int posY);
     bool isDone();
+    float getDoorX();
+    float getDoorY();
 };
 
 

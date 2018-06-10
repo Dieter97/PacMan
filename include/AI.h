@@ -14,6 +14,8 @@ protected:
     Map* map;
     int spawnX;
     int spawnY;
+    int doorX;
+    int doorY;
     MovingEntity* target;
 public:
     AI(Map* m,int x, int y,MovingEntity* t);

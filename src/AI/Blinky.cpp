@@ -28,7 +28,7 @@ int Blinky::getNextDirection(float posX,float posY, int mode) {
             break;
         case DEAD:
             //Move to spawn
-            direction = calculateShortest(posX,posY,spawnX,spawnY);
+            direction = calculateShortest(posX,posY,doorX,doorY);
             break;
         default:
             break;

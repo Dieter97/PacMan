@@ -106,3 +106,27 @@ bool Map::isDone() {
     }
     return result;
 }
+
+float Map::getDoorY() {
+    for(int i = 0; i<MAP_WIDTH;i++) {
+        for (int j = 0; j < MAP_HEIGHT; j++) {
+            int type = tileMap[i][j]->getTILETYPE();
+            if(type == DOOR_HORIZONTAL){
+                return tileMap[i][j]->getPosY();
+            }
+        }
+    }
+    return 0.0f;
+}
+
+float Map::getDoorX() {
+    for(int i = 0; i<MAP_WIDTH;i++) {
+        for (int j = 0; j < MAP_HEIGHT; j++) {
+            int type = tileMap[i][j]->getTILETYPE();
+            if(type == DOOR_HORIZONTAL){
+                return tileMap[i][j]->getPosX();
+            }
+        }
+    }
+    return 0.0f;
+}
