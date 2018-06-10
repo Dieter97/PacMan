@@ -53,3 +53,12 @@ int Ghost::getName() const {
 void Ghost::setName(int name) {
     Ghost::name = name;
 }
+
+float Ghost::getTargetX() {
+    return Ghost::brain->getTargetX();
+}
+
+float Ghost::getTargetY() {
+    return Ghost::brain->getTargetY();
+}
+

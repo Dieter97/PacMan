@@ -66,7 +66,8 @@ int Pinky::calculateShortest(float x1,float y1,float x2,float y2){
     for(auto &i : dir){
         if(tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == BLANK ||
            tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == POINT_BIG ||
-           tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == POINT_SMALL) {
+           tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == POINT_SMALL ||
+           tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == DOOR_HORIZONTAL) {
             locX = x1 + i[0];
             locY = y1 + i[1];
             if (i[0] == 0) {

@@ -21,17 +21,14 @@ public:
     int getNextDirection();
     int getSTATE() const;
     void setSTATE(int STATE);
-
     void setBrain(AI *brain);
-
     int getMODE() const;
     void setMODE(int mode);
-
     AI *getBrain() const;
-
     int getName() const;
-
     void setName(int name);
+    float getTargetX();
+    float getTargetY();
 
 };
 

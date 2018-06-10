@@ -99,7 +99,7 @@ bool Game::loadMap() {
             //Create entity based on input number
             switch (num) {
                 case PLAYER_SPAWN:
-                    player = factory->createPacMan(i, j, 0.1f);
+                    player = factory->createPacMan(i, j, 0.250f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
@@ -341,7 +341,8 @@ void Game::start() {
 
             //Collision and movement for enemies
             for (auto const &enemy: enemies) {
-                if (enemy->getPosX() == enemy->getSpawnX() && enemy->getPosY() == enemy->getSpawnY()) {
+                if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
+                        enemy->getMODE() == DEAD) {
                     enemy->setMODE(CHASING);
                 }
                 bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()),
@@ -470,7 +471,7 @@ void Game::start() {
 
 void Game::handlePoint() {
     this->points++;
-    ui->changeTextView("score", "Score: " + to_string(this->points));
+    ui->changeTextView("score", "Score: " + to_string(this->points*100));
     if ((points % neededPoints) == 0) {
         ui->addTextView("win", factory->createTextView(mapWidth / 2 - 2, mapHeigth / 2, "YOU WIN!", 18));
         ui->addButton("next_btn", factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 2 + 3.0f, "Next level", 12,

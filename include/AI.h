@@ -19,6 +19,8 @@ protected:
     MovingEntity* target;
 public:
     AI(Map* m,int x, int y,MovingEntity* t);
+    float getTargetX();
+    float getTargetY();
     virtual int getNextDirection(float posX, float posY, int mode) = 0;
 };
 
