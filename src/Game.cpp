@@ -343,7 +343,7 @@ void Game::start() {
             for (auto const &enemy: enemies) {
                 if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
                         enemy->getMODE() == DEAD) {
-                    enemy->setMODE(CHASING);
+                    enemy->setMODE(SCATTERING);
                 }
                 bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()),
                                                             (int) roundf(enemy->getPosY()));
