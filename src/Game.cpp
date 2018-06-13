@@ -370,6 +370,8 @@ void Game::start() {
                     switch (enemy->getMODE()) {
                         case FLEE:
                             enemy->setMODE(DEAD);
+                            this->points = this->points + 10;
+                            this->ui->changeTextView("score", "Score: " + to_string(this->points));
                             break;
                         case DEAD:
                             //Do nothing
@@ -377,7 +379,7 @@ void Game::start() {
                         default:
                             this->playing = false;
                             if (lives > 0) {
-                                //TODO ev set ghost back to spawn location
+                                //TODO ev set ghost back to spawn location + set points function
                                 this->lives--;
                                 ui->addTextView("start",
                                                 factory->createTextView(mapWidth / 2 - 6.5f, mapHeigth / 2 - 3.2f,
@@ -471,8 +473,9 @@ void Game::start() {
 
 void Game::handlePoint() {
     this->points++;
-    ui->changeTextView("score", "Score: " + to_string(this->points*100));
-    if ((points % neededPoints) == 0) {
+    this->food++;
+    this->ui->changeTextView("score", "Score: " + to_string(this->points));
+    if ((food % neededPoints) == 0) {
         ui->addTextView("win", factory->createTextView(mapWidth / 2 - 2, mapHeigth / 2, "YOU WIN!", 18));
         ui->addButton("next_btn", factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 2 + 3.0f, "Next level", 12,
                                                         (Function) &Game::resetLevel));
@@ -482,9 +485,13 @@ void Game::handlePoint() {
 
 void Game::handleBonus() {
     //Set enemies in vulnerable state for XX seconds
+    this->points = this->points + 5;
+    this->ui->changeTextView("score", "Score: " + to_string(this->points));
     this->ghostTimer->stop();
     for (auto const &enemy: enemies) {
-        enemy->setMODE(FLEE);
+        if(enemy->getMODE() != DEAD) {
+            enemy->setMODE(FLEE);
+        }
     }
     this->ghostTimer->start();
 }

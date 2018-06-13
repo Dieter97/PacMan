@@ -48,6 +48,7 @@ private:
 
     //Game Variables
     int points;
+    int food;
     int neededPoints;
     int lives;
     int ghostMode;
