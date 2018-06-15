@@ -79,6 +79,7 @@ void Game::loadBrains() {
 bool Game::loadMap() {
     int *b[99];
     int map[99][99];
+    int levelColor;
     this->neededPoints = 0;
     string line;
     ifstream level(levelFile);
@@ -87,6 +88,7 @@ bool Game::loadMap() {
         //skip the first line
         level >> n;
         level >> m;
+        level >> levelColor;
         //Read the entire map from the file
         int i = 0, j = 0, num = 0;
         while (level >> num || !level.eof()) {
@@ -144,7 +146,7 @@ bool Game::loadMap() {
 
     //Create the level tile map
     tileMap = factory->createMap(mapWidth, mapHeigth);
-    tileMap->loadMap(b, PINK_TILE);
+    tileMap->loadMap(b, levelColor);
     return true;
 }
 
