@@ -144,7 +144,7 @@ bool Game::loadMap() {
 
     //Create the level tile map
     tileMap = factory->createMap(mapWidth, mapHeigth);
-    tileMap->loadMap(b, BLUE_TILE);
+    tileMap->loadMap(b, PINK_TILE);
     return true;
 }
 
@@ -159,6 +159,7 @@ void Game::restart(Game *g) {
     g->paused = false;
     g->playing = false;
     g->points = 0;
+    g->food = 0;
     g->lives = 3;
     g->enemies.clear();
     g->loadMap();
@@ -180,6 +181,7 @@ void Game::resetLevel(Game *g) {
     g->paused = false;
     g->playing = false;
     g->enemies.clear();
+    g->food = 0;
     g->loadMap();
     g->loadBrains();
     g->lives++;
@@ -245,34 +247,37 @@ void Game::start() {
                 }
                 break;
             case KEY_PRESS_ESC:
-                if (this->debounce->getTicks() > 200 || this->debounce->getTicks() == 0) {
-                    this->debounce->stop();
-                    if (this->playing) {
-                        this->playing = false;
-                        this->paused = true;
-                        ui->addTextView("pause",
-                                        factory->createTextView(mapWidth / 2 - 1.5f, mapHeigth / 3, "Paused", 18));
-                        ui->addButton("restart_btn",
-                                      factory->createButton(mapWidth / 2 - 2.2f, mapHeigth / 3 + 2.5f, "Restart game",
-                                                            12, (Function) &Game::restart));
-                        ui->addButton("exit_btn",
-                                      factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 3 + 3.0f, "Exit game", 12,
-                                                            (Function) &Game::stop));
-                        this->ghostTimer->pause();
-                        this->debounce->start();
+                if(!finished){
+                    if (this->debounce->getTicks() > 200 || this->debounce->getTicks() == 0) {
+                        this->debounce->stop();
+                        if (this->playing) {
+                            this->playing = false;
+                            this->paused = true;
+                            ui->addTextView("pause",
+                                            factory->createTextView(mapWidth / 2 - 1.5f, mapHeigth / 3, "Paused", 18));
+                            ui->addButton("restart_btn",
+                                          factory->createButton(mapWidth / 2 - 2.2f, mapHeigth / 3 + 2.5f, "Restart game",
+                                                                12, (Function) &Game::restart));
+                            ui->addButton("exit_btn",
+                                          factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 3 + 3.0f, "Exit game", 12,
+                                                                (Function) &Game::stop));
+                            this->ghostTimer->pause();
+                            this->debounce->start();
+                        } else {
+                            this->playing = true;
+                            this->paused = false;
+                            ui->removeTextView("pause");
+                            ui->removeButton("exit_btn");
+                            ui->removeButton("restart_btn");
+                            this->ghostTimer->unpause();
+                            this->debounce->start();
+                        }
                     } else {
-                        this->playing = true;
-                        this->paused = false;
-                        ui->removeTextView("pause");
-                        ui->removeButton("exit_btn");
-                        ui->removeButton("restart_btn");
                         this->ghostTimer->unpause();
-                        this->debounce->start();
                     }
-                } else {
-                    this->ghostTimer->unpause();
                 }
             case MOUSE_CLICK:
+                //Pass mouse click to ui
                 ui->onClick(this);
             default:
                 break;
@@ -476,6 +481,7 @@ void Game::handlePoint() {
     this->food++;
     this->ui->changeTextView("score", "Score: " + to_string(this->points));
     if ((food % neededPoints) == 0) {
+        this->finished = true;
         ui->addTextView("win", factory->createTextView(mapWidth / 2 - 2, mapHeigth / 2, "YOU WIN!", 18));
         ui->addButton("next_btn", factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 2 + 3.0f, "Next level", 12,
                                                         (Function) &Game::resetLevel));
@@ -488,6 +494,7 @@ void Game::handleBonus() {
     this->points = this->points + 5;
     this->ui->changeTextView("score", "Score: " + to_string(this->points));
     this->ghostTimer->stop();
+    this->ghostMode = FLEE;
     for (auto const &enemy: enemies) {
         if(enemy->getMODE() != DEAD) {
             enemy->setMODE(FLEE);
