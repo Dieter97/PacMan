@@ -12,7 +12,7 @@ using namespace std;
 bool Game::initGame(Factory *f) {
     this->factory = f;
     ui = new GameUI();
-    this->levelFile = "../resources/level3.map";
+    this->levelFile = "../resources/level2.map";
     ifstream level(levelFile);
     if (level.is_open()) {
         //Read map parameters from level file
@@ -101,7 +101,7 @@ bool Game::loadMap() {
             //Create entity based on input number
             switch (num) {
                 case PLAYER_SPAWN:
-                    player = factory->createPacMan(i, j, 0.11f);
+                    player = factory->createPacMan(i, j, 0.125f);
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
@@ -356,6 +356,7 @@ void Game::start() {
                                                             (int) roundf(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
                     enemy->setChangedDir(1);
+                    //int currentDir = enemy->getDIRECTION();
                     enemy->setPosX((int) roundf(enemy->getPosX()));
                     enemy->setPosY((int) roundf(enemy->getPosY()));
                     enemy->move(enemy->getNextDirection());
