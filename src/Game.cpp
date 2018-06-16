@@ -12,7 +12,7 @@ using namespace std;
 bool Game::initGame(Factory *f) {
     this->factory = f;
     ui = new GameUI();
-    this->levelFile = "../resources/level2.map";
+    this->levelFile = "../resources/original2.map";
     ifstream level(levelFile);
     if (level.is_open()) {
         //Read map parameters from level file
@@ -105,19 +105,19 @@ bool Game::loadMap() {
                     map[i][j] = BLANK;
                     break;
                 case RED_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, RED_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, RED_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case PINK_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, PINK_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, PINK_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case BLUE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, BLUE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, BLUE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case ORANGE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, ORANGE_GHOST));
+                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, ORANGE_GHOST));
                     map[i][j] = BLANK;
                     break;
                 case POINT_SMALL:
@@ -355,13 +355,24 @@ void Game::start() {
                 bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()),
                                                             (int) roundf(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
+                    //Keep moving out of the intersection tile
                     enemy->setChangedDir(1);
-                    //int currentDir = enemy->getDIRECTION();
+                    int currentDir = enemy->getDIRECTION();
                     enemy->setPosX((int) roundf(enemy->getPosX()));
                     enemy->setPosY((int) roundf(enemy->getPosY()));
-                    enemy->move(enemy->getNextDirection());
-                } else if (intersection) {
+                    enemy->getNextDirection();
                     enemy->move();
+
+                } else if (intersection) {
+                    int currX = (int) enemy->getPosX();
+                    int currY = (int) enemy->getPosY();
+                    enemy->move();
+                    int newX = (int) enemy->getPosX();
+                    int newY = (int) enemy->getPosY();
+                    //Check if crossing into a next tile
+                    if(currX != newX || currY != newY){
+                        enemy->setChangedDir(0);
+                    }
                 } else {
                     enemy->move();
                     enemy->setChangedDir(0);
