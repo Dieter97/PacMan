@@ -7,28 +7,17 @@
 #include "../../include/SDLGhost.h"
 #include "../../include/SDLEvent.h"
 #include "../../include/SDLPacMan.h"
-#include "../../include/SDLTile.h"
 #include "../../include/SDLMap.h"
 #include "../../include/SDLTextView.h"
 #include "../../include/SDLTimer.h"
 #include "../../include/SDLButton.h"
 
-Ghost *SDLFactory::createGhost(float posX, float posY,float speed, int color) {
-    return new SDLGhost(posX, posY,speed,color, context);
-}
-
-PacMan *SDLFactory::createPacMan(float posX, float posY, float speed) {
-    return new SDLPacMan(posX, posY,speed, context);
-}
-
-Tile *SDLFactory::createTile(float posX, float posY, int tileType, int tileColor) {
-    return new SDLTile(posX, posY,tileType,tileColor, context);
-}
-
-SDLFactory::~SDLFactory() {
-    close();
-}
-
+/**
+ * Initializes and SDL window with given parameters and using Vsync to force 60fps
+ * @param mapWidth
+ * @param mapHeight
+ * @return, bool, success = true, fail = false
+ */
 bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
     //Initialization flag
     bool success = true;
@@ -101,6 +90,11 @@ bool SDLFactory::initDisplay(int mapWidth ,int mapHeight) {
     return success;
 }
 
+/**
+ * Loads the sprite files and fonts
+ * (and sounds)
+ * @return bool, success = true, fail = false
+ */
 bool SDLFactory::loadMedia() {
     //Loading success flag
     bool success = true;
@@ -124,7 +118,7 @@ bool SDLFactory::loadMedia() {
         SDL_FreeSurface(loadedSurface);
     }
 
-    gFont = TTF_OpenFont("../resources/pixel.ttf",24);
+    gFont = TTF_OpenFont("../resources/pixel.ttf", 24);
     if(gFont == nullptr){
         std::cout << "Unable to load ttf! SDL_ttf Error: " << TTF_GetError() << std::endl;
         success = false;
@@ -135,26 +129,17 @@ bool SDLFactory::loadMedia() {
     return success;
 }
 
-void SDLFactory::close() {
-    //Free loaded image
-    SDL_DestroyTexture(gTexture);
-    gTexture = NULL;
-
-    //Destroy window
-    SDL_DestroyRenderer(gRenderer);
-    SDL_DestroyWindow(gWindow);
-    gWindow = nullptr;
-    gRenderer = NULL;
-
-    //Destroy font
-    TTF_CloseFont( gFont );
-
-    //Quit SDL subsystems
-    TTF_Quit();
-    IMG_Quit();
-    SDL_Quit();
+Ghost *SDLFactory::createGhost(float posX, float posY, float speed, int color) {
+    return new SDLGhost(posX, posY, speed, color, context);
 }
 
+PacMan *SDLFactory::createPacMan(float posX, float posY, float speed) {
+    return new SDLPacMan(posX, posY, speed, context);
+}
+
+Tile *SDLFactory::createTile(float posX, float posY, int tileType, int tileColor) {
+    return new SDLTile(posX, posY, tileType, tileColor, context);
+}
 
 void SDLFactory::render() {
     //Update screen
@@ -185,4 +170,31 @@ Timer *SDLFactory::createTimer() {
 
 Button *SDLFactory::createButton(float posX, float posY, std::string string, int fontSize, Function action) {
     return new SDLButton(posX, posY, string, fontSize, action,this->context);
+}
+
+SDLFactory::~SDLFactory() {
+    this->close();
+}
+
+/**
+ * Destroys all SDL elements and media
+ */
+void SDLFactory::close() {
+    //Free loaded image
+    SDL_DestroyTexture(gTexture);
+    gTexture = NULL;
+
+    //Destroy window
+    SDL_DestroyRenderer(gRenderer);
+    SDL_DestroyWindow(gWindow);
+    gWindow = nullptr;
+    gRenderer = NULL;
+
+    //Destroy font
+    TTF_CloseFont(gFont);
+
+    //Quit SDL subsystems
+    TTF_Quit();
+    IMG_Quit();
+    SDL_Quit();
 }

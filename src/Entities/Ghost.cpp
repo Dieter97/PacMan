@@ -2,12 +2,8 @@
 // Created by dieter on 26/02/18.
 //
 
-#include <iostream>
 #include "../../include/Ghost.h"
 #include "../../include/Types.h"
-#include "../../include/Blinky.h"
-
-using namespace std;
 
 Ghost::Ghost(float posX, float posY,float speed,int name) : MovingEntity(posX, posY,speed){
     this->type = GHOST;
@@ -18,8 +14,12 @@ Ghost::Ghost(float posX, float posY,float speed,int name) : MovingEntity(posX, p
     this->name = name;
 }
 
+/**
+ * Gets a new direction from the ai
+ * @return the new direction
+ */
 int Ghost::getNextDirection() {
-    return this->DIRECTION = brain->getNextDirection(this->posX,this->posY,this->MODE);
+    return this->DIRECTION = brain->getNextDirection(this->posX, this->posY, this->MODE);
 }
 
 int Ghost::getSTATE() const {

@@ -3,10 +3,24 @@
 //
 
 #include "../../include/GameUI.h"
-#include "../../include/TextView.h"
 
-void GameUI::addTextView(std::string key,TextView *view) {
-    GameUI::textViews.emplace(key,view);
+GameUI::GameUI() = default;
+
+/**
+ * Passed the click event to the buttons
+ * @param g
+ */
+void GameUI::onClick(Game *g) {
+    Button *selected = nullptr;
+    for (auto &view : buttons) {
+        if (view.second->isSelected()) {
+            selected = view.second;
+            break;
+        }
+    }
+    if (selected != nullptr) {
+        selected->onClick(g);
+    }
 }
 
 void GameUI::visualize() {
@@ -16,6 +30,10 @@ void GameUI::visualize() {
     for(auto& view : buttons){
         view.second->visualize();
     }
+}
+
+void GameUI::addTextView(std::string key, TextView *view) {
+    GameUI::textViews.emplace(key, view);
 }
 
 bool GameUI::removeTextView(std::string key) {
@@ -34,22 +52,7 @@ bool GameUI::removeButton(std::string key) {
     return GameUI::buttons.erase(key) != 0;
 }
 
-void GameUI::onClick(Game* g) {
-    Button * selected = nullptr;
-    for(auto& view : buttons){
-        if(view.second->isSelected()){
-            selected = view.second;
-            break;
-        }
-    }
-    if(selected != nullptr) {
-        selected->onClick(g);
-    }
-}
-
 void GameUI::removeAllUI() {
     this->buttons.clear();
     this->textViews.clear();
 }
-
-GameUI::GameUI() = default;

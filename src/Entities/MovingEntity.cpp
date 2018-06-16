@@ -12,6 +12,10 @@ MovingEntity::MovingEntity(float posX, float posY,float speed) : Entity(posX, po
     this->spawnY = posY;
 }
 
+/**
+ * Moves the entity in the given direction and saves the direction based on the speed
+ * @param direction, the wanted direction
+ */
 void MovingEntity::move(int direction) {
     this->DIRECTION = direction;
     switch (direction){
@@ -33,6 +37,9 @@ void MovingEntity::move(int direction) {
 
 }
 
+/**
+ * Moves the entity in the wanted direction based on the speed
+ */
 void MovingEntity::move() {
     switch (this->DIRECTION){
         case DIR_UP:
@@ -52,9 +59,10 @@ void MovingEntity::move() {
     }
 }
 
+/**
+ * Moves the player back its speed
+ */
 void MovingEntity::pushBack(){
-    float roundX = roundf(posX);
-    float roundY = roundf(posY);
     switch (this->DIRECTION){
         case DIR_UP:
             posY = posY + speed;
@@ -73,6 +81,11 @@ void MovingEntity::pushBack(){
     }
 }
 
+/**
+ * Checks is the entity is still beteen the play area boundries and teleports to the otherside if out of the map
+ * @param mapWidth
+ * @param mapHeigth
+ */
 void MovingEntity::checkMapBounds(int mapWidth, int mapHeigth) {
     if(this->getPosX() > mapWidth){
         this->setPosX(0);

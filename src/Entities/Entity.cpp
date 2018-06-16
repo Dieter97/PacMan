@@ -2,7 +2,6 @@
 // Created by dieter on 05/03/18.
 //
 
-#include <cmath>
 #include "../../include/Entity.h"
 
 Entity::Entity(float posX, float posY) : posX(posX), posY(posY){
@@ -10,27 +9,16 @@ Entity::Entity(float posX, float posY) : posX(posX), posY(posY){
     heigth = 1;
 }
 
-float Entity::getPosX() const {
-    return posX;
-}
-
-void Entity::setPosX(float posX) {
-    this->posX = posX;
-}
-
-float Entity::getPosY() const {
-    return posY;
-}
-
-void Entity::setPosY(float posY) {
-    this->posY = posY;
-}
-
 Entity::Entity() {
     posX = 0;
     posY = 0;
 }
 
+/**
+ * Checks if this entity is coliding with an entity e
+ * @param e, the entity to check collision with
+ * @return bool, false if no collision, true if collision occurs
+ */
 bool Entity::collision(const Entity *e) {
    //The sides of the rectangles
 
@@ -71,6 +59,22 @@ bool Entity::collision(const Entity *e) {
 
     //If none of the sides from A are outside B
     return true;
+}
+
+float Entity::getPosX() const {
+    return posX;
+}
+
+void Entity::setPosX(float posX) {
+    this->posX = posX;
+}
+
+float Entity::getPosY() const {
+    return posY;
+}
+
+void Entity::setPosY(float posY) {
+    this->posY = posY;
 }
 
 int Entity::getType() const {

@@ -6,8 +6,9 @@
 #include "../../include/SDLPacMan.h"
 #include "../../include/Types.h"
 
-using namespace std;
-
+/**
+ * SDL implementation of the visualisation
+ */
 void SDLPacMan::visualize() {
     // Create render position and render
     int SDLHeigth = (int)(spriteWidth * context->getSCALE_FACTOR());
@@ -42,16 +43,23 @@ void SDLPacMan::visualize() {
     }
 }
 
-SDLPacMan::SDLPacMan(float posX, float posY,float speed,SDLContext* context) :
-        PacMan(posX,posY,speed) {
-    cout << "Creating SDLPacMan" << endl;
+/**
+ * Creates a SDL pacman and loads the sprites
+ * @param posX
+ * @param posY
+ * @param speed
+ * @param context
+ */
+SDLPacMan::SDLPacMan(float posX, float posY, float speed, SDLContext* context) :
+        PacMan(posX, posY, speed) {
+    std::cout << "Creating SDLPacMan" << std::endl;
     this->context = context;
 
     int spriteY = 290;
 
-    for(int i=0;i<4;i++){
+    for(int i=0; i < 4; i++){
         int spriteX = 65;
-        for(int j=0;j<ANIMATION_FRAMES;j++){
+        for(int j=0; j < ANIMATION_FRAMES; j++){
             sprites[i][j] = new SDL_Rect();
             sprites[i][j]->x = spriteX;
             sprites[i][j]->y = spriteY;

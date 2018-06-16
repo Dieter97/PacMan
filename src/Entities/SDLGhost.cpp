@@ -8,8 +8,9 @@
 #include "../../include/Types.h"
 #include "../../include/SDLTimer.h"
 
-using namespace std;
-
+/**
+ * SDL implementation of the visualisation
+ */
 void SDLGhost::visualize() {
     // Create render position and render
     int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();
@@ -43,18 +44,26 @@ void SDLGhost::visualize() {
     }
 }
 
-SDLGhost::SDLGhost(float posX, float posY,float speed, int color,SDLContext* context) :
-        Ghost(posX,posY,speed,color) {
-    cout << "Creating SDLGhost" << endl;
+/**
+ * Creates a SDL ghost and loads the correct sprites
+ * @param posX
+ * @param posY
+ * @param speed
+ * @param color
+ * @param context
+ */
+SDLGhost::SDLGhost(float posX, float posY, float speed, int color, SDLContext* context) :
+        Ghost(posX, posY, speed, color) {
+    std::cout << "Creating SDLGhost" << std::endl;
     this->context = context;
     this->COLOR = color;
     this->timer = new SDLTimer();
     int spriteY = 225;
 
     //Load alive sprite based on color
-    for(int i=0;i<4;i++){
-        int spriteX = 5+((COLOR)*2*spriteWidth);
-        for(int j=0;j<ANIMATION_FRAMES;j++){
+    for(int i=0; i < 4; i++){
+        int spriteX = 5 + ((COLOR) * 2 * spriteWidth);
+        for(int j=0; j < ANIMATION_FRAMES; j++){
             sprites[i][j] = new SDL_Rect();
             sprites[i][j]->x = spriteX;
             sprites[i][j]->y = spriteY;
@@ -67,9 +76,9 @@ SDLGhost::SDLGhost(float posX, float posY,float speed, int color,SDLContext* con
 
     //Load flee sprites
     spriteY = 226;
-    for(int i=4;i<6;i++){
+    for(int i=4; i<6; i++){
         int spriteX = 126;
-        for(int j=0;j<2;j++){
+        for(int j=0; j<2; j++){
             sprites[i][j] = new SDL_Rect();
             sprites[i][j]->x = spriteX;
             sprites[i][j]->y = spriteY;
@@ -83,9 +92,9 @@ SDLGhost::SDLGhost(float posX, float posY,float speed, int color,SDLContext* con
     //Load dead sprites
     spriteY = 256;
     int k = 0;
-    for(int i=0;i<2;i++){
+    for(int i=0; i<2; i++){
         int spriteX = 126;
-        for(int j=0;j<2;j++){
+        for(int j=0; j<2; j++){
             dead_sprite[k] = new SDL_Rect();
             dead_sprite[k]->x = spriteX;
             dead_sprite[k]->y = spriteY;

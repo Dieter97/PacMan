@@ -2,7 +2,6 @@
 // Created by dieter on 7/03/18.
 //
 
-#include <iostream>
 #include "../include/Map.h"
 #include "../include/Types.h"
 
@@ -17,10 +16,15 @@ Map::Map(int width, int height) {
     }
 }
 
+/**
+ * Check the collision with any tile of the tilemap and an entity e
+ * @param e, the entity to check collision with
+ * @return int, a number that represents the tile type
+ */
 int Map::checkCollision(Entity *e) {
     int result = NO_COLL;
-    for(int i = 0; i<MAP_WIDTH;i++){
-        for(int j = 0; j<MAP_HEIGHT;j++){
+    for(int i = 0; i < MAP_WIDTH; i++){
+        for(int j = 0; j < MAP_HEIGHT; j++){
             int type = tileMap[i][j]->getTILETYPE();
             switch (type){
                 case POINT_SMALL:
@@ -63,19 +67,26 @@ int Map::checkCollision(Entity *e) {
     return result;
 }
 
-bool Map::isIntersection(int posX,int posY){
-    int dir[4][2] = {{0,1},{0,-1},
-                     {1,0},{-1,0}};
+/**
+ * Checks if the given position is an intersection
+ * Intersections means there are multiple options to move to, not only forward
+ * @param posX
+ * @param posY
+ * @return bool, true = on intersection, false = not on intersection
+ */
+bool Map::isIntersection(int posX, int posY){
+    int dir[4][2] = {{0, 1}, {0, -1},
+                     {1, 0}, {-1, 0}};
     int j=0;
     //Don't check the border tiles
-    if(posX >= this->MAP_WIDTH-1 || posY >= this->MAP_HEIGHT-1 || posX < 1 || posY < 1){
+    if(posX >= this->MAP_WIDTH - 1 || posY >= this->MAP_HEIGHT - 1 || posX < 1 || posY < 1){
         return false;
     }
     for (auto &i : dir) {
-        if(tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == BLANK ||
-           tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == POINT_BIG ||
-           tileMap[posX+ i[0]][posY+ i[1]]->getTILETYPE() == POINT_SMALL ||
-           tileMap[(int)posX+ i[0]][(int)posY+ i[1]]->getTILETYPE() == DOOR_HORIZONTAL){
+        if(tileMap[posX + i[0]][posY + i[1]]->getTILETYPE() == BLANK ||
+           tileMap[posX + i[0]][posY + i[1]]->getTILETYPE() == POINT_BIG ||
+           tileMap[posX + i[0]][posY + i[1]]->getTILETYPE() == POINT_SMALL ||
+           tileMap[(int)posX + i[0]][(int)posY + i[1]]->getTILETYPE() == DOOR_HORIZONTAL){
             j++;
         }
     }
@@ -83,18 +94,10 @@ bool Map::isIntersection(int posX,int posY){
     return j > 2;
 }
 
-Tile ***Map::getTileMap() const {
-    return tileMap;
-}
-
-int Map::getMAP_WIDTH() const {
-    return MAP_WIDTH;
-}
-
-int Map::getMAP_HEIGHT() const {
-    return MAP_HEIGHT;
-}
-
+/**
+ * Checks is all points are eaten
+ * @return
+ */
 bool Map::isDone() {
     bool result = true;
     for(int i = 0; i<MAP_WIDTH;i++) {
@@ -107,8 +110,11 @@ bool Map::isDone() {
     return result;
 }
 
+/**
+ * @return, the y location of the door
+ */
 float Map::getDoorY() {
-    for(int i = 0; i<MAP_WIDTH;i++) {
+    for(int i = 0; i < MAP_WIDTH; i++) {
         for (int j = 0; j < MAP_HEIGHT; j++) {
             int type = tileMap[i][j]->getTILETYPE();
             if(type == DOOR_HORIZONTAL){
@@ -119,8 +125,11 @@ float Map::getDoorY() {
     return 0.0f;
 }
 
+/**
+ * @return, the x location of the door
+ */
 float Map::getDoorX() {
-    for(int i = 0; i<MAP_WIDTH;i++) {
+    for(int i = 0; i < MAP_WIDTH; i++) {
         for (int j = 0; j < MAP_HEIGHT; j++) {
             int type = tileMap[i][j]->getTILETYPE();
             if(type == DOOR_HORIZONTAL){
@@ -129,4 +138,16 @@ float Map::getDoorX() {
         }
     }
     return 0.0f;
+}
+
+Tile ***Map::getTileMap() const {
+    return tileMap;
+}
+
+int Map::getMAP_WIDTH() const {
+    return MAP_WIDTH;
+}
+
+int Map::getMAP_HEIGHT() const {
+    return MAP_HEIGHT;
 }

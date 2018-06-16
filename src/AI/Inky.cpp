@@ -9,14 +9,22 @@
 #include "../../include/Inky.h"
 #include "../../include/Types.h"
 
-int Inky::getNextDirection(float posX,float posY, int mode) {
+/**
+ * Determines a next direction to move in based on the current mode
+ * using a simple algorithm based on closest euclidean distance to target
+ * @param posX
+ * @param posY
+ * @param mode, entity's current mode
+ * @return the direction
+ */
+int Inky::getNextDirection(float posX, float posY, int mode) {
     int direction = -1;
     float targetX = target->getPosX();
     float targetY = target->getPosY();
     switch (mode){
         case SCATTERING:
             //Move to selected scatter point
-            direction = calculateShortest(posX,posY,map->getMAP_WIDTH()+10,map->getMAP_HEIGHT()+10);
+            direction = calculateShortest(posX, posY, map->getMAP_WIDTH() + 10, map->getMAP_HEIGHT() + 10);
             break;
         case CHASING:
             //Move to target: chasing 2 tile in front of target
@@ -45,15 +53,15 @@ int Inky::getNextDirection(float posX,float posY, int mode) {
             break;
         case DEAD:
             //Move to spawn
-            direction = calculateShortest(posX,posY,doorX,doorY);
+            direction = calculateShortest(posX, posY, doorX, doorY);
             break;
         case HOME:
             //Random movement inside the ghost house
-            direction = calculateShortest(posX,posY,map->getMAP_WIDTH()+10,map->getMAP_WIDTH()+10);
+            direction = calculateShortest(posX, posY, map->getMAP_WIDTH() + 10, map->getMAP_WIDTH() + 10);
             break;
         case LEAVE:
             //Move to the door
-            direction = calculateShortest(posX,posY,doorX,doorY);
+            direction = calculateShortest(posX, posY, doorX, doorY);
             break;
         default:
             //Nothing
@@ -63,9 +71,18 @@ int Inky::getNextDirection(float posX,float posY, int mode) {
     return direction;
 }
 
-int Inky::calculateShortest(float x1,float y1,float x2,float y2){
-    int dir[4][2] = {{0,1},{0,-1},
-                     {1,0},{-1,0}};
+/**
+ * Calculates the euclidian distance between to points (x1,y1) and (x2,y2) and determines wich way is the closest
+ * the posible directions are up,left,right and down
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @return a direction, direction with the lowest euclidean distance between de points
+ */
+int Inky::calculateShortest(float x1, float y1, float x2, float y2){
+    int dir[4][2] = {{0, 1}, {0, -1},
+                     {1, 0}, {-1, 0}};
     int res = -1;
     std::map<float,int> distances;
     float locX,locY;
@@ -73,8 +90,8 @@ int Inky::calculateShortest(float x1,float y1,float x2,float y2){
 
     //first calculate all distances in the available directions
     for(auto &i : dir){
-        if(tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == BLANK ||
-           tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == POINT_BIG ||
+        if(tileMap[(int)x1 + i[0]][(int)y1 + i[1]]->getTILETYPE() == BLANK ||
+           tileMap[(int)x1 + i[0]][(int)y1 + i[1]]->getTILETYPE() == POINT_BIG ||
            tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == POINT_SMALL ||
            tileMap[(int)x1+ i[0]][(int)y1+ i[1]]->getTILETYPE() == DOOR_HORIZONTAL) {
             locX = x1 + i[0];

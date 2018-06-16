@@ -5,7 +5,6 @@
 #include "../../include/Tile.h"
 #include "../../include/Types.h"
 
-
 Tile::Tile(float posX, float posY, int tileType) : Entity(posX, posY){
     this->TILETYPE = tileType;
     this->type = TILE;
