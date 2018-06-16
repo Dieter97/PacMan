@@ -8,6 +8,7 @@
 
 #include "MovingEntity.h"
 #include "AI.h"
+#include "Timer.h"
 
 class Ghost : public MovingEntity {
 protected:
@@ -15,6 +16,8 @@ protected:
     int STATE;
     int MODE;
     int name;
+    Timer* timer;
+    int waitTime;
 public:
     Ghost(float posX, float posY,float speed,int name);
     //void setAI(Entity* target,Map* map);
@@ -29,7 +32,12 @@ public:
     void setName(int name);
     float getTargetX();
     float getTargetY();
-
+    void startTimer(int lenght);
+    void stopTimer();
+    void pauseTimer();
+    void unpauseTimer();
+    void checkTimer();
+    void teleportToSpawn();
 };
 
 

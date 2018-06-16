@@ -6,14 +6,16 @@
 #include <fstream>
 #include "../include/Game.h"
 
-using namespace std;
-
-
+/**
+ *
+ * @param f
+ * @return
+ */
 bool Game::initGame(Factory *f) {
     this->factory = f;
     ui = new GameUI();
     this->levelFile = "../resources/original2.map";
-    ifstream level(levelFile);
+    std::ifstream level(levelFile);
     if (level.is_open()) {
         //Read map parameters from level file
         level >> mapWidth;
@@ -37,13 +39,14 @@ bool Game::initGame(Factory *f) {
     this->fpsTimer = factory->createTimer();
     this->ghostTimer = factory->createTimer();
     this->debounce = factory->createTimer();
+    this->homeTimer = factory->createTimer();
 
     //Create UI elements
     ui->removeAllUI();
     ui->addTextView("start",
                     factory->createTextView(mapWidth / 2 - 6.5f, mapHeigth / 2 - 3.2f, "Press space to start", 18));
     ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: 0", 12));
-    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives: " + to_string(this->lives), 12));
+    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives: " + std::to_string(this->lives), 12));
 
     this->loadBrains();
 
@@ -53,147 +56,9 @@ bool Game::initGame(Factory *f) {
     return true;
 }
 
-void Game::loadBrains() {
-    //Initiate brains(AI) for enemies
-    for (auto const &enemy: enemies) {
-        switch (enemy->getName()) {
-            case BLINKY:
-                enemy->setBrain(new Blinky(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
-                break;
-            case PINKY:
-                enemy->setBrain(new Pinky(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
-                break;
-            case INKY:
-                enemy->setBrain(new Inky(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
-                break;
-            case CLYDE:
-                enemy->setBrain(new Clyde(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
-                break;
-            default:
-                //nothing
-                break;
-        }
-    }
-}
-
-bool Game::loadMap() {
-    int *b[99];
-    int map[99][99];
-    int levelColor;
-    this->neededPoints = 0;
-    string line;
-    ifstream level(levelFile);
-    if (level.is_open()) {
-        int n, m;
-        //skip the first line
-        level >> n;
-        level >> m;
-        level >> levelColor;
-        //Read the entire map from the file
-        int i = 0, j = 0, num = 0;
-        while (level >> num || !level.eof()) {
-            if (level.fail()) { // Number input failed, skip the string
-                level.clear();
-                string dummy;
-                level >> dummy;
-                continue;
-            }
-            //Create entity based on input number
-            switch (num) {
-                case PLAYER_SPAWN:
-                    player = factory->createPacMan(i, j, 0.125f);
-                    map[i][j] = BLANK;
-                    break;
-                case RED_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, RED_GHOST));
-                    map[i][j] = BLANK;
-                    break;
-                case PINK_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, PINK_GHOST));
-                    map[i][j] = BLANK;
-                    break;
-                case BLUE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, BLUE_GHOST));
-                    map[i][j] = BLANK;
-                    break;
-                case ORANGE_GHOST_SPAWN:
-                    enemies.emplace_back(factory->createGhost(i, j, 0.125f, ORANGE_GHOST));
-                    map[i][j] = BLANK;
-                    break;
-                case POINT_SMALL:
-                    this->neededPoints++;
-                    map[i][j] = num;
-                    break;
-                default:
-                    map[i][j] = num;
-                    break;
-            }
-            j++;
-            if (j >= mapHeigth) {
-                i++;
-                j = 0;
-            }
-        }
-        //convert 2D array to 1D array of pointers
-        for (int k = 0; k < mapWidth; k++) {
-            b[k] = map[k];
-        }
-    } else {
-        cout << "Error reading level file!";
-        return false;
-    }
-    level.close();
-
-    //Create the level tile map
-    tileMap = factory->createMap(mapWidth, mapHeigth);
-    tileMap->loadMap(b, levelColor);
-    return true;
-}
-
-void Game::stop() {
-    std::cout << "BYE";
-    exit(0);
-}
-
-void Game::restart(Game *g) {
-    std::cout << "Restarting game!" << std::endl;
-    g->finished = false;
-    g->paused = false;
-    g->playing = false;
-    g->points = 0;
-    g->food = 0;
-    g->lives = 3;
-    g->enemies.clear();
-    g->loadMap();
-    g->loadBrains();
-    g->ghostTimer->stop();
-    g->ghostTimer->start();
-    g->ghostTimer->pause();
-    //Create UI elements
-    g->ui->removeAllUI();
-    g->ui->addTextView("start", g->factory->createTextView(g->mapWidth / 2 - 6.5f, g->mapHeigth / 2 - 3.2f,
-                                                           "Press space to start", 18));
-    ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: 0", 12));
-    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives:3", 12));
-}
-
-void Game::resetLevel(Game *g) {
-    std::cout << "Restarting game!" << std::endl;
-    g->finished = false;
-    g->paused = false;
-    g->playing = false;
-    g->enemies.clear();
-    g->food = 0;
-    g->loadMap();
-    g->loadBrains();
-    g->lives++;
-    g->ui->removeAllUI();
-    g->ui->addTextView("start", g->factory->createTextView(g->mapWidth / 2 - 6.5f, g->mapHeigth / 2 - 3.2f,
-                                                           "Press space to start", 18));
-    ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: " + to_string(g->points), 12));
-    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives: " + to_string(g->lives), 12));
-}
-
+/**
+ *
+ */
 void Game::start() {
 
     //Init game loop vars
@@ -264,6 +129,9 @@ void Game::start() {
                                           factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 3 + 3.0f, "Exit game", 12,
                                                                 (Function) &Game::stop));
                             this->ghostTimer->pause();
+                            for (auto const &enemy: enemies) {
+                                enemy->pauseTimer();
+                            }
                             this->debounce->start();
                         } else {
                             this->playing = true;
@@ -272,6 +140,9 @@ void Game::start() {
                             ui->removeButton("exit_btn");
                             ui->removeButton("restart_btn");
                             this->ghostTimer->unpause();
+                            for (auto const &enemy: enemies) {
+                                enemy->unpauseTimer();
+                            }
                             this->debounce->start();
                         }
                     } else {
@@ -285,9 +156,16 @@ void Game::start() {
                 break;
         }
 
+
+
         if (this->playing) {
             ui->removeTextView("start");
 
+            if(!paused && !finished){
+                for (auto &enemy: enemies){
+                    enemy->unpauseTimer();
+                }
+            }
             //First move the player
             //try the wanted dir
             player->move(nextDirection);
@@ -347,9 +225,15 @@ void Game::start() {
             player->checkMapBounds(mapWidth - 1, mapHeigth - 1);
 
             //Collision and movement for enemies
-            for (auto const &enemy: enemies) {
+            for (auto &enemy: enemies) {
+                enemy->checkTimer();
                 if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
                         enemy->getMODE() == DEAD) {
+                    enemy->setMODE(HOME);
+                    enemy->startTimer(2000); //Stay in ghost house for 2 seconds
+                }
+                if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
+                    enemy->getMODE() == LEAVE) {
                     enemy->setMODE(SCATTERING);
                 }
                 bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()),
@@ -390,7 +274,7 @@ void Game::start() {
                         case FLEE:
                             enemy->setMODE(DEAD);
                             this->points = this->points + 10;
-                            this->ui->changeTextView("score", "Score: " + to_string(this->points));
+                            this->ui->changeTextView("score", "Score: " + std::to_string(this->points));
                             break;
                         case DEAD:
                             //Do nothing
@@ -398,29 +282,34 @@ void Game::start() {
                         default:
                             this->playing = false;
                             if (lives > 0) {
-                                //TODO ev set ghost back to spawn location + set points function
+                                //Teleport Enemies to spawn
+                                this->loadBrains();
+                                for (auto &enemie: enemies){
+                                    enemie->teleportToSpawn();
+                                    enemie->startTimer(100);
+                                }
                                 this->lives--;
                                 ui->addTextView("start",
                                                 factory->createTextView(mapWidth / 2 - 6.5f, mapHeigth / 2 - 3.2f,
                                                                         "Press space to start", 18));
                                 player->setPosX(player->getSpawnX());
                                 player->setPosY(player->getSpawnY());
-                                ui->changeTextView("lives", "Lives: " + to_string(this->lives));
+                                ui->changeTextView("lives", "Lives: " + std::to_string(this->lives));
                             } else {
                                 this->finished = true;
                                 ui->addTextView("lose",
                                                 factory->createTextView(mapWidth / 2 - 2.5f, mapHeigth / 2 - 3.8f,
                                                                         "Game over", 18));
                                 ui->addButton("restart_btn",
-                                              factory->createButton(mapWidth / 2 - 2.2f, mapHeigth / 3 + 1.5f,
+                                              factory->createButton(mapWidth / 2 - 2.2f, mapHeigth / 2 + 1.5f,
                                                                     "Restart game", 12, (Function) &Game::restart));
                                 ui->addButton("exit_btn",
-                                              factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 3 + 2.0f,
+                                              factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 2 + 2.5f,
                                                                     "Exit game", 12, (Function) &Game::stop));
                             }
                             break;
                     }
-                    cout << "Player colliding with a ghost!" << endl;
+                    std::cout << "Player colliding with a ghost!" << std::endl;
                 }
 
                 enemy->checkMapBounds(mapWidth - 1, mapHeigth - 1);
@@ -430,12 +319,12 @@ void Game::start() {
             if (this->ghostTimer->isStarted()) {
                 switch (this->ghostMode) {
                     case SCATTERING:
-                        if (this->ghostTimer->getTicks() > 7000) {
+                        if (this->ghostTimer->getTicks() > 5000) {
                             this->ghostMode = CHASING;
-                            cout << "Starting to chase" << endl;
+                            std::cout << "Starting to chase" << std::endl;
                             this->ghostTimer->stop();
                             for (auto const &enemy: enemies) {
-                                if (enemy->getMODE() != DEAD) {
+                                if (enemy->getMODE() != DEAD   && enemy->getMODE() != HOME && enemy->getMODE() != LEAVE  ) {
                                     enemy->setSTATE(enemy->getDIRECTION());
                                     enemy->setMODE(CHASING);
                                 }
@@ -445,11 +334,11 @@ void Game::start() {
                         break;
                     case CHASING:
                         if (this->ghostTimer->getTicks() > 20000) {
-                            cout << "Starting to scatter" << endl;
+                            std::cout << "Starting to scatter" << std::endl;
                             this->ghostMode = SCATTERING;
                             this->ghostTimer->stop();
                             for (auto const &enemy: enemies) {
-                                if (enemy->getMODE() != DEAD) {
+                                if (enemy->getMODE() != DEAD  && enemy->getMODE() != HOME && enemy->getMODE() != LEAVE ) {
                                     enemy->setSTATE(enemy->getDIRECTION());
                                     enemy->setMODE(SCATTERING);
                                 }
@@ -490,10 +379,13 @@ void Game::start() {
     factory->close();
 }
 
+/**
+ *
+ */
 void Game::handlePoint() {
     this->points++;
     this->food++;
-    this->ui->changeTextView("score", "Score: " + to_string(this->points));
+    this->ui->changeTextView("score", "Score: " + std::to_string(this->points));
     if ((food % neededPoints) == 0) {
         this->finished = true;
         ui->addTextView("win", factory->createTextView(mapWidth / 2 - 2, mapHeigth / 2, "YOU WIN!", 18));
@@ -503,19 +395,192 @@ void Game::handlePoint() {
     }
 }
 
+/**
+ *
+ */
 void Game::handleBonus() {
     //Set enemies in vulnerable state for XX seconds
     this->points = this->points + 5;
-    this->ui->changeTextView("score", "Score: " + to_string(this->points));
+    this->ui->changeTextView("score", "Score: " + std::to_string(this->points));
     this->ghostTimer->stop();
     this->ghostMode = FLEE;
     for (auto const &enemy: enemies) {
-        if(enemy->getMODE() != DEAD) {
+        if(enemy->getMODE() != DEAD && enemy->getMODE() != HOME) {
             enemy->setMODE(FLEE);
         }
     }
     this->ghostTimer->start();
 }
+
+/**
+ *
+ */
+void Game::loadBrains() {
+    //Initiate brains(AI) for enemies
+    for (auto const &enemy: enemies) {
+        switch (enemy->getName()) {
+            case BLINKY:
+                enemy->setBrain(new Blinky(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
+                enemy->setMODE(SCATTERING);
+                break;
+            case PINKY:
+                enemy->setBrain(new Pinky(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
+                enemy->setMODE(HOME);
+                enemy->startTimer(2000); //Leave ghost house after 2s
+                enemy->pauseTimer();
+                break;
+            case INKY:
+                enemy->setBrain(new Inky(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
+                enemy->setMODE(HOME);
+                enemy->startTimer(5000); //Leave ghost house after 5s
+                enemy->pauseTimer();
+                break;
+            case CLYDE:
+                enemy->setBrain(new Clyde(this->tileMap, (int) enemy->getSpawnX(), (int) enemy->getSpawnY(), player));
+                enemy->setMODE(HOME);
+                enemy->startTimer(7000); //Leave ghost house after 7s
+                enemy->pauseTimer();
+                break;
+            default:
+                //nothing
+                break;
+        }
+    }
+}
+
+/**
+ *
+ * @return
+ */
+bool Game::loadMap() {
+    int *b[99];
+    int map[99][99];
+    int levelColor;
+    this->neededPoints = 0;
+    std::string line;
+    std::ifstream level(levelFile);
+    if (level.is_open()) {
+        int n, m;
+        //skip the first line
+        level >> n;
+        level >> m;
+        level >> levelColor;
+        //Read the entire map from the file
+        int i = 0, j = 0, num = 0;
+        while (level >> num || !level.eof()) {
+            if (level.fail()) { // Number input failed, skip the string
+                level.clear();
+                std::string dummy;
+                level >> dummy;
+                continue;
+            }
+            //Create entity based on input number
+            switch (num) {
+                case PLAYER_SPAWN:
+                    player = factory->createPacMan(i, j, 0.125f);
+                    map[i][j] = BLANK;
+                    break;
+                case RED_GHOST_SPAWN:
+                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, RED_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                case PINK_GHOST_SPAWN:
+                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, PINK_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                case BLUE_GHOST_SPAWN:
+                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, BLUE_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                case ORANGE_GHOST_SPAWN:
+                    enemies.emplace_back(factory->createGhost(i, j, 0.1f, ORANGE_GHOST));
+                    map[i][j] = BLANK;
+                    break;
+                case POINT_SMALL:
+                    this->neededPoints++;
+                    map[i][j] = num;
+                    break;
+                default:
+                    map[i][j] = num;
+                    break;
+            }
+            j++;
+            if (j >= mapHeigth) {
+                i++;
+                j = 0;
+            }
+        }
+        //convert 2D array to 1D array of pointers
+        for (int k = 0; k < mapWidth; k++) {
+            b[k] = map[k];
+        }
+    } else {
+        std::cout << "Error reading level file!";
+        return false;
+    }
+    level.close();
+
+    //Create the level tile map
+    tileMap = factory->createMap(mapWidth, mapHeigth);
+    tileMap->loadMap(b, levelColor);
+    return true;
+}
+
+/**
+ *
+ */
+void Game::stop() {
+    std::cout << "BYE";
+    exit(0);
+}
+
+/**
+ *
+ * @param g
+ */
+void Game::restart(Game *g) {
+    std::cout << "Restarting game!" << std::endl;
+    g->finished = false;
+    g->paused = false;
+    g->playing = false;
+    g->points = 0;
+    g->food = 0;
+    g->lives = 3;
+    g->enemies.clear();
+    g->loadMap();
+    g->loadBrains();
+    g->ghostTimer->stop();
+    g->ghostTimer->start();
+    g->ghostTimer->pause();
+    //Create UI elements
+    g->ui->removeAllUI();
+    g->ui->addTextView("start", g->factory->createTextView(g->mapWidth / 2 - 6.5f, g->mapHeigth / 2 - 3.2f,
+                                                           "Press space to start", 18));
+    ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: 0", 12));
+    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives:3", 12));
+}
+
+/**
+ *
+ * @param g
+ */
+void Game::resetLevel(Game *g) {
+    std::cout << "Restarting game!" << std::endl;
+    g->finished = false;
+    g->paused = false;
+    g->playing = false;
+    g->enemies.clear();
+    g->food = 0;
+    g->loadMap();
+    g->loadBrains();
+    g->lives++;
+    g->ui->removeAllUI();
+    g->ui->addTextView("start", g->factory->createTextView(g->mapWidth / 2 - 6.5f, g->mapHeigth / 2 - 3.2f,
+                                                           "Press space to start", 18));
+    ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: " + std::to_string(g->points), 12));
+    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives: " + std::to_string(g->lives), 12));
+}
+
 
 bool Game::smoothRoundLocation(int dir, MovingEntity *e) {
     bool result = false;

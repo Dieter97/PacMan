@@ -95,7 +95,9 @@ enum EntityMode{
     DEAD,
     FLEE,
     SCATTERING,
-    CHASING
+    CHASING,
+    HOME,
+    LEAVE
 };
 
 enum TileColor{

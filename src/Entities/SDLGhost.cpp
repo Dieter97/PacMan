@@ -6,6 +6,7 @@
 #include <SDL_image.h>
 #include "../../include/SDLGhost.h"
 #include "../../include/Types.h"
+#include "../../include/SDLTimer.h"
 
 using namespace std;
 
@@ -47,7 +48,7 @@ SDLGhost::SDLGhost(float posX, float posY,float speed, int color,SDLContext* con
     cout << "Creating SDLGhost" << endl;
     this->context = context;
     this->COLOR = color;
-
+    this->timer = new SDLTimer();
     int spriteY = 225;
 
     //Load alive sprite based on color

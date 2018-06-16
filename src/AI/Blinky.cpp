@@ -30,10 +30,17 @@ int Blinky::getNextDirection(float posX,float posY, int mode) {
             //Move to spawn
             direction = calculateShortest(posX,posY,doorX,doorY);
             break;
+        case HOME:
+            //Random movement inside the ghost house
+            direction = calculateShortest(posX,posY,map->getMAP_WIDTH()+10,map->getMAP_WIDTH()+10);
+            break;
+        case LEAVE:
+            //Move to the door
+            direction = calculateShortest(posX,posY,doorX,doorY);
+            break;
         default:
             break;
     }
-
     return direction;
 }
 
