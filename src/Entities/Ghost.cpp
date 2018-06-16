@@ -63,7 +63,7 @@ float Ghost::getTargetY() {
 }
 
 void Ghost::checkTimer() {
-    if(timer->getTicks() > waitTime){
+    if(timer->getTicks() > waitTime && this->MODE == HOME){
         this->setMODE(LEAVE);
         this->timer->stop();
     }

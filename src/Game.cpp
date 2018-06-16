@@ -7,14 +7,14 @@
 #include "../include/Game.h"
 
 /**
- *
- * @param f
- * @return
+ *  Loads all game elements
+ * @param f, Factory, this is the entity creator
+ * @return bool, true if succes, false is fails
  */
 bool Game::initGame(Factory *f) {
     this->factory = f;
-    ui = new GameUI();
-    this->levelFile = "../resources/original2.map";
+    //Read the level
+    this->levelFile = "../resources/level2.map";
     std::ifstream level(levelFile);
     if (level.is_open()) {
         //Read map parameters from level file
@@ -39,28 +39,27 @@ bool Game::initGame(Factory *f) {
     this->fpsTimer = factory->createTimer();
     this->ghostTimer = factory->createTimer();
     this->debounce = factory->createTimer();
-    this->homeTimer = factory->createTimer();
 
     //Create UI elements
+    ui = new GameUI();
     ui->removeAllUI();
     ui->addTextView("start",
                     factory->createTextView(mapWidth / 2 - 6.5f, mapHeigth / 2 - 3.2f, "Press space to start", 18));
     ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: 0", 12));
     ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives: " + std::to_string(this->lives), 12));
 
+    //Enable the AI for the enemies
     this->loadBrains();
 
     //Create event handler
     events = factory->createEventSystem();
-
     return true;
 }
 
 /**
- *
+ *  The main game loop contains the game logic
  */
 void Game::start() {
-
     //Init game loop vars
     bool quit = false;
     this->playing = false;
@@ -145,8 +144,6 @@ void Game::start() {
                             }
                             this->debounce->start();
                         }
-                    } else {
-                        this->ghostTimer->unpause();
                     }
                 }
             case MOUSE_CLICK:
@@ -157,15 +154,18 @@ void Game::start() {
         }
 
 
-
+        //Game logic
         if (this->playing) {
+            //Remove start text
             ui->removeTextView("start");
 
+            //Unpause timers
             if(!paused && !finished){
                 for (auto &enemy: enemies){
                     enemy->unpauseTimer();
                 }
             }
+
             //First move the player
             //try the wanted dir
             player->move(nextDirection);
@@ -186,7 +186,7 @@ void Game::start() {
                     crossing = false;
                 }
             }
-
+            //Check the players collision and react accordingly
             switch (playerCollision) {
                 case NO_COLL:
                     playerDirection = nextDirection;
@@ -222,20 +222,26 @@ void Game::start() {
                     //Nothing
                     break;
             }
+            //Player stay inside play area
             player->checkMapBounds(mapWidth - 1, mapHeigth - 1);
 
             //Collision and movement for enemies
             for (auto &enemy: enemies) {
+                //Check the enemies timer for leaving the ghost house
                 enemy->checkTimer();
+                //Check if ghost has arrived at ghosthouse
                 if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
                         enemy->getMODE() == DEAD) {
                     enemy->setMODE(HOME);
                     enemy->startTimer(2000); //Stay in ghost house for 2 seconds
                 }
+                //check if the ghost succesfully left the ghost house
                 if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
                     enemy->getMODE() == LEAVE) {
                     enemy->setMODE(SCATTERING);
                 }
+                //Check if ghost on intersection tile if so choose a new direction and move the whole tile
+                //the ghost is only able to choose a one new direction per intersection tile and cannot go back
                 bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()),
                                                             (int) roundf(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
@@ -261,12 +267,16 @@ void Game::start() {
                     enemy->move();
                     enemy->setChangedDir(0);
                 }
+
+                //Check collision for the enemy and react accordingly
                 if (tileMap->checkCollision(enemy)) {
                     enemy->pushBack();
                     enemy->setPosX((int) roundf(enemy->getPosX()));
                     enemy->setPosY((int) roundf(enemy->getPosY()));
                     enemy->getNextDirection();
                 }
+
+                //Check collision for enemy with player and react accordingly
                 if (player->collision(enemy)) {
                     //Player collision with enemy
                     //If pacman is energized kill ghost
@@ -311,7 +321,7 @@ void Game::start() {
                     }
                     std::cout << "Player colliding with a ghost!" << std::endl;
                 }
-
+                //Ghost stay inside play area
                 enemy->checkMapBounds(mapWidth - 1, mapHeigth - 1);
             }
 
@@ -363,15 +373,14 @@ void Game::start() {
             }
         }
 
-        //Render map
+        //Render map --order: 1.map 2.enemies 3.player 4.ui
         tileMap->visualize();
         for (auto const &enemy: enemies) {
             enemy->visualize();
         }
-        ui->visualize();
         player->visualize();
+        ui->visualize();
         factory->render();
-
         this->countedFrames++;
     }
 
@@ -380,7 +389,7 @@ void Game::start() {
 }
 
 /**
- *
+ *  Increments the points and checks if the players wins the current level
  */
 void Game::handlePoint() {
     this->points++;
@@ -396,7 +405,7 @@ void Game::handlePoint() {
 }
 
 /**
- *
+ *  Handles a bonus pickup: energize the player
  */
 void Game::handleBonus() {
     //Set enemies in vulnerable state for XX seconds
@@ -413,7 +422,7 @@ void Game::handleBonus() {
 }
 
 /**
- *
+ *  Loads the AI and initiates it in the correct mode
  */
 void Game::loadBrains() {
     //Initiate brains(AI) for enemies
@@ -449,8 +458,8 @@ void Game::loadBrains() {
 }
 
 /**
- *
- * @return
+ * Loads the level and creates all entities
+ * @return bool, true is success, false if fails
  */
 bool Game::loadMap() {
     int *b[99];
@@ -527,7 +536,7 @@ bool Game::loadMap() {
 }
 
 /**
- *
+ *  Quits the game
  */
 void Game::stop() {
     std::cout << "BYE";
@@ -535,8 +544,8 @@ void Game::stop() {
 }
 
 /**
- *
- * @param g
+ *  Resets all the game elements
+ * @param g, Game object, reference to this game object to reload the elements
  */
 void Game::restart(Game *g) {
     std::cout << "Restarting game!" << std::endl;
@@ -556,13 +565,13 @@ void Game::restart(Game *g) {
     g->ui->removeAllUI();
     g->ui->addTextView("start", g->factory->createTextView(g->mapWidth / 2 - 6.5f, g->mapHeigth / 2 - 3.2f,
                                                            "Press space to start", 18));
-    ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: 0", 12));
-    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives:3", 12));
+    g->ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: 0", 12));
+    g->ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives:3", 12));
 }
 
 /**
- *
- * @param g
+ *  Resets only the level and the ghosts
+ * @param g, Game object, reference to this game object to reload the elements
  */
 void Game::resetLevel(Game *g) {
     std::cout << "Restarting game!" << std::endl;
@@ -577,11 +586,16 @@ void Game::resetLevel(Game *g) {
     g->ui->removeAllUI();
     g->ui->addTextView("start", g->factory->createTextView(g->mapWidth / 2 - 6.5f, g->mapHeigth / 2 - 3.2f,
                                                            "Press space to start", 18));
-    ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: " + std::to_string(g->points), 12));
-    ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives: " + std::to_string(g->lives), 12));
+    g->ui->addTextView("score", factory->createTextView(0, mapHeigth, "Score: " + std::to_string(g->points), 12));
+    g->ui->addTextView("lives", factory->createTextView(mapWidth - 6, mapHeigth, "Lives: " + std::to_string(g->lives), 12));
 }
 
-
+/**
+ * Rounds and sets an entity's locations
+ * @param dir, the entity's (wanted) direction
+ * @param e, the entity
+ * @return bool
+ */
 bool Game::smoothRoundLocation(int dir, MovingEntity *e) {
     bool result = false;
     switch (dir) {
