@@ -126,7 +126,7 @@ void Game::start() {
                                           factory->createButton(mapWidth / 2 - 2.2f, mapHeigth / 3 + 2.5f, "Restart game",
                                                                 12, (Function) &Game::restart));
                             ui->addButton("exit_btn",
-                                          factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 3 + 3.0f, "Exit game", 12,
+                                          factory->createButton(mapWidth / 2 - 1.5f, mapHeigth / 3 + 3.5f, "Exit game", 12,
                                                                 (Function) &Game::stop));
                             this->ghostTimer->pause();
                             for (auto const &enemy: enemies) {
