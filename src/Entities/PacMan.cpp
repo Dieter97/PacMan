@@ -2,8 +2,9 @@
 // Created by dieter on 6/03/18.
 //
 
-#include "../../include/PacMan.h"
+#include "../../include/logic/PacMan.h"
 #include "../../include/Types.h"
+using namespace logic;
 
 PacMan::PacMan(float posX, float posY, float speed) : MovingEntity(posX, posY, speed) {
     this->type = PACMAN;

@@ -4,9 +4,10 @@
 
 #include <iostream>
 #include <SDL_image.h>
-#include "../../include/SDLGhost.h"
+#include "../../include/SDL/SDLGhost.h"
 #include "../../include/Types.h"
-#include "../../include/SDLTimer.h"
+#include "../../include/SDL/SDLTimer.h"
+using namespace SDL;
 
 /**
  * SDL implementation of the visualisation

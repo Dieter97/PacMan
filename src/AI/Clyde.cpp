@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <map>
 
-#include "../../include/Clyde.h"
+#include "../../include/logic/Clyde.h"
 #include "../../include/Types.h"
-
+using namespace logic;
 /**
  * Determines a next direction to move in based on the current mode
  * using a simple algorithm based on closest euclidean distance to target

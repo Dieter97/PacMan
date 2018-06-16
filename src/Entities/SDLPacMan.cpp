@@ -3,8 +3,9 @@
 //
 
 #include <iostream>
-#include "../../include/SDLPacMan.h"
+#include "../../include/SDL/SDLPacMan.h"
 #include "../../include/Types.h"
+using namespace SDL;
 
 /**
  * SDL implementation of the visualisation

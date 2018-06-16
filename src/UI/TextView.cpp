@@ -2,8 +2,8 @@
 // Created by dieter on 24/03/18.
 //
 
-#include "../../include/TextView.h"
-
+#include "../../include/logic/TextView.h"
+using namespace logic;
 
 TextView::TextView(float posX, float posY) : View(posX, posY), fontSize(12) {
     View::visible = true;

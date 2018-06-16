@@ -2,8 +2,9 @@
 // Created by dieter on 26/02/18.
 //
 
-#include "../../include/Ghost.h"
+#include "../../include/logic/Ghost.h"
 #include "../../include/Types.h"
+using namespace logic;
 
 Ghost::Ghost(float posX, float posY,float speed,int name) : MovingEntity(posX, posY,speed){
     this->type = GHOST;

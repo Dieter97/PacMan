@@ -5,12 +5,13 @@
 #ifndef GAMETEST_EVENT_H
 #define GAMETEST_EVENT_H
 
+namespace logic {
+    class Event {
+    public:
+        virtual int getEvent() = 0;
 
-class Event {
-public:
-    virtual int getEvent() = 0;
-
-};
+    };
+}
 
 
 #endif //GAMETEST_EVENT_H

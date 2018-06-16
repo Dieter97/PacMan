@@ -2,8 +2,9 @@
 // Created by dieter on 7/03/18.
 //
 
-#include "../include/Map.h"
+#include "../include/logic/Map.h"
 #include "../include/Types.h"
+using namespace logic;
 
 Map::Map(int width, int height) {
     MAP_HEIGHT = height;

@@ -2,7 +2,8 @@
 // Created by dieter on 7/03/18.
 //
 
-#include "../../include/SDLMap.h"
+#include "../../include/SDL/SDLMap.h"
+using namespace SDL;
 
 SDLMap::SDLMap(int width, int height, SDLContext *context) :
         Map(width, height) {

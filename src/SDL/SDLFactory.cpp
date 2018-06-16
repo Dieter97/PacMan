@@ -3,14 +3,15 @@
 //
 
 #include <SDL_ttf.h>
-#include "../../include/SDLFactory.h"
-#include "../../include/SDLGhost.h"
-#include "../../include/SDLEvent.h"
-#include "../../include/SDLPacMan.h"
-#include "../../include/SDLMap.h"
-#include "../../include/SDLTextView.h"
-#include "../../include/SDLTimer.h"
-#include "../../include/SDLButton.h"
+#include "../../include/SDL/SDLFactory.h"
+#include "../../include/SDL/SDLGhost.h"
+#include "../../include/SDL/SDLEvent.h"
+#include "../../include/SDL/SDLPacMan.h"
+#include "../../include/SDL/SDLMap.h"
+#include "../../include/SDL/SDLTextView.h"
+#include "../../include/SDL/SDLTimer.h"
+#include "../../include/SDL/SDLButton.h"
+using namespace SDL;
 
 /**
  * Initializes and SDL window with given parameters and using Vsync to force 60fps
@@ -129,15 +130,15 @@ bool SDLFactory::loadMedia() {
     return success;
 }
 
-Ghost *SDLFactory::createGhost(float posX, float posY, float speed, int color) {
+logic::Ghost *SDLFactory::createGhost(float posX, float posY, float speed, int color) {
     return new SDLGhost(posX, posY, speed, color, context);
 }
 
-PacMan *SDLFactory::createPacMan(float posX, float posY, float speed) {
+logic::PacMan *SDLFactory::createPacMan(float posX, float posY, float speed) {
     return new SDLPacMan(posX, posY, speed, context);
 }
 
-Tile *SDLFactory::createTile(float posX, float posY, int tileType, int tileColor) {
+logic::Tile *SDLFactory::createTile(float posX, float posY, int tileType, int tileColor) {
     return new SDLTile(posX, posY, tileType, tileColor, context);
 }
 
@@ -152,23 +153,23 @@ void SDLFactory::clear() {
     SDL_RenderClear(gRenderer);
 }
 
-Event *SDLFactory::createEventSystem() {
+logic::Event *SDLFactory::createEventSystem() {
     return new SDLEvent();
 }
 
-Map *SDLFactory::createMap(int width, int height) {
+logic::Map *SDLFactory::createMap(int width, int height) {
     return new SDLMap(width,height,context);
 }
 
-TextView *SDLFactory::createTextView(float posX, float posY, std::string string, int fontSize) {
+logic::TextView *SDLFactory::createTextView(float posX, float posY, std::string string, int fontSize) {
     return new SDLTextView(posX,posY,string,fontSize,this->context);
 }
 
-Timer *SDLFactory::createTimer() {
+logic::Timer *SDLFactory::createTimer() {
     return new SDLTimer();
 }
 
-Button *SDLFactory::createButton(float posX, float posY, std::string string, int fontSize, Function action) {
+logic::Button *SDLFactory::createButton(float posX, float posY, std::string string, int fontSize, logic::Function action) {
     return new SDLButton(posX, posY, string, fontSize, action,this->context);
 }
 

@@ -3,9 +3,10 @@
 //
 
 #include <iostream>
-#include "../../include/SDLButton.h"
+#include "../../include/SDL/SDLButton.h"
+using namespace SDL;
 
-SDLButton::SDLButton(float posX, float posY, std::string string, int fontSize, Function action,
+SDLButton::SDLButton(float posX, float posY, std::string string, int fontSize, logic::Function action,
                      SDLContext *context) : Button(posX,posY,string,fontSize,action) {
     SDLButton::context = context;
 }

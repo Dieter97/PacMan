@@ -2,8 +2,9 @@
 // Created by dieter on 7/03/18.
 //
 
-#include "../../include/Tile.h"
+#include "../../include/logic/Tile.h"
 #include "../../include/Types.h"
+using namespace logic;
 
 Tile::Tile(float posX, float posY, int tileType) : Entity(posX, posY){
     this->TILETYPE = tileType;

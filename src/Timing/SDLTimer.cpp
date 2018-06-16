@@ -3,8 +3,8 @@
 //
 
 #include <SDL_timer.h>
-#include "../../include/SDLTimer.h"
-
+#include "../../include/SDL/SDLTimer.h"
+using namespace SDL;
 
 SDLTimer::SDLTimer() {
     //Initialize the variables

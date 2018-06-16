@@ -2,7 +2,8 @@
 // Created by dieter on 05/03/18.
 //
 
-#include "../../include/Entity.h"
+#include "../../include/logic/Entity.h"
+using namespace logic;
 
 Entity::Entity(float posX, float posY) : posX(posX), posY(posY){
     width = 1;

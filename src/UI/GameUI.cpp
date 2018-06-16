@@ -2,7 +2,8 @@
 // Created by dieter on 24/03/18.
 //
 
-#include "../../include/GameUI.h"
+#include "../../include/logic/GameUI.h"
+using namespace logic;
 
 GameUI::GameUI() = default;
 

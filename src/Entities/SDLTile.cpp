@@ -2,8 +2,9 @@
 // Created by dieter on 7/03/18.
 //
 
-#include "../../include/SDLTile.h"
+#include "../../include/SDL/SDLTile.h"
 #include "../../include/Types.h"
+using namespace SDL;
 
 SDLTile::SDLTile( float posX, float posY, int type, int color, SDLContext *context)
         : Tile(posX, posY,type) {

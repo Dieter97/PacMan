@@ -3,9 +3,9 @@
 //
 
 #include <SDL_events.h>
-#include "../../include/SDLEvent.h"
+#include "../../include/SDL/SDLEvent.h"
 #include "../../include/Types.h"
-
+using namespace SDL;
 
 int SDLEvent::getEvent() {
     SDL_PollEvent(&e);

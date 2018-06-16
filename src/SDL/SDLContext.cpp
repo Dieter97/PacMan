@@ -2,7 +2,8 @@
 // Created by dieter on 05/03/18.
 //
 
-#include "../../include/SDLContext.h"
+#include "../../include/SDL/SDLContext.h"
+using namespace SDL;
 
 SDLContext::SDLContext(SDL_Renderer *renderer, int windowHeigth, int windowWidth,int tileWidth,int tileHeight,
                        float scale,int x_off,int y_off) :

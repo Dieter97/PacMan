@@ -2,7 +2,8 @@
 // Created by dieter on 24/03/18.
 //
 
-#include "../../include/SDLTextView.h"
+#include "../../include/SDL/SDLTextView.h"
+using namespace SDL;
 
 SDLTextView::SDLTextView(float posX, float posY,SDLContext* context) : TextView(posX,posY) {
     this->context = context;

@@ -2,8 +2,9 @@
 // Created by dieter on 08/06/18.
 //
 
-#include "../../include/Button.h"
-#include "../../include/Game.h"
+#include "../../include/logic/Button.h"
+#include "../../include/logic/Game.h"
+using namespace logic;
 
 Button::Button(float posX, float posY) : View(posX, posY), fontSize(12) {
     View::visible = true;

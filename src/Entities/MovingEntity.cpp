@@ -3,8 +3,9 @@
 //
 
 #include <cmath>
-#include "../../include/MovingEntity.h"
+#include "../../include/logic/MovingEntity.h"
 #include "../../include/Types.h"
+using namespace logic;
 
 MovingEntity::MovingEntity(float posX, float posY,float speed) : Entity(posX, posY) {
     this->speed = speed;

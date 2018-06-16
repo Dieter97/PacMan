@@ -4,17 +4,18 @@
 
 #include <iostream>
 #include <fstream>
-#include "../include/Game.h"
+#include "../include/logic/Game.h"
+using namespace logic;
 
 /**
  *  Loads all game elements
  * @param f, Factory, this is the entity creator
  * @return bool, true if succes, false is fails
  */
-bool Game::initGame(Factory *f) {
+bool Game::initGame(Factory *f, std::string levelF) {
     this->factory = f;
     //Read the level
-    this->levelFile = "../resources/level2.map";
+    this->levelFile = levelF;
     std::ifstream level(levelFile);
     if (level.is_open()) {
         //Read map parameters from level file
@@ -34,6 +35,7 @@ bool Game::initGame(Factory *f) {
     //Init game vars
     this->points = 0;
     this->lives = 3;
+    this->level = 0;
 
     //Init timers
     this->fpsTimer = factory->createTimer();
@@ -78,7 +80,7 @@ void Game::start() {
 
     //Game loop
     while (!quit) {
-
+        std::cout << level << std::endl;
         //Calculate and correct fps
         float avgFPS = this->countedFrames / (this->fpsTimer->getTicks() / 1000.f);
         if (avgFPS > 2000000) {
@@ -357,7 +359,7 @@ void Game::start() {
                         }
                         break;
                     case FLEE:
-                        if (this->ghostTimer->getTicks() > 5000) {
+                        if (this->ghostTimer->getTicks() > (5000-((this->level*263)))) {
                             this->ghostMode = SCATTERING;
                             this->ghostTimer->stop();
                             for (auto const &enemy: enemies) {
@@ -555,6 +557,7 @@ void Game::restart(Game *g) {
     g->points = 0;
     g->food = 0;
     g->lives = 3;
+    g->level = 0;
     g->enemies.clear();
     g->loadMap();
     g->loadBrains();
@@ -580,6 +583,7 @@ void Game::resetLevel(Game *g) {
     g->playing = false;
     g->enemies.clear();
     g->food = 0;
+    g->level++;
     g->loadMap();
     g->loadBrains();
     g->lives++;
