@@ -80,7 +80,6 @@ void Game::start() {
 
     //Game loop
     while (!quit) {
-        std::cout << level << std::endl;
         //Calculate and correct fps
         float avgFPS = this->countedFrames / (this->fpsTimer->getTicks() / 1000.f);
         if (avgFPS > 2000000) {
