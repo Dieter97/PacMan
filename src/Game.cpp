@@ -362,7 +362,7 @@ void Game::start() {
                             this->ghostMode = SCATTERING;
                             this->ghostTimer->stop();
                             for (auto const &enemy: enemies) {
-                                if (enemy->getMODE() != DEAD) {
+                                if (enemy->getMODE() != DEAD && enemy->getMODE() != HOME && enemy->getMODE() != LEAVE) {
                                     enemy->setSTATE(enemy->getDIRECTION());
                                     enemy->setMODE(CHASING);
                                 }
