@@ -175,13 +175,13 @@ void Game::start() {
             int playerCollision = tileMap->checkCollision(player);
             //Clip location of player to rounded coordinates on tilemap
             if (playerDirection != nextDirection) {
-                bool intersection = tileMap->isIntersection((int) round(player->getPosX()),
-                                                            (int) round(player->getPosY()));
+                bool intersection = tileMap->isIntersection((int) std::round(player->getPosX()),
+                                                            (int) std::round(player->getPosY()));
                 // crossing = smoothRoundLocation(player->getDIRECTION(),player);
                 if (!crossing && intersection) {
                     //
-                    player->setPosX((int) round(player->getPosX()));
-                    player->setPosY((int) round(player->getPosY()));
+                    player->setPosX((int) std::round(player->getPosX()));
+                    player->setPosY((int) std::round(player->getPosY()));
                     crossing = true;
                 } else if (!intersection) {
                     crossing = false;
@@ -199,8 +199,8 @@ void Game::start() {
                     switch (tileMap->checkCollision(player)) {
                         case COLL:
                             player->pushBack();
-                            player->setPosX((int) round(player->getPosX()));
-                            player->setPosY((int) round(player->getPosY()));
+                            player->setPosX((int) std::round(player->getPosX()));
+                            player->setPosY((int) std::round(player->getPosY()));
                             break;
                         case POINT:
                             this->handlePoint();
@@ -231,28 +231,28 @@ void Game::start() {
                 //Check the enemies timer for leaving the ghost house
                 enemy->checkTimer();
                 //Check if ghost has arrived at ghosthouse
-                if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
+                if ((std::round(enemy->getPosX()) == enemy->getTargetX() && std::round(enemy->getPosY()) == enemy->getTargetY()) &&
                         enemy->getMODE() == DEAD) {
                     enemy->setMODE(HOME);
                     enemy->startTimer(2000); //Stay in ghost house for 2 seconds
                 }
                 //check if the ghost succesfully left the ghost house
-                if ((round(enemy->getPosX()) == enemy->getTargetX() && round(enemy->getPosY()) == enemy->getTargetY()) &&
+                if ((std::round(enemy->getPosX()) == enemy->getTargetX() && std::round(enemy->getPosY()) == enemy->getTargetY()) &&
                     enemy->getMODE() == LEAVE) {
                     enemy->setMODE(SCATTERING);
                 }
                 //Check if ghost on intersection tile if so choose a new direction and move the whole tile
                 //the ghost is only able to choose a one new direction per intersection tile and cannot go back
-                bool intersection = tileMap->isIntersection((int) round(enemy->getPosX()),
-                                                            (int) round(enemy->getPosY()));
+                bool intersection = tileMap->isIntersection((int) std::round(enemy->getPosX()),
+                                                            (int) std::round(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
                     //Keep moving out of the intersection tile
                     enemy->setChangedDir(1);
                     int currentDir = enemy->getDIRECTION();
                     enemy->getNextDirection();
                     if(currentDir != enemy->getDIRECTION()){
-                        enemy->setPosX((int) round(enemy->getPosX()));
-                        enemy->setPosY((int) round(enemy->getPosY()));
+                        enemy->setPosX((int) std::round(enemy->getPosX()));
+                        enemy->setPosY((int) std::round(enemy->getPosY()));
                     }
                     enemy->move();
                 } else if (intersection) {
@@ -273,8 +273,8 @@ void Game::start() {
                 //Check collision for the enemy and react accordingly
                 if (tileMap->checkCollision(enemy)) {
                     enemy->pushBack();
-                    enemy->setPosX((int) round(enemy->getPosX()));
-                    enemy->setPosY((int) round(enemy->getPosY()));
+                    enemy->setPosX((int) std::round(enemy->getPosX()));
+                    enemy->setPosY((int) std::round(enemy->getPosY()));
                     enemy->getNextDirection();
                 }
 
@@ -299,6 +299,7 @@ void Game::start() {
                                 for (auto &enemie: enemies){
                                     enemie->teleportToSpawn();
                                     enemie->startTimer(100);
+                                    this->ghostMode = SCATTERING;
                                 }
                                 this->lives--;
                                 ui->addTextView("start",
@@ -604,30 +605,30 @@ bool Game::smoothRoundLocation(int dir, MovingEntity *e) {
     bool result = false;
     switch (dir) {
         case DIR_UP:
-            if ((round(e->getPosY()) + e->getSpeed()) < e->getPosY()) {
-                e->setPosX((int) round(e->getPosX()));
-                e->setPosY((int) round(e->getPosY()));
+            if ((std::round(e->getPosY()) + e->getSpeed()) < e->getPosY()) {
+                e->setPosX((int) std::round(e->getPosX()));
+                e->setPosY((int) std::round(e->getPosY()));
                 result = true;
             }
             break;
         case DIR_DOWN:
-            if ((round(e->getPosY()) - e->getSpeed()) > e->getPosY()) {
-                e->setPosX((int) round(e->getPosX()));
-                e->setPosY((int) round(e->getPosY()));
+            if ((std::round(e->getPosY()) - e->getSpeed()) > e->getPosY()) {
+                e->setPosX((int) std::round(e->getPosX()));
+                e->setPosY((int) std::round(e->getPosY()));
                 result = true;
             }
             break;
         case DIR_LEFT:
-            if ((round(e->getPosX()) - e->getSpeed()) < e->getPosX()) {
-                e->setPosX((int) round(e->getPosX()));
-                e->setPosY((int) round(e->getPosY()));
+            if ((std::round(e->getPosX()) - e->getSpeed()) < e->getPosX()) {
+                e->setPosX((int) std::round(e->getPosX()));
+                e->setPosY((int) std::round(e->getPosY()));
                 result = true;
             }
             break;
         case DIR_RIGHT:
-            if ((round(e->getPosX()) + e->getSpeed()) > e->getPosX()) {
-                e->setPosX((int) round(e->getPosX()));
-                e->setPosY((int) round(e->getPosY()));
+            if ((std::round(e->getPosX()) + e->getSpeed()) > e->getPosX()) {
+                e->setPosX((int) std::round(e->getPosX()));
+                e->setPosY((int) std::round(e->getPosY()));
                 result = true;
             }
             break;

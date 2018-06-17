@@ -17,10 +17,10 @@ SDLTile::SDLTile( float posX, float posY, int type, int color, SDLContext *conte
  * SDL implementation of the visualisation
  */
 void SDLTile::visualize() {
-    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR()))) + context->getX_offset();
-    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR()))) + context->getY_offset();
-    int SDLHeigth = (int)ceilf((float)(spriteWidth * context->getSCALE_FACTOR()));
-    int SDLWidth = (int)ceilf((float)((spriteHeigth * context->getSCALE_FACTOR())));
+    int SDLPosX = (int)std::floor((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR()))) + context->getX_offset();
+    int SDLPosY = (int) std::floor((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR()))) + context->getY_offset();
+    int SDLHeigth = (int) std::ceil((float)(spriteWidth * context->getSCALE_FACTOR()));
+    int SDLWidth = (int) std::ceil((float)((spriteHeigth * context->getSCALE_FACTOR())));
 
     SDL_Rect position = {SDLPosX, SDLPosY, SDLWidth, SDLHeigth};
     SDL_RenderCopyEx(context->getRenderer(), context->getSpriteSheet(), sprite , &position, 0.0, nullptr, SDL_FLIP_NONE);
