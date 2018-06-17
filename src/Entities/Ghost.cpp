@@ -20,7 +20,7 @@ Ghost::Ghost(float posX, float posY,float speed,int name) : MovingEntity(posX, p
  * @return the new direction
  */
 int Ghost::getNextDirection() {
-    return this->DIRECTION = brain->getNextDirection(this->posX, this->posY, this->MODE);
+    return this->DIRECTION = brain->getNextDirection(round(this->posX), round(this->posY), this->MODE);
 }
 
 int Ghost::getSTATE() const {

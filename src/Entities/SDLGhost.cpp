@@ -2,6 +2,7 @@
 // Created by dieter on 26/02/18.
 //
 
+#include <cmath>
 #include <iostream>
 #include <SDL_image.h>
 #include "../../include/SDL/SDLGhost.h"
@@ -14,8 +15,8 @@ using namespace SDL;
  */
 void SDLGhost::visualize() {
     // Create render position and render
-    int SDLPosX = (int)floorf((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();
-    int SDLPosY = (int) floorf((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();
+    int SDLPosX = (int) std::floor((float)(posX * context->getTilewidth() * (context->getSCALE_FACTOR())))+context->getX_offset();
+    int SDLPosY = (int) std::floor((float)(posY * context->getTileHeigth() * (context->getSCALE_FACTOR())))+context->getY_offset();
     int SDLHeigth = (int)(spriteWidth * context->getSCALE_FACTOR());
     int SDLWidth = (int)(spriteHeigth * context->getSCALE_FACTOR());
 

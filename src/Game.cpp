@@ -175,13 +175,13 @@ void Game::start() {
             int playerCollision = tileMap->checkCollision(player);
             //Clip location of player to rounded coordinates on tilemap
             if (playerDirection != nextDirection) {
-                bool intersection = tileMap->isIntersection((int) roundf(player->getPosX()),
-                                                            (int) roundf(player->getPosY()));
+                bool intersection = tileMap->isIntersection((int) round(player->getPosX()),
+                                                            (int) round(player->getPosY()));
                 // crossing = smoothRoundLocation(player->getDIRECTION(),player);
                 if (!crossing && intersection) {
                     //
-                    player->setPosX((int) roundf(player->getPosX()));
-                    player->setPosY((int) roundf(player->getPosY()));
+                    player->setPosX((int) round(player->getPosX()));
+                    player->setPosY((int) round(player->getPosY()));
                     crossing = true;
                 } else if (!intersection) {
                     crossing = false;
@@ -199,8 +199,8 @@ void Game::start() {
                     switch (tileMap->checkCollision(player)) {
                         case COLL:
                             player->pushBack();
-                            player->setPosX((int) roundf(player->getPosX()));
-                            player->setPosY((int) roundf(player->getPosY()));
+                            player->setPosX((int) round(player->getPosX()));
+                            player->setPosY((int) round(player->getPosY()));
                             break;
                         case POINT:
                             this->handlePoint();
@@ -243,17 +243,18 @@ void Game::start() {
                 }
                 //Check if ghost on intersection tile if so choose a new direction and move the whole tile
                 //the ghost is only able to choose a one new direction per intersection tile and cannot go back
-                bool intersection = tileMap->isIntersection((int) roundf(enemy->getPosX()),
-                                                            (int) roundf(enemy->getPosY()));
+                bool intersection = tileMap->isIntersection((int) round(enemy->getPosX()),
+                                                            (int) round(enemy->getPosY()));
                 if (!enemy->isChangedDir() && intersection) {
                     //Keep moving out of the intersection tile
                     enemy->setChangedDir(1);
                     int currentDir = enemy->getDIRECTION();
-                    enemy->setPosX((int) roundf(enemy->getPosX()));
-                    enemy->setPosY((int) roundf(enemy->getPosY()));
                     enemy->getNextDirection();
+                    if(currentDir != enemy->getDIRECTION()){
+                        enemy->setPosX((int) round(enemy->getPosX()));
+                        enemy->setPosY((int) round(enemy->getPosY()));
+                    }
                     enemy->move();
-
                 } else if (intersection) {
                     int currX = (int) enemy->getPosX();
                     int currY = (int) enemy->getPosY();
@@ -272,8 +273,8 @@ void Game::start() {
                 //Check collision for the enemy and react accordingly
                 if (tileMap->checkCollision(enemy)) {
                     enemy->pushBack();
-                    enemy->setPosX((int) roundf(enemy->getPosX()));
-                    enemy->setPosY((int) roundf(enemy->getPosY()));
+                    enemy->setPosX((int) round(enemy->getPosX()));
+                    enemy->setPosY((int) round(enemy->getPosY()));
                     enemy->getNextDirection();
                 }
 
@@ -603,30 +604,30 @@ bool Game::smoothRoundLocation(int dir, MovingEntity *e) {
     bool result = false;
     switch (dir) {
         case DIR_UP:
-            if ((roundf(e->getPosY()) + e->getSpeed()) < e->getPosY()) {
-                e->setPosX((int) roundf(e->getPosX()));
-                e->setPosY((int) roundf(e->getPosY()));
+            if ((round(e->getPosY()) + e->getSpeed()) < e->getPosY()) {
+                e->setPosX((int) round(e->getPosX()));
+                e->setPosY((int) round(e->getPosY()));
                 result = true;
             }
             break;
         case DIR_DOWN:
-            if ((roundf(e->getPosY()) - e->getSpeed()) > e->getPosY()) {
-                e->setPosX((int) roundf(e->getPosX()));
-                e->setPosY((int) roundf(e->getPosY()));
+            if ((round(e->getPosY()) - e->getSpeed()) > e->getPosY()) {
+                e->setPosX((int) round(e->getPosX()));
+                e->setPosY((int) round(e->getPosY()));
                 result = true;
             }
             break;
         case DIR_LEFT:
-            if ((roundf(e->getPosX()) - e->getSpeed()) < e->getPosX()) {
-                e->setPosX((int) roundf(e->getPosX()));
-                e->setPosY((int) roundf(e->getPosY()));
+            if ((round(e->getPosX()) - e->getSpeed()) < e->getPosX()) {
+                e->setPosX((int) round(e->getPosX()));
+                e->setPosY((int) round(e->getPosY()));
                 result = true;
             }
             break;
         case DIR_RIGHT:
-            if ((roundf(e->getPosX()) + e->getSpeed()) > e->getPosX()) {
-                e->setPosX((int) roundf(e->getPosX()));
-                e->setPosY((int) roundf(e->getPosY()));
+            if ((round(e->getPosX()) + e->getSpeed()) > e->getPosX()) {
+                e->setPosX((int) round(e->getPosX()));
+                e->setPosY((int) round(e->getPosY()));
                 result = true;
             }
             break;
