@@ -2,7 +2,7 @@
 // Created by dieter on 26/02/18.
 //
 
-#include <SDL_ttf.h>
+#include <SDL2/SDL_ttf.h>
 #include "../../include/SDL/SDLFactory.h"
 #include "../../include/SDL/SDLGhost.h"
 #include "../../include/SDL/SDLEvent.h"

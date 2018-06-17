@@ -2,7 +2,7 @@
 // Created by dieter on 05/03/18.
 //
 
-#include <SDL_events.h>
+#include <SDL2/SDL_events.h>
 #include "../../include/SDL/SDLEvent.h"
 #include "../../include/Types.h"
 using namespace SDL;

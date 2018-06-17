@@ -5,6 +5,8 @@
 #ifndef GAMETEST_ENTITY_H
 #define GAMETEST_ENTITY_H
 
+#include <math.h>
+
 namespace logic {
     class Entity {
     protected:

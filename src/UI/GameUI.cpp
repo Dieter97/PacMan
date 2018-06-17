@@ -3,6 +3,7 @@
 //
 
 #include "../../include/logic/GameUI.h"
+
 using namespace logic;
 
 GameUI::GameUI() = default;

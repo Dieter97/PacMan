@@ -5,6 +5,7 @@
 #include <cmath>
 #include <algorithm>
 #include <map>
+#include <cfloat>
 
 #include "../../include/logic/Blinky.h"
 #include "../../include/Types.h"
@@ -69,7 +70,7 @@ int Blinky::calculateShortest(float x1, float y1, float x2, float y2){
     float locX,locY,dist,temp;
     Tile *** tileMap = this->map->getTileMap();
     //Make 'intelligent' decision
-    dist = FLT_MAX;
+    dist = FLT_MAX_EXP;
     //first calculate all distances in the available directions
     for(auto &i : dir){
         if(tileMap[(int)x1 + i[0]][(int)y1 + i[1]]->getTILETYPE() == BLANK ||

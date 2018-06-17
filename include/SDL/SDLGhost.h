@@ -6,7 +6,7 @@
 #define GAMETEST_SDLGHOST_H
 
 
-#include <SDL_render.h>
+#include <SDL2/SDL_render.h>
 #include "../logic/Ghost.h"
 #include "SDLContext.h"
 

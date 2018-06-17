@@ -4,7 +4,7 @@
 
 #ifndef GAMETEST_VIEW_H
 #define GAMETEST_VIEW_H
-
+#include <math.h>
 namespace logic {
     class View {
     protected:

@@ -10,7 +10,7 @@ int main(int argc, char* argv[]) {
     std::string level = "../resources/original.map";
     std::cout << "Specify a level filename [default= original.map]: " << std::endl;
     char temp[100];
-    std::cin.getline(temp,sizeof(temp));
+    	std::cin.getline(temp,sizeof(temp));
     if(std::string(temp) != " " && std::string(temp) != ""){
         level = "../resources/"+std::string(temp);
     }

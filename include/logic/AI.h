@@ -8,6 +8,7 @@
 
 #include "Map.h"
 #include "MovingEntity.h"
+#include <cfloat>
 namespace logic {
     class AI {
     protected:

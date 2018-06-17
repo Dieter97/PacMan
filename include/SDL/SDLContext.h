@@ -6,8 +6,8 @@
 #define GAMETEST_SDLCONTEXT_H
 
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 
 namespace SDL {
     class SDLContext {

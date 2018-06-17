@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include <iostream>
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 #include "../../include/SDL/SDLGhost.h"
 #include "../../include/Types.h"
 #include "../../include/SDL/SDLTimer.h"
